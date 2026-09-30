@@ -10,5 +10,6 @@
 - **Respaldo automático en OneDrive:** *Respaldo y configuración → Conectar carpeta de respaldo* y elegir una carpeta dentro de OneDrive. Se guarda `cgfinance-actual.json` en cada cambio y `cgfinance-respaldo-AAAA-MM-DD.json` en el primer guardado de cada día (se conservan 30).
 - **Equipo nuevo:** conectar la misma carpeta (o *Restaurar desde una carpeta…*) y elegir `cgfinance-actual.json`.
 - **OneDrive directo (Microsoft Graph, PKCE):** desactivado; se activa solo al pegar el identificador de cliente de Azure en `ONEDRIVE_CLIENT_ID` (inicio del `<script>`).
+- **Catálogo:** plan de cuentas de Xubio (446 cuentas, mismos códigos y nombres).
 - **Exportaciones:** *Exportar a CSV* (UTF-8 con BOM; asientos, terceros, oportunidades, interacciones, tareas, catálogo) y JSON completo.
 - La aplicación **no emite facturas electrónicas**: se emiten en el portal gratuito de la DIAN y aquí solo se registra el asiento.

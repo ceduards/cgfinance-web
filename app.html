@@ -228,6 +228,7 @@ const ONEDRIVE_CARPETA   = 'CG Finance/Respaldos';  // carpeta dentro de OneDriv
 /* ▲▲▲ ------------------------------------------------------------- ▲▲▲ */
 
 const VERSION_DATOS = 1;
+const CATALOGO_VERSION = 'xubio-1';
 const MAX_RESPALDOS_FECHA = 30;
 const ESPERA_RESPALDO_MS = 2000;
 
@@ -282,161 +283,461 @@ function calcularDV(nit) {
   const r = s % 11; return String(r > 1 ? 11 - r : r);
 }
 
-/* ---------- Catálogo PUC (Decreto 2650 de 1993) para empresa de servicios ---------- */
+/* ---------- Catálogo PUC (Decreto 2650 de 1993) — plan de cuentas de Xubio, códigos y nombres idénticos para exportar sin retrabajo ---------- */
 const PUC_TEXTO = `
-1|ACTIVO
-11|DISPONIBLE
+1|ACTIVO||g
+11|ACTIVO DISPONIBLE||g
 1105|CAJA
-110505|Caja general
-110510|Cajas menores
+110505|CAJA GENERAL
+110510|CAJAS MENORES
+110515|MONEDA EXTRANJERA
 1110|BANCOS
-111005|Moneda nacional
+111005|BANCO MONEDA NACIONAL
+111010|BANCO MONEDA EXTRANJERA
 1120|CUENTAS DE AHORRO
-112005|Bancos
-13|DEUDORES
+112005|OTROS BANCOS
+112010|CORPORACIONES DE AHORRO Y VIVIENDA
+112015|ORGANISMOS COOPERATIVOS FINANCIEROS
+1125|FONDOS
+1130|FONDOS DE USOS RESTRINGIDO
+113025|EFECTIVO Y EQUIVALENTES AL EFECTIVO RESTRINGIDO CORRIENTE
+113030|EFECTIVO Y EQUIVALENTES AL EFECTIVO RESTRINGIDO NO CORRIENTE
+1140|EQUIVALENTES EFECTIVO
+114005|DEPOSITOS A CORTO PLAZO
+114010|INVERSIONES A CORTO PLAZO
+12|INVERSIONES||g
+1205|ACCIONES
+1210|CUOTAS O PARTES DE INTERES SOCIAL
+1215|BONOS
+1220|CEDULAS
+1225|CERTIFICADOS
+1230|PAPELES COMERCIALES (ACTIVO)
+1235|TITULOS
+1240|ACEPTACIONES BANCARIAS O FINANCIERAS
+1245|DERECHOS FIDUCIARIOS
+1250|DERECHOS DE RECOMPRA DE INVERSIONES NEGOCIADAS (REPOS)
+1255|OBLIGATORIAS
+1260|CUENTAS EN PARTICIPACION (ACTIVO)
+1295|OTRAS INVERSIONES
+1299|PROVISIONES DE INVERSIONES|C|
+13|DEUDORES||g
 1305|CLIENTES
-130505|Nacionales
+130505|CLIENTES NACIONALES
+130510|CLIENTES DEL EXTERIOR
+1310|CUENTAS CORRIENTES COMERCIALES (ACTIVO)
+1315|CUENTAS POR COBRAR A CASA MATRIZ
+1320|CUENTAS POR COBRAR A VINCULADOS ECONOMICOS
+1325|CUENTAS POR COBRAR A SOCIOS Y ACCIONISTAS
+1328|APORTES POR COBRAR
 1330|ANTICIPOS Y AVANCES
-133005|A proveedores
+1332|CUENTAS DE OPERACION CONJUNTA (ACTIVO)
+1335|DEPOSITOS
+1340|PROMESAS DE COMPRA VENTA
+1345|INGRESOS POR COBRAR
+1350|RETENCION SOBRE CONTRATOS
 1355|ANTICIPO DE IMPUESTOS Y CONTRIBUCIONES O SALDOS A FAVOR
-135505|Anticipo de impuesto de renta y complementarios
-135515|Retención en la fuente
-135517|Impuesto a las ventas retenido
-135518|Impuesto de industria y comercio retenido
-15|PROPIEDADES, PLANTA Y EQUIPO
+135505|ANTICIPO DE IMPUESTOS DE RENTA Y COMPLEMENTARIOS
+135510|ANTICIPO DE IMPUESTOS DE INDUSTRIA Y COMERCIO
+135515|RETENCION EN LA FUENTE (DEUDORES)
+135517|Impuesto a las Ventas Retenido (DEUDORES)
+135518|Impuesto de industria y comercio Retenido (DEUDORES)
+135520|SOBRANTES EN LIQUIDACION PRIVADA DE IMPUESTOS
+135525|CONTRIBUCIONES
+135530|IMPUESTOS DESCONTABLES
+135595|OTROS/AUTORRETENCIONES
+1360|RECLAMACIONES
+1365|CUENTAS POR COBRAR A TRABAJADORES
+136597|COMPONENTE FINANCIERO NO DEVENGADO
+1370|PRESTAMOS A PARTICULARES
+1380|DEUDORES VARIOS
+1385|DERECHOS DE RECOMPRA DE CARTERA NEGOCIADA
+1390|DEUDAS DE DIFICIL COBRO
+1393|DEUDORES POR CREDITOS
+1394|GASTOS PAGADOS POR ANTICIPADO NIIF
+1395|PAGOS ANTICIPADOS
+1396|CUENTAS POR COBRAR A PARTES RELACIONADAS
+1397|OTRAS CUENTAS POR COBRAR
+1398|RECAUDOS POR APLICAR O POR IDENTIFICAR (CR)|C|
+1399|PROVISIONES DE DEUDORES|C|
+14|INVENTARIOS||g
+1405|MATERIAS PRIMAS
+1410|PRODUCTOS EN PROCESO
+1415|OBRAS DE CONSTRUCCION EN CURSO
+1417|OBRAS DE URBANISMO
+1420|CONTRATOS EN EJECUCION
+1425|CULTIVOS EN DESARROLLO
+1430|PRODUCTOS TERMINADOS
+1435|MERCANCIAS NO FABRICADAS POR LA EMPRESA||g
+143501|MERCANCIAS NO FABRICADAS POR LA EMPRESA
+1440|BIENES RAICES PARA LA VENTA
+1445|SEMOVIENTES
+1450|INVENTARIO DE TERRENOS
+1455|MATERIALES REPUESTOS Y ACCESORIOS
+1460|INVENTARIO DE ENVASES Y EMPAQUES
+1465|INVENTARIOS EN TRANSITO
+1480|ACTIVOS MANTENIDOS PARA LA VENTA
+1499|PROVISIONES DE INVENTARIOS|C|
+15|PROPIEDAD PLANTA Y EQUIPO||g
+1501|PROPIEDAD PLANTA Y EQUIPO
+1504|TERRENOS
+1506|MATERIALES PROYECTOS PETROLEROS
+1508|CONSTRUCCIONES EN CURSO
+1512|MAQUINARIA Y EQUIPOS EN MONTAJE
+1516|CONSTRUCCIONES Y EDIFICACIONES
+1520|MAQUINARIA Y EQUIPO
 1524|EQUIPO DE OFICINA
-152405|Muebles y enseres
-1528|EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN
-152805|Equipos de procesamiento de datos
-1592|DEPRECIACIÓN ACUMULADA
-159215|Equipo de oficina|C
-159220|Equipo de computación y comunicación|C
-17|DIFERIDOS
+1528|EQUIPO DE COMPUTACION Y COMUNICACION
+1532|EQUIPO MEDICO - CIENTIFICO
+1536|EQUIPO DE HOTELES Y RESTAURANTES
+1540|FLOTA Y EQUIPO DE TRANSPORTE
+1560|ARMAMENTO DE VIGILANCIA
+1562|ENVASES Y EMPAQUES
+1564|PLANTACIONES AGRICOLAS Y FORESTALES
+1568|VIAS DE COMUNICACION
+1569|PROPIEDADES DE INVERSION
+1570|ACTIVOS BIOLOGICOS
+1572|MINAS Y CANTERAS
+1583|BIBILIOTECAS
+1588|PROPIEDADES PLANTA Y EQUIPO EN TRANSITO
+1592|DEPRECIACION ACUMULADA PROPIEDADES PLANTA Y EQUIPO|C|
+1595|SUBVENCIONES DEL GOBIERNO (CR)|C|
+1596|DEPRECIACION DIFERIDA PROPIEDADES PLANTA Y EQUIPO
+1597|AMORTIZACION ACUMULADA PROPIEDADES PLANTA Y EQUIPO|C|
+1599|PROVISIONES PROPIEDADES PLANTA Y EQUIPO|C|
+16|INTANGIBLES||g
+1605|CREDITO MERCANTIL (ACTIVO)
+1610|MARCAS
+1615|PATENTES
+1620|CONCESIONES Y FRANQUICIAS
+1625|DERECHOS
+1630|KNOW HOW
+1635|LICENCIAS
+1698|AMORTIZACION ACUMULADA INTANGIBLES|C|
+1699|PROVISIONES INTANGIBLES|C|
+17|ACTIVOS DIFERIDOS||g
 1705|GASTOS PAGADOS POR ANTICIPADO
-170520|Seguros y fianzas
-2|PASIVO
-21|OBLIGACIONES FINANCIERAS
-2105|BANCOS NACIONALES
-210505|Sobregiros bancarios
-210510|Pagarés
-22|PROVEEDORES
+1710|CARGOS DIFERIDOS
+1715|COSTOS DE EXPLORACION POR AMORTIZAR
+1720|COSTOS DE EXPLOTACION Y DESARROLLO
+1730|CARGOS POR CORRECCION MONETARIA DIFERIDA
+1797|ACTIVOS POR IMPUESTOS DIFERIDOS
+1798|AMORTIZACION ACUMULADA ACTIVOS DIFERIDOS|C|
+18|OTROS ACTIVOS||g
+1805|BIENES DE ARTE Y CULTURA
+1895|OTROS ACTIVOS DIVERSOS
+1899|PROVISIONES OTROS ACTIVOS|C|
+19|VALORIZACIONES||g
+1905|VALORIZACIONES DE INVERSIONES
+1910|VALORIZACIONES DE PROPIEDADES PLANTA Y EQUIPO
+1995|VALORIZACIONES DE OTROS ACTIVOS
+2|PASIVO||g
+21|OBLIGACIONES FINANCIERAS||g
+2105|OBLIGACIONES FINANCIERAS BANCOS NACIONALES
+2110|OBLIGACIONES FINANCIERAS BANCOS DEL EXTERIOR
+2115|OBLIGACIONES FINANCIERAS CORPORACIONES FINANCIERAS
+2120|OBLIGACIONES FINANCIERAS COMPAÑIAS DE FINANCIAMIENTO COMERCIAL
+2125|OBLIGACIONES FINANCIERAS CORPORACIONES DE AHORRO Y VIVIENDA
+2130|OBLIGACIONES FINANCIERAS ENTIDADES FINANCIERAS DEL EXTERIOR
+2135|OBLIGACIONES FINANCIERAS COMPROMISOS DE RECOMPRA DE INVERSIONES NEGOCIADAS
+2140|OBLIGACIONES FINANCIERAS COMPROMISOS DE RECOMPRA DE CARTERA NEGOCIADA
+2145|OBLIGACIONES FINANCIERAS GUBERNAMENTALES
+2195|OTRAS OBLIGACIONES FINANCIERAS
+22|PROVEEDORES||g
 2205|PROVEEDORES NACIONALES
-220505|Proveedores nacionales
-23|CUENTAS POR PAGAR
+2210|PROVEEDORES DEL EXTERIOR
+2215|CUENTAS CORRIENTES COMERCIALES (PASIVO)
+2220|PROVEEDORES CASA MATRIZ
+2225|PROVEEDORES COMPAÑIAS VINCULADAS
+23|CUENTAS POR PAGAR||g
+2305|CUENTAS POR PAGAR CUENTAS CORRIENTES COMERCIALES
+2310|CUENTAS POR PAGAR A CASA MATRIZ
+2315|CUENTAS POR PAGAR A COMPAÑIAS VINCULADAS
+2320|CUENTAS POR PAGAR A CONTRATISTAS
+2330|ORDENES DE COMPRA POR UTILIZAR
 2335|COSTOS Y GASTOS POR PAGAR
-233525|Honorarios
-233530|Servicios técnicos
-233540|Arrendamientos
-233550|Servicios públicos
-233595|Otros
-2365|RETENCIÓN EN LA FUENTE
-236505|Salarios y pagos laborales
-236515|Honorarios
-236520|Comisiones
-236525|Servicios
-236530|Arrendamientos
-236540|Compras
-2367|IMPUESTO A LAS VENTAS RETENIDO
-236701|Impuesto a las ventas retenido (ReteIVA)
-2368|IMPUESTO DE INDUSTRIA Y COMERCIO RETENIDO
-236801|Impuesto de industria y comercio retenido (ReteICA)
-24|IMPUESTOS, GRAVÁMENES Y TASAS
-2404|DE RENTA Y COMPLEMENTARIOS
-240405|Vigencia fiscal corriente
+2340|INSTALAMENTOS POR PAGAR
+2345|ACREEDORES OFICIALES
+2350|REGALIAS POR PAGAR
+2355|DEUDAS CON ACCIONISTAS O SOCIOS
+2360|DIVIDENDOS O PARTICIPACIONES POR PAGAR
+2365|RETENCION EN LA FUENTE (CUENTAS POR PAGAR)
+236505|RETENCION EN LA FUENTE Salarios y pagos Laborales
+236510|RETENCION EN LA FUENTE Dividendos y/o participaciones
+236515|RETENCION EN LA FUENTE honorarios
+236520|RETENCION EN LA FUENTE comisiones
+236525|RETENCION EN LA FUENTE servicios
+236530|RETENCION EN LA FUENTE Arrendamientos
+236535|RETENCION EN LA FUENTE Rendimientos Financieros
+236540|RETENCION EN LA FUENTE Compras
+236545|RETENCION EN LA FUENTE Loterias, rifas y apuestas
+236550|RETENCION EN LA FUENTE Por pagos al Exterior
+236555|RETENCION EN LA FUENTE Por ingresos obtenidos en el Exterior
+236560|RETENCION EN LA FUENTE Enajenacion de propiedad planta y Equipo
+236565|RETENCION EN LA FUENTE Por impuesto al timbre
+236570|RETENCION EN LA FUENTE Otras retenciones y patrimonio
+236575|Autorretenciones
+2367|Impuesto a las ventas retenido (CUENTAS POR PAGAR)
+2368|Impuesto de industria y comercio retenido (CUENTAS POR PAGAR)
+2370|RETENCIONES Y APORTES DE NOMINA
+2375|CUOTAS POR DEVOLVER
+2380|ACREEDORES VARIOS
+24|IMPUESTOS, GRAVAMENES Y TASAS||g
+2404|IMPUESTOS, GRAVAMENES Y TASAS DE RENTA Y COMPLEMENTARIOS
 2408|IMPUESTO SOBRE LAS VENTAS POR PAGAR
-240801|IVA generado
-240802|IVA descontable|D
-2412|DE INDUSTRIA Y COMERCIO
-241205|Vigencia fiscal corriente
-25|OBLIGACIONES LABORALES
+240805|IVA GENERADO
+240810|IVA DESCONTABLE|D|
+2412|IMPUESTOS, GRAVAMENES Y TASAS DE INDUSTRIA Y COMERCIO
+2416|IMPUESTOS, GRAVAMENES Y TASAS A LA PROPIEDAD RAIZ
+2420|IMPUESTOS, GRAVAMENES Y TASAS DE DERECHOS SOBRE INSTRUMENTOS PUBLICOS
+2424|IMPUESTOS, GRAVAMENES Y TASAS DE VALORIZACION
+2428|IMPUESTOS, GRAVAMENES Y TASAS DE TURISMO
+2432|TASA POR UTILIZACION DE PUERTOS
+2436|IMPUESTOS, GRAVAMENES Y TASAS DE VEHICULOS
+2440|IMPUESTOS, GRAVAMENES Y TASAS DE ESPECTACULOS PUBLICOS
+2444|IMPUESTOS, GRAVAMENES Y TASAS DE HIDROCARBUROS Y MINAS
+2448|REGALIAS E IMPUESTOS A LA PEQUEÑA Y MEDIANA MINERIA
+2452|IMPUESTOS, GRAVAMENES Y TASAS A LAS EXPORTACIONES CAFETERAS
+2456|IMPUESTOS, GRAVAMENES Y TASAS A LAS IMPORTACIONES
+2460|CUOTAS DE FOMENTO
+2464|IMPUESTOS, GRAVAMENES Y TASAS DE LICORES, CERVEZAS Y CIGARRILLOS
+2468|IMPUESTOS, GRAVAMENES Y TASAS AL SACRIFICIO DE GANADO
+2472|IMPUESTOS, GRAVAMENES Y TASAS AL AZAR Y JUEGOS
+2495|OTROS IMPUESTOS, GRAVAMENES Y TASAS
+249505|Impuesto al consumo
+249510|Impuesto ICUI
+249515|Impuesto al consumo de bolsas
+25|OBLIGACIONES LABORALES||g
 2505|SALARIOS POR PAGAR
-250501|Salarios por pagar
-3|PATRIMONIO
-31|CAPITAL SOCIAL
+2510|CESANTIAS CONSOLIDADAS
+2515|INTERESES SOBRE CESANTIAS
+2520|PRIMA DE SERVICIOS
+2525|VACACIONES CONSOLIDADAS
+2530|PRESTACIONES EXTRALEGALES
+2532|PENSIONES POR PAGAR
+2535|CUOTAS PARTES PENSIONES DE JUBILACION
+2540|INDEMNIZACIONES LABORALES
+26|PASIVOS ESTIMADOS Y PROVISIONES||g
+2605|PASIVOS ESTIMADOS Y PROVISIONES PARA COSTOS Y GASTOS
+2610|PASIVOS ESTIMADOS Y PROVISIONES PARA OBLIGACIONES LABORALES
+2615|PASIVOS ESTIMADOS Y PROVISIONES PARA OBLIGACIONES FISCALES
+2620|PASIVOS ESTIMADOS Y PROVISIONES PENSIONES DE JUBILACION
+2625|PASIVOS ESTIMADOS Y PROVISIONES PARA OBRAS DE URBANISMO
+2630|PASIVOS ESTIMADOS Y PROVISIONES PARA MANTENIMIENTO Y REPARACIONES
+2635|PASIVOS ESTIMADOS Y PROVISIONES PARA CONTINGENCIAS
+2640|PASIVOS ESTIMADOS Y PROVISIONES PARA OBLIGACIONES DE GARANTIAS
+2695|PROVISIONES DIVERSAS
+27|PASIVOS DIFERIDOS||g
+2705|INGRESOS RECIBIDOS POR ANTICIPADO
+2710|ABONOS DIFERIDOS
+2715|UTILIDAD DIFERIDA EN VENTAS A PLAZOS
+2720|CREDITO POR CORRECCION MONETARIA DIFERIDA
+2725|IMPUESTOS DIFERIDOS
+28|OTROS PASIVOS||g
+2805|ANTICIPOS Y AVANCES RECIBIDOS
+2810|DEPOSITOS RECIBIDOS
+2815|INGRESOS RECIBIDOS PARA TERCEROS
+2820|CUENTAS DE OPERACION CONJUNTA (PASIVO)
+2825|RETENCIONES A TERCEROS SOBRE CONTRATOS
+2830|EMBARGOS JUDICIALES
+2835|ACREEDORES DEL SISTEMA
+2840|CUENTAS EN PARTICIPACION (PASIVO)
+2895|OTROS PASIVOS DIVERSOS
+2896|SUBVENCIONES DEL GOBIERNO
+29|PASIVO DE BONOS Y PAPELES COMERCIALES||g
+2905|BONOS EN CIRCULACION
+2910|BONOS OBLIGATORIAMENTE CONVERTIBLES EN ACCIONES
+2915|PAPELES COMERCIALES (PASIVO)
+2920|PASIVOS FINANCIEROS DERIVADOS
+3|PATRIMONIO||g
+31|CAPITAL SOCIAL||g
 3105|CAPITAL SUSCRITO Y PAGADO
-310505|Capital autorizado
-33|RESERVAS
-3305|RESERVAS OBLIGATORIAS
-330505|Reserva legal
-36|RESULTADOS DEL EJERCICIO
+310505|CAPITAL AUTORIZADO
+3110|ACCIONES, CUOTAS O PARTES DE INTERES SOCIAL PROPIAS READQUIRIDAS (DB)|D|
+3115|APORTES SOCIALES
+3120|CAPITAL ASIGNADO
+3125|INVERSION SUPLEMENTARIA AL CAPITAL ASIGNADO
+3130|CAPITAL DE PERSONAS NATURALES
+3135|APORTES DEL ESTADO
+3140|FONDO SOCIAL
+32|SUPERAVIT DE CAPITAL||g
+3205|PRIMA EN COLOCACION DE ACCIONES, CUOTAS O PARTES DE INTERES
+3210|DONACIONES
+3215|CREDITO MERCANTIL (CAPITAL)
+33|RESERVAS||g
+34|REVALORIZACION DEL PATRIMONIO||g
+35|DIVIDENDOS O PARTICIPACIONES DECRETADOS EN ACCIONES, CUOTAS O PARTES DE INTERES SOCIAL||g
+36|RESULTADO DEL EJERCICIO||g
 3605|UTILIDAD DEL EJERCICIO
-360505|Utilidad del ejercicio
-3610|PÉRDIDA DEL EJERCICIO
-361005|Pérdida del ejercicio|D
-37|RESULTADOS DE EJERCICIOS ANTERIORES
-3705|UTILIDADES ACUMULADAS
-370505|Utilidades acumuladas
-3710|PÉRDIDAS ACUMULADAS
-371005|Pérdidas acumuladas|D
-4|INGRESOS
-41|OPERACIONALES
-4155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER
-415560|Actividades empresariales de consultoría (honorarios)
-42|NO OPERACIONALES
-4210|FINANCIEROS
-421005|Intereses
-4295|DIVERSOS
+3610|PERDIDA DEL EJERCICIO|D|
+37|RESULTADOS DEL EJERCICIOS ANTERIORES||g
+3705|UTILIDADES O EXCEDENTES ACUMULADOS
+3710|PERDIDAS ACUMULADAS|D|
+38|SUPERAVIT POR VALORIZACIONES||g
+3805|DE INVERSIONES
+3810|DE PROPIEDADES PLANTA Y EQUIPO
+3895|DE OTROS ACTIVOS
+4|INGRESOS||g
+41|INGRESOS OPERACIONALES||g
+4101|INGRESOS OPERACIONALES POR VENTAS||g
+410101|INGRESOS POR BIENES DE CAMBIO
+410102|INGRESOS POR SERVICIOS
+41010201|SERVICIOS DE ARBITRAJE
+41010202|SERVICIO DE ORGANIZACION DE EVENTOS DEPORTIVOS
+41010203|INSCRIPCION A TORNEOS Y FOMENTO DE DEPORTE
+4115|EXPLOTACION DE MINAS Y CANTERAS (INGRESO)
+4120|INDUSTRIAS MANUFACTURERAS (INGRESO)
+4130|CONSTRUCCION (INGRESO)
+4135|COMERCIO AL POR MAYOR Y AL POR MENOR (INGRESO)
+4140|HOTELES Y RESTAURANTES (INGRESO)
+4145|TRANSPORTE, ALMACENAMIENTO Y COMUNICACIONES (INGRESO)
+4150|ACTIVIDAD FINANCIERA (INGRESO)
+4155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER (INGRESO)
+4160|ENSEÑANZA (INGRESO)
+4165|SERVICIOS SOCIALES Y DE SALUD (INGRESO)
+4170|OTRAS ACTIVIDADES DE SERVICIOS COMUNITARIOS, SOCIALES Y PERSONALES (INGRESO)
+4175|DEVOLUCIONES, REBAJAS Y DESCUENTOS EN VENTAS (DB)|D|
+42|INGRESOS NO OPERACIONALES||g
+4205|OTRAS VENTAS
+420501|PUBLICIDAD Y PATROCINIOS
+4210|INGRESOS NO OPERACIONALES FINANCIEROS
+421020|DIFERENCIA EN CAMBIO
+4215|DIVIDENDOS Y PARTICIPACIONES
+4220|ARRENDAMIENTOS
+4225|COMISIONES
+4230|HONORARIOS
+4235|SERVICIOS
+4240|UTILIDAD EN VENTA DE INVERSIONES
+4245|UTILIDAD EN VENTA DE PROPIEDADES PLANTA Y EQUIPO
+4248|UTILIDAD EN VENTA DE OTROS BIENES
+4250|RECUPERACIONES
+4255|INDEMNIZACIONES
+4260|PARTICIPACIONES EN CONCESIONES
+4265|INGRESOS DE EJERCICIOS ANTERIORES
+4275|DEVOLUCIONES, REBAJAS Y DESCUENTOS EN OTRAS VENTAS (DB)|D|
+4295|INGRESOS NO OPERACIONALES DIVERSOS
 429581|Ajuste al peso
-5|GASTOS
-51|OPERACIONALES DE ADMINISTRACIÓN
-5105|GASTOS DE PERSONAL
-510506|Sueldos
-5110|HONORARIOS
-511010|Revisoría fiscal
-511025|Asesoría jurídica
-511030|Asesoría financiera
-511035|Asesoría técnica
-511095|Otros honorarios (contador y otros)
-5115|IMPUESTOS
-511505|Industria y comercio
-511595|Otros impuestos
-5120|ARRENDAMIENTOS
-512010|Construcciones y edificaciones
-5135|SERVICIOS
-513520|Procesamiento electrónico de datos (software y nube)
-513525|Acueducto y alcantarillado
-513530|Energía eléctrica
-513535|Teléfono e internet
-513540|Correo, portes y telegramas
-513550|Transporte, fletes y acarreos
-513595|Otros servicios
-5140|GASTOS LEGALES
-514005|Notariales
-514010|Registro mercantil
-514015|Trámites y licencias
-5145|MANTENIMIENTO Y REPARACIONES
-514540|Equipo de oficina
-514545|Equipo de computación y comunicación
-5160|DEPRECIACIONES
-516015|Equipo de oficina
-516020|Equipo de computación y comunicación
-5195|DIVERSOS
-519520|Gastos de representación y relaciones públicas
-519525|Elementos de aseo y cafetería
-519530|Útiles, papelería y fotocopias
-519545|Taxis y buses
-519595|Otros gastos diversos
-53|NO OPERACIONALES
-5305|FINANCIEROS
-530505|Gastos bancarios
-530515|Comisiones
-530520|Intereses
-530595|Otros gastos financieros (GMF 4x1000)
-54|IMPUESTO DE RENTA Y COMPLEMENTARIOS
+47|AJUSTES POR INFLACIÓN||g
+4705|CORRECCION MONETARIA
+5|GASTOS OPERACIONALES||g
+51|GASTOS DE ADMINISTRACION||g
+5105|GASTOS DE PERSONAL (ADMINISTRACION)
+5110|HONORARIOS (ADMINISTRACION)
+5115|IMPUESTOS (ADMINISTRACION)
+5120|ARRENDAMIENTOS (ADMINISTRACION)
+5125|CONTRIBUCIONES Y AFILIACIONES (ADMINISTRACION)
+5130|SEGUROS (ADMINISTRACION)
+5135|SERVICIOS (ADMINISTRACION)
+5140|GASTOS LEGALES (ADMINISTRACION)
+5145|MANTENIMIENTO Y REPARACIONES (ADMINISTRACION)
+5150|ADECUACION E INSTALACION (ADMINISTRACION)
+5155|GASTOS DE VIAJE (ADMINISTRACION)
+5160|DEPRECIACIONES (ADMINISTRACION)
+5165|AMORTIZACIONES (ADMINISTRACION)
+5195|DIVERSOS (ADMINISTRACION)
+5199|PROVISIONES (ADMINISTRACION)
+52|GASTOS DE VENTA||g
+5205|GASTOS DE PERSONAL (VENTA)
+5210|HONORARIOS (VENTA)
+5215|IMPUESTOS (VENTA)
+5220|ARRENDAMIENTOS (VENTA)
+5225|CONTRIBUCIONES Y AFILIACIONES (VENTA)
+5230|SEGUROS (VENTA)
+5235|SERVICIOS (VENTA)
+5240|GASTOS LEGALES (VENTA)
+5245|MANTENIMIENTO Y REPARACIONES (VENTA)
+5250|ADECUACION E INSTALACION (VENTA)
+5255|GASTOS DE VIAJE (VENTA)
+5260|DEPRECIACIONES (VENTA)
+5265|AMORTIZACIONES (VENTA)
+5270|FINANCIEROS - REAJUSTE DEL SISTEMA
+5295|DIVERSOS (VENTA)
+5299|PROVISIONES (VENTA)
+53|GASTOS NO OPERACIONALES||g
+5305|GASTOS NO OPERACIONALES FINANCIEROS
+530525|DIFERENCIA EN CAMBIO GASTOS
+5310|PERDIDA EN VENTA Y RETIRO DE BIENES
+5315|GASTOS EXTRAORDINARIOS
+5395|GASTOS DIVERSOS
+54|IMPUESTO SOBRE LA RENTA||g
 5405|IMPUESTO DE RENTA Y COMPLEMENTARIOS
-540505|Impuesto de renta y complementarios
-6|COSTOS DE VENTAS
-61|COSTO DE VENTAS Y DE PRESTACIÓN DE SERVICIOS
-6155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER
-615560|Costo de servicios de consultoría
+6|COSTO DE VENTAS Y SERVICIOS||g
+61|COSTO DE VENTAS Y DE PRESTACION DE SERVICIOS||g
+6101|COMPRA DE BIENES Y SERVICIOS||g
+610101|COMPRA DE BIENES DE CAMBIO
+610102|COMPRA DE SERVICIOS
+610190|AJUSTE DE INVENTARIOS
+6105|AGRICULTURA, GANADERIA, CAZA Y SILVICULTURA (COSTO)
+6110|PESCA (COSTO)
+6115|EXPLOTACION DE MINAS Y CANTERAS (COSTO)
+6120|INDUSTRIAS MANUFACTURERAS (COSTO)
+6125|SUMINISTRO DE ELECTRICIDAD, GAS Y AGUA (COSTO)
+6130|CONSTRUCCION (COSTO)
+6135|COMERCIO AL POR MAYOR Y AL POR MENOR (COSTO)
+6140|HOTELES Y RESTAURANTES (COSTO)
+6145|TRANSPORTE, ALMACENAMIENTO Y COMUNICACIONES (COSTO)
+6150|ACTIVIDAD FINANCIERA (COSTO)
+6155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER (COSTO)
+6160|ENSEÑANZA (COSTO)
+6165|SERVICIOS SOCIALES Y DE SALUD (COSTO)
+6170|OTRAS ACTIVIDADES DE SERVICIOS COMUNITARIOS, SOCIALES Y PERSONALES (COSTO)
+62|COMPRAS||g
+6205|COMPRAS DE MERCANCIAS
+6210|COMPRAS DE MATERIAS PRIMAS
+6215|COMPRAS DE MATERIALES INDIRECTOS
+6220|COMPRA DE ENERGIA
+6225|DEVOLUCIONES REBAJAS Y DESCUENTOS EN COMPRAS (CR)|C|
+7|COSTOS DE PRODUCCIÓN O DE OPERACIÓN||g
+71|MATERIA PRIMA||g
+72|MANO DE OBRA DIRECTA||g
+73|COSTOS INDIRECTOS||g
+74|CONTRATOS DE SERVICIOS||g
+8|CUENTAS DE ORDEN DEUDORAS||g
+81|DERECHOS CONTINGENTES||g
+8105|BIENES Y VALORES ENTREGADOS EN CUSTODIA
+8110|BIENES Y VALORES ENTREGADOS EN GARANTIA
+8115|BIENES Y VALORES EN PODER DE TERCEROS
+8120|LITIGIOS Y/O DEMANDAS (DEUDOR)
+8125|PROMESAS DE COMPRAVENTA (DEUDOR)
+8195|DIVERSAS
+82|DEUDORAS FISCALES||g
+83|DEUDORAS DE CONTROL||g
+8305|BIENES RECIBIDOS EN ARRENDAMIENTO FINANCIERO
+8310|TITULOS DE INVERSION NO COLOCADOS
+8315|PROPIEDADES PLANTA Y EQUIPO TOTALMENTE DEPRECIADOS, AGOTADOS Y/O AMORTIZADOS
+8320|CREDITOS A FAVOR NO UTILIZADOS
+8325|ACTIVOS CASTIGADOS
+8330|TITULOS DE INVERSION AMORTIZADOS
+8335|CAPITALIZACION POR REVALORIZACION DE PATRIMONIO
+8395|OTRAS CUENTAS DEUDORAS DE CONTROL
+839515|Cheques Rechazados
+8399|AJUSTES POR INFLACION ACTIVOS
+84|DERECHOS CONTINGENTES POR CONTRA (CR)|C|g
+85|DEUDORAS FISCALES POR CONTRA (CR)|C|g
+86|DEUDORAS DE CONTROL POR CONTRA (CR)|C|g
+9|CUENTAS DE ORDEN ACREEDORAS||g
+91|RESPONSABILIDADES CONTINGENTES||g
+9105|BIENES Y VALORES RECIBIDOS EN CUSTODIA
+9110|BIENES Y VALORES RECIBIDOS EN GARANTIA
+9115|BIENES Y VALORES RECIBIDOS DE TERCEROS
+9120|LITIGIOS Y/O DEMANDAS (ACREEDOR)
+9125|PROMESAS DE COMPRAVENTA (ACREEDOR)
+9130|CONTRATOS DE ADMINISTRACION DELEGADA
+9195|OTRAS RESPONSABILIDADES CONTINGENTES
+92|ACREEDORAS FISCALES||g
+93|ACREEDORAS DE CONTROL||g
+9305|CONTRATOS DE ARRENDAMIENTO FINANCIERO
+9395|OTRAS CUENTAS DE ORDEN ACREEDORAS DE CONTROL
+9399|AJUSTES POR INFLACION PATRIMONIO
+94|RESPONSABILIDADES CONTINGENTES POR CONTRA (DB)|D|g
+95|ACREEDORAS FISCALES POR CONTRA (DB)|D|g
+96|ACREEDORAS DE CONTROL POR CONTRA (DB)|D|g
 `;
-const NAT_CLASE = { 1: 'D', 2: 'C', 3: 'C', 4: 'C', 5: 'D', 6: 'D' };
-const TIPO_CLASE = { 1: 'Activo', 2: 'Pasivo', 3: 'Patrimonio', 4: 'Ingreso', 5: 'Gasto', 6: 'Costo' };
+const NAT_CLASE = { 1: 'D', 2: 'C', 3: 'C', 4: 'C', 5: 'D', 6: 'D', 7: 'D', 8: 'D', 9: 'C' };
+const TIPO_CLASE = { 1: 'Activo', 2: 'Pasivo', 3: 'Patrimonio', 4: 'Ingreso', 5: 'Gasto', 6: 'Costo', 7: 'Costo de producción', 8: 'Cuenta de orden deudora', 9: 'Cuenta de orden acreedora' };
 function construirCuentas() {
   return PUC_TEXTO.trim().split('\n').map(l => {
-    const [codigo, nombre, nat] = l.split('|');
-    const nombreFmt = codigo.length <= 4 ? nombre : nombre;
-    return { codigo, nombre: nombreFmt, naturaleza: nat || NAT_CLASE[codigo[0]] };
+    const [codigo, nombre, nat, g] = l.split('|');
+    return { codigo, nombre, naturaleza: nat || NAT_CLASE[codigo[0]], grupo: g === 'g' };
   });
 }
 
@@ -457,20 +758,38 @@ const TIPOS_DOC = ['NIT', 'CC', 'CE', 'TI', 'Pasaporte'];
 
 function dbVacia() {
   return {
-    app: 'cgfinance', version: VERSION_DATOS, creadoEn: new Date().toISOString(), guardadoEn: null, ejemplo: false,
+    app: 'cgfinance', version: VERSION_DATOS, catalogo: CATALOGO_VERSION, creadoEn: new Date().toISOString(), guardadoEn: null, ejemplo: false,
     config: {
       empresa: { nombre: 'CG Finance S.A.S.', nit: '' },
       ivaTarifa: 19, reteHonorarios: 11, diasSinMovimiento: 15,
       servicios: SERVICIOS_DEF.slice(),
       consecutivos: {},
       cuentasAuto: {
-        clientes: '130505', ingresos: '415560', ivaGenerado: '240801', ivaDescontable: '240802',
-        reteNosPractican: '135515', reteHonorariosPagar: '236515', proveedores: '220505', gastoHonorarios: '511095',
+        clientes: '130505', ingresos: '4155', ivaGenerado: '240805', ivaDescontable: '240810',
+        reteNosPractican: '135515', reteHonorariosPagar: '236515', proveedores: '2205', gastoHonorarios: '5110',
       },
     },
     cuentas: construirCuentas(),
     terceros: [], asientos: [], oportunidades: [], interacciones: [], tareas: [], extractos: [],
   };
+}
+
+/* Migra datos guardados con el catálogo anterior al plan de cuentas de Xubio */
+const CUENTA_EQUIV = { 240801: '240805', 240802: '240810', 236701: '2367', 236801: '2368' };
+function migrarCatalogo(r) {
+  const nuevo = construirCuentas(), cod = new Set(nuevo.map(c => c.codigo));
+  const usadas = new Set((r.asientos || []).flatMap(a => (a.lineas || []).map(l => l.cuenta)));
+  const mapa = c => cod.has(c) ? c : CUENTA_EQUIV[c] || (cod.has(c.slice(0, 4)) ? c.slice(0, 4) : c);
+  for (const a of r.asientos || []) for (const l of a.lineas || []) l.cuenta = mapa(l.cuenta);
+  for (const x of r.extractos || []) x.cuenta = mapa(x.cuenta);
+  const viejos = new Map((r.cuentas || []).map(c => [c.codigo, c]));
+  const extra = [...usadas].map(mapa).filter(c => !cod.has(c) && viejos.has(c)).map(c => viejos.get(c));
+  for (const c of (r.cuentas || [])) if (!cod.has(c.codigo) && c.personalizada) extra.push(c);
+  r.cuentas = nuevo.concat(extra.filter((c, i, a) => a.findIndex(z => z.codigo === c.codigo) === i));
+  const auto = dbVacia().config.cuentasAuto, ca = (r.config && r.config.cuentasAuto) || {};
+  for (const k of Object.keys(auto)) ca[k] = cod.has(mapa(ca[k] || '')) ? mapa(ca[k]) : auto[k];
+  if (r.config) r.config.cuentasAuto = ca;
+  r.catalogo = CATALOGO_VERSION;
 }
 function normalizar(o) {
   if (!o || typeof o !== 'object' || o.app !== 'cgfinance') throw new Error('El archivo no es un respaldo de CG Finance.');
@@ -481,7 +800,7 @@ function normalizar(o) {
   r.config.cuentasAuto = Object.assign(dbVacia().config.cuentasAuto, (o.config || {}).cuentasAuto);
   r.config.consecutivos = (o.config || {}).consecutivos || {};
   for (const k of ['cuentas', 'terceros', 'asientos', 'oportunidades', 'interacciones', 'tareas', 'extractos']) if (!Array.isArray(r[k])) r[k] = [];
-  if (!r.cuentas.length) r.cuentas = construirCuentas();
+  if (!r.cuentas.length || o.catalogo !== CATALOGO_VERSION) migrarCatalogo(r);
   for (const a of r.asientos) { a.lineas = a.lineas || []; for (const l of a.lineas) { if (!l.id) l.id = uid('l'); l.debito = +l.debito || 0; l.credito = +l.credito || 0; } }
   return r;
 }
@@ -498,7 +817,8 @@ function reindexar() {
   idx.asientos = new Map(db.asientos.map(a => [a.id, a]));
   idx.opps = new Map(db.oportunidades.map(o => [o.id, o]));
 }
-const esMovimiento = codigo => idx.cuentas.has(codigo) && !idx.padres.has(codigo);
+/* En Xubio las cuentas de 4 dígitos (y los auxiliares) aceptan movimientos; clases y grupos no. */
+const esMovimiento = codigo => idx.cuentas.has(codigo) && !idx.cuentas.get(codigo).grupo;
 const cuentaNombre = c => (idx.cuentas.get(c) || {}).nombre || nombreGrupo(c);
 function nombreGrupo(c) { const x = idx.cuentas.get(c); return x ? x.nombre : 'Cuenta ' + c; }
 const cfg = () => db.config;
@@ -635,14 +955,14 @@ function crearDatosEjemplo() {
   A('NC', d(120), '', 'Aporte de capital inicial de los socios', [{ cuenta: '111005', debito: 30000000 }, { cuenta: '310505', credito: 30000000 }]);
   const fv1 = A('FV', d(75), 'ej_t1', 'Honorarios CFO fraccional — mes 1', lineasVenta(Object.assign({ base: 6000000, aplicaRete: true }, base)));
   A('RC', d(60), 'ej_t1', 'Pago factura ' + fv1.numero + ' (neto de retención)', [{ cuenta: '111005', debito: 6480000 }, { cuenta: '130505', credito: 6480000 }]);
-  A('CE', d(55), 'ej_t7', 'Arriendo oficina mes 1', [{ cuenta: '512010', debito: 1800000 }, { cuenta: '111005', credito: 1800000 }]);
+  A('CE', d(55), 'ej_t7', 'Arriendo oficina mes 1', [{ cuenta: '5120', debito: 1800000 }, { cuenta: '111005', credito: 1800000 }]);
   const fv2 = A('FV', d(50), 'ej_t2', 'Consultoría financiera — diagnóstico y flujo de caja', lineasVenta(Object.assign({ base: 8500000, aplicaRete: true }, base)));
   const fc1 = A('FC', d(45), 'ej_t11', 'Honorarios contador — servicio contable', lineasCompra(Object.assign({ base: 1200000, aplicaRete: true }, base)));
-  A('CE', d(40), 'ej_t11', 'Pago factura ' + fc1.numero, [{ cuenta: '220505', debito: 1296000 }, { cuenta: '111005', credito: 1296000 }]);
-  A('CE', d(35), 'ej_t8', 'Servicio de internet y telefonía', [{ cuenta: '513535', debito: 180000 }, { cuenta: '111005', credito: 180000 }]);
+  A('CE', d(40), 'ej_t11', 'Pago factura ' + fc1.numero, [{ cuenta: '2205', debito: 1296000 }, { cuenta: '111005', credito: 1296000 }]);
+  A('CE', d(35), 'ej_t8', 'Servicio de internet y telefonía', [{ cuenta: '5135', debito: 180000 }, { cuenta: '111005', credito: 180000 }]);
   const fv3 = A('FV', d(30), 'ej_t3', 'Tablero de control financiero', lineasVenta(Object.assign({ base: 4200000, aplicaRete: true }, base)));
   A('RC', d(20), 'ej_t2', 'Pago factura ' + fv2.numero + ' (neto de retención)', [{ cuenta: '111005', debito: 9180000 }, { cuenta: '130505', credito: 9180000 }]);
-  A('NC', d(10), 'ej_t9', 'Gastos bancarios y GMF del mes', [{ cuenta: '530505', debito: 45000 }, { cuenta: '530595', debito: 26000 }, { cuenta: '111005', credito: 71000 }]);
+  A('NC', d(10), 'ej_t9', 'Gastos bancarios y GMF (4x1000) del mes', [{ cuenta: '5305', debito: 45000 }, { cuenta: '5115', debito: 26000 }, { cuenta: '111005', credito: 71000 }]);
   const fv4 = A('FV', d(12), 'ej_t4', 'Planeación financiera personal', lineasVenta(Object.assign({ base: 1500000, aplicaRete: false }, base)));
   A('CE', d(3), 'ej_t10', 'Pago retención en la fuente del periodo', [{ cuenta: '236515', debito: 132000 }, { cuenta: '111005', credito: 132000 }]);
   /* extracto de ejemplo */
@@ -1570,6 +1890,7 @@ function seccion(m, prefijos, signo, titulo) {
   for (const [k, hijos] of g4) {
     const sub = sum(hijos, c => signo * (m.get(c).ini + m.get(c).deb - m.get(c).cred)); total += sub;
     filas.push({ cls: 'sub', c: [k, nivelNombre(k), sub] });
+    if (hijos.length === 1 && hijos[0] === k) continue;
     for (const c of hijos) { const v = signo * (m.get(c).ini + m.get(c).deb - m.get(c).cred); filas.push({ c: ['\u00a0\u00a0\u00a0' + c, nivelNombre(c), v] }); }
   }
   return { filas, total, titulo };
@@ -1578,7 +1899,7 @@ function repResultados() {
   const r = repDefaults(), m = saldosPorCuenta({ desde: r.desde, hasta: r.hasta });
   const mm = new Map([...m].map(([k, v]) => [k, { ini: 0, deb: v.deb, cred: v.cred }]));
   const S = (pref, sg, t) => seccion(mm, pref, sg, t);
-  const ing = S(['41'], -1, 'Ingresos operacionales'), cos = S(['6'], 1, 'Costos de ventas y prestación de servicios'), gas = S(['51', '52'], 1, 'Gastos operacionales'), ino = S(['42'], -1, 'Ingresos no operacionales'), gno = S(['53'], 1, 'Gastos no operacionales'), imp = S(['54'], 1, 'Impuesto de renta y complementarios');
+  const ing = S(['41'], -1, 'Ingresos operacionales'), cos = S(['6', '7'], 1, 'Costos de ventas y prestación de servicios'), gas = S(['51', '52'], 1, 'Gastos operacionales'), ino = S(['42'], -1, 'Ingresos no operacionales'), gno = S(['53'], 1, 'Gastos no operacionales'), imp = S(['54'], 1, 'Impuesto de renta y complementarios');
   const uo = ing.total - cos.total - gas.total, un = uo + ino.total - gno.total, ua = un - imp.total;
   const filas = []; const add = (s, sg) => { filas.push({ cls: 'cls', c: ['', s.titulo.toUpperCase(), ''] }); filas.push(...s.filas); filas.push({ cls: 'tot', c: ['', 'Total ' + s.titulo.toLowerCase(), s.total] }); };
   add(ing); add(cos); add(gas); filas.push({ cls: 'tot', c: ['', 'UTILIDAD (PÉRDIDA) OPERACIONAL', uo] }); add(ino); add(gno); filas.push({ cls: 'tot', c: ['', 'UTILIDAD ANTES DE IMPUESTOS', un] }); add(imp); filas.push({ cls: 'tot', c: ['', 'UTILIDAD (PÉRDIDA) NETA DEL PERIODO', ua] });
@@ -1623,26 +1944,24 @@ function periodoNombre(k) { const [y, p] = k.split('-'); if (p[0] === 'B') { con
 function repIva() {
   const r = repDefaults(), per = new Map();
   const lp = lineasPlanas().filter(x => x.fecha >= r.desde && x.fecha <= r.hasta);
-  const cta = { gen: '240801', desc: '240802', rete: '2365', reteiva: '2367', reteica: '2368', nos: ['135515', '135517', '135518'] };
+  const cta = { gen: cfg().cuentasAuto.ivaGenerado, desc: cfg().cuentasAuto.ivaDescontable, rete: '2365', nos: ['135515'] };
   for (const x of lp) {
-    const k = periodoClave(x.fecha, r.per); const p = per.get(k) || per.set(k, { ing: 0, gen: 0, desc: 0, rete: 0, reteiva: 0, reteica: 0, nos: 0 }).get(k);
+    const k = periodoClave(x.fecha, r.per); const p = per.get(k) || per.set(k, { ing: 0, gen: 0, desc: 0, rete: 0, nos: 0 }).get(k);
     if (x.cuenta.startsWith('41')) p.ing += x.credito - x.debito;
     else if (x.cuenta.startsWith(cta.gen)) p.gen += x.credito - x.debito;
     else if (x.cuenta.startsWith(cta.desc)) p.desc += x.debito - x.credito;
     else if (x.cuenta.startsWith(cta.rete)) p.rete += x.credito;
-    else if (x.cuenta.startsWith(cta.reteiva)) p.reteiva += x.credito;
-    else if (x.cuenta.startsWith(cta.reteica)) p.reteica += x.credito;
     else if (cta.nos.some(c => x.cuenta.startsWith(c))) p.nos += x.debito;
   }
-  const filas = [...per.keys()].sort().map(k => { const p = per.get(k); return { c: [periodoNombre(k), p.ing, p.gen, p.desc, p.gen - p.desc, p.rete, p.reteiva + p.reteica, p.nos] }; });
+  const filas = [...per.keys()].sort().map(k => { const p = per.get(k); return { c: [periodoNombre(k), p.ing, p.gen, p.desc, p.gen - p.desc, p.rete, p.nos] }; });
   const tot = filas.reduce((t, f) => f.c.map((v, i) => i ? (t[i] || 0) + v : 'TOTAL'), []);
-  return { titulo: 'Resumen de IVA y retenciones', sub: `Del ${fmtFecha(r.desde)} al ${fmtFecha(r.hasta)} · ${r.per}`, cols: ['Periodo', 'Ingresos', 'IVA generado', 'IVA descontable', 'IVA neto (a pagar +)', 'Retención en la fuente practicada', 'ReteIVA / ReteICA practicados', 'Retenciones que nos practicaron'], num: [1, 2, 3, 4, 5, 6, 7], filas, total: filas.length ? tot : null, extra: () => retencionesPorTercero(lp) };
+  return { titulo: 'Resumen de IVA y retenciones', sub: `Del ${fmtFecha(r.desde)} al ${fmtFecha(r.hasta)} · ${r.per}`, cols: ['Periodo', 'Ingresos', 'IVA generado', 'IVA descontable', 'IVA neto (a pagar +)', 'Retención en la fuente practicada', 'Retenciones que nos practicaron'], num: [1, 2, 3, 4, 5, 6], filas, total: filas.length ? tot : null, extra: () => retencionesPorTercero(lp) };
 }
 function retencionesPorTercero(lp) {
   const pr = new Map(), no = new Map();
   for (const x of lp) {
-    if (/^(2365|2367|2368)/.test(x.cuenta)) { const v = x.credito; pr.set(x.tercero, (pr.get(x.tercero) || 0) + v); }
-    else if (/^(135515|135517|135518)/.test(x.cuenta)) { const v = x.debito; no.set(x.tercero, (no.get(x.tercero) || 0) + v); }
+    if (/^2365/.test(x.cuenta)) { const v = x.credito; pr.set(x.tercero, (pr.get(x.tercero) || 0) + v); }
+    else if (/^135515/.test(x.cuenta)) { const v = x.debito; no.set(x.tercero, (no.get(x.tercero) || 0) + v); }
   }
   const t = (m, tit) => `<h3 class="mt">${tit}</h3>` + (m.size ? `<div class="tablewrap"><table class="t"><thead><tr><th>Documento</th><th>Tercero</th><th class="r">Valor</th></tr></thead><tbody>${[...m].sort((a, b) => b[1] - a[1]).map(([id, v]) => `<tr><td>${esc(terceroDoc(id))}</td><td>${nombreTerc(id)}</td><td class="r">${fmtNum(v)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="muted small">Sin movimientos en el periodo.</p>');
   return t(pr, 'Retenciones practicadas, por tercero (se pagan a la DIAN)') + t(no, 'Retenciones que nos practicaron, por tercero (anticipo de impuestos)');
@@ -1686,7 +2005,7 @@ function listaCuentas() {
   return `<div class="tablewrap"><table class="t"><thead><tr><th>Código</th><th>Nombre</th><th>Tipo</th><th>Naturaleza</th><th></th></tr></thead><tbody>${l.map(c => { const mov = esMovimiento(c.codigo); return `<tr class="${mov ? 'click' : 'sub'}" ${mov ? `data-act="editar-cuenta" data-id="${c.codigo}"` : ''}><td>${esc(c.codigo)}</td><td>${esc(c.nombre)}</td><td>${TIPO_CLASE[c.codigo[0]] || ''}</td><td>${c.naturaleza === 'D' ? 'Débito' : 'Crédito'}</td><td>${mov ? `<span class="tag ${usadas.has(c.codigo) ? 'info' : ''}">${usadas.has(c.codigo) ? 'con movimientos' : 'auxiliar'}</span>` : '<span class="tag">mayor</span>'}</td></tr>`; }).join('')}</tbody></table></div><p class="muted small mt">${l.length} cuentas</p>`;
 }
 function vCuentas() {
-  return cabecera('Catálogo de cuentas (PUC)', 'Plan Único de Cuentas colombiano (Decreto 2650 de 1993) precargado para una empresa de servicios. Puede agregar o ajustar auxiliares para que coincidan con Xubio.', `<button class="btn pri" data-act="nueva-cuenta">＋ Nueva cuenta auxiliar</button>`) + `
+  return cabecera('Catálogo de cuentas (PUC)', 'Plan de cuentas de Xubio (PUC, Decreto 2650), con los mismos códigos y nombres, para exportar sin retrabajo. Las cuentas de 4 dígitos sin subcuentas también aceptan movimientos.', `<button class="btn pri" data-act="nueva-cuenta">＋ Nueva cuenta</button>`) + `
   <div class="filters"><div class="f"><label>Buscar</label><input type="search" data-filtro="q" placeholder="Código o nombre" value="${esc(filtro('cuentas', 'q'))}"></div>
   <div class="f"><label>Mostrar</label><select data-filtro="solo"><option value="1" ${filtro('cuentas', 'solo', '1') === '1' ? 'selected' : ''}>Solo cuentas de movimiento</option><option value="0" ${filtro('cuentas', 'solo', '1') === '0' ? 'selected' : ''}>Todo el árbol</option></select></div></div><div id="lista">${listaCuentas()}</div>`;
 }
@@ -1698,7 +2017,7 @@ function formCuenta(cod) {
   abrirDialogo(`<form data-form="cuenta" data-id="${cod || ''}" novalidate><div class="dhead"><h2>${cod ? 'Editar' : 'Nueva'} cuenta</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
     <div class="f s2"><label>Código *</label><input type="text" name="codigo" inputmode="numeric" value="${esc(c.codigo)}" ${usada ? 'readonly' : ''}></div><div class="f s4"><label>Nombre *</label><input type="text" name="nombre" value="${esc(c.nombre)}"></div>
     <div class="f s6"><label>Naturaleza</label><select name="naturaleza"><option value="D" ${c.naturaleza === 'D' ? 'selected' : ''}>Débito</option><option value="C" ${c.naturaleza === 'C' ? 'selected' : ''}>Crédito</option></select></div></div>
-    <p class="muted small mt">${usada ? 'El código no se puede cambiar porque la cuenta tiene movimientos.' : 'Use un código de 6 a 10 dígitos que empiece por el código de la cuenta mayor (p. ej. 111010 para un segundo banco).'}</p><div class="errbox"></div></div>
+    <p class="muted small mt">${usada ? 'El código no se puede cambiar porque la cuenta tiene movimientos.' : 'Use el mismo código y nombre que tenga en Xubio, para que la exportación no requiera correcciones.'}</p><div class="errbox"></div></div>
     <div class="dfoot">${cod && !usada ? `<button type="button" class="btn bad" data-act="borrar-cuenta" data-id="${cod}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`);
 }
 FORMS.cuenta = function (f) {
@@ -1707,14 +2026,13 @@ FORMS.cuenta = function (f) {
   if (!/^[1-9]\d{3,11}$/.test(codigo)) err.push('El código debe ser numérico, de 4 a 12 dígitos, y empezar por 1–9.');
   if (!nombre) err.push('El nombre es obligatorio.');
   if (codigo !== id && idx.cuentas.has(codigo)) err.push('Ya existe una cuenta con ese código.');
-  if (/^\d+$/.test(codigo)) for (let n = 1; n < codigo.length; n++) { const p = codigo.slice(0, n); if (db.asientos.some(a => a.lineas.some(l => l.cuenta === p))) err.push(`La cuenta ${p} tiene movimientos y no puede pasar a ser cuenta mayor.`); }
   if (err.length) return mostrarErrores(f, err);
   if (id) { const c = idx.cuentas.get(id); Object.assign(c, { codigo, nombre, naturaleza: g('naturaleza').value }); }
-  else db.cuentas.push({ codigo, nombre, naturaleza: g('naturaleza').value });
+  else db.cuentas.push({ codigo, nombre, naturaleza: g('naturaleza').value, personalizada: true });
   guardar(); cerrarDialogo(); render(); toast('Cuenta guardada.', 'ok');
 };
 ACC['borrar-cuenta'] = async el => {
-  const cod = el.dataset.id; if (idx.padres.has(cod)) { toast('Tiene cuentas hijas.', 'error'); return; }
+  const cod = el.dataset.id; if (db.cuentas.some(c => c.codigo !== cod && c.codigo.startsWith(cod))) { toast('Tiene cuentas hijas.', 'error'); return; }
   if (Object.values(cfg().cuentasAuto).includes(cod)) { toast('Esta cuenta está configurada como cuenta automática del asistente.', 'error'); return; }
   if (!await confirmar('¿Eliminar la cuenta ' + cod + '?', 'Eliminar')) return;
   db.cuentas = db.cuentas.filter(c => c.codigo !== cod); guardar(); cerrarDialogo(); render();
@@ -1811,7 +2129,7 @@ function vConfig() {
     <div class="f s3"><label>Nombre de la empresa</label><input type="text" data-cfg="empresaNombre" value="${esc(c.empresa.nombre)}"></div><div class="f s3"><label>NIT de la empresa</label><input type="text" data-cfg="empresaNit" value="${esc(c.empresa.nit)}"></div></div>
     <p class="muted small mt">IVA general 19 %. Retención en la fuente por honorarios: 11 % para personas jurídicas y naturales declarantes, 10 % en otros casos; ajuste la tarifa si cambia (también es editable en cada asiento). Estas tarifas prellenan el asistente de asientos.</p></div>
   <div class="card"><h3>Cuentas que usa el asistente de IVA y retención</h3><div class="fgrid mt">${sel('clientes', 'Clientes (cuenta por cobrar)')}${sel('ingresos', 'Honorarios recibidos (ingreso)')}${sel('ivaGenerado', 'IVA generado')}${sel('ivaDescontable', 'IVA descontable')}${sel('reteNosPractican', 'Retención que nos practican (anticipo)')}${sel('reteHonorariosPagar', 'Retención en la fuente por pagar (honorarios)')}${sel('proveedores', 'Proveedores')}${sel('gastoHonorarios', 'Gasto por honorarios / servicios')}</div>
-    <p class="muted small mt">Las cuentas auxiliares del PUC son una propuesta; valídelas con su contador para que coincidan con el plan de cuentas de Xubio.</p></div>
+    <p class="muted small mt">Por defecto usan cuentas del plan de Xubio (p. ej. 4155 honorarios, 240805 IVA generado, 240810 IVA descontable). ReteIVA y ReteICA no se calculan: no aplican a su actividad y ciudad.</p></div>
   <div class="card"><h3>Servicios ofrecidos (CRM)</h3><textarea data-cfg="servicios" rows="5" style="margin-top:8px">${esc(c.servicios.join('\n'))}</textarea><p class="muted small mt">Uno por línea. Aparecen como sugerencias al crear oportunidades.</p></div>
   <div class="card"><h3>Zona de datos</h3><div class="actions mt">${db.ejemplo ? '<button class="btn pri" data-act="borrar-ejemplo">Borrar datos de ejemplo</button>' : ''}<button class="btn" data-act="cargar-ejemplo">Cargar datos de ejemplo</button><button class="btn bad" data-act="borrar-todo">Borrar todos los datos…</button></div>
     <p class="muted small mt">“Cargar datos de ejemplo” reemplaza todo lo que haya. Antes de borrar o reemplazar, la aplicación le pedirá confirmación; recuerde exportar un JSON.</p></div>`;
