@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>CG Finance · Contabilidad y CRM</title>
+<style>
+:root{
+  --navy:#16274f;--navy-2:#1d3568;--navy-deep:#0f1c3b;--gold:#d6a23e;--gold-2:#e4b552;
+  --bg:#f3f5fa;--card:#fff;--ink:#1a2340;--muted:#5c6579;--line:#dfe3ec;--line2:#eef0f5;
+  --ok:#1e8a4c;--okbg:#e3f5ea;--warn:#a86b00;--warnbg:#fff3d6;--bad:#c0392b;--badbg:#fde8e5;--info:#2456a6;--infobg:#e6eefc;
+  --radius:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2}
+h1{font-size:1.5rem}h2{font-size:1.2rem}h3{font-size:1.02rem}
+button,input,select,textarea{font:inherit;color:inherit}
+.topbar{position:sticky;top:0;z-index:40;background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px;min-height:56px;border-bottom:2px solid var(--gold);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;font-weight:700;font-size:1.1rem;white-space:nowrap}
+.brand .logo{width:32px;height:32px;border-radius:6px;background:var(--gold);color:var(--navy-deep);display:grid;place-items:center;font-weight:800;font-size:.95rem}
+.brand small{display:block;font-family:system-ui,sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.12em;color:#cfd6e8;text-transform:uppercase}
+.spacer{flex:1}
+.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:5px 12px;font-size:.82rem;font-weight:600;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:default;white-space:nowrap}
+.chip.ok{background:#164a2f;border-color:#2c8a57;color:#c9f3da}
+.chip.warn{background:#7a5200;border-color:#e0a635;color:#fff0c7;cursor:pointer}
+.chip.bad{background:#7d2519;border-color:#e0705f;color:#ffe1dc;cursor:pointer}
+.chip.quiet{background:transparent;border-color:rgba(255,255,255,.3);color:#dfe5f4;cursor:pointer}
+.chip button{background:none;border:none;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit;font-weight:600;padding:0 0 0 2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:7px 14px;border-radius:6px;border:1px solid var(--line);background:#fff;font-weight:600;font-size:.92rem;cursor:pointer;transition:background .12s,border-color .12s;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover{background:#f0f3fa;border-color:#c7cfdf}
+.btn.pri{background:var(--gold);border-color:var(--gold);color:var(--navy-deep)}
+.btn.pri:hover{background:var(--gold-2)}
+.btn.navy{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.navy:hover{background:var(--navy-2)}
+.btn.bad{color:var(--bad);border-color:#f0c2bc}
+.btn.bad:hover{background:var(--badbg)}
+.btn.sm{min-height:30px;padding:3px 10px;font-size:.82rem}
+.btn.ghost-w{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.btn.ghost-w:hover{background:rgba(255,255,255,.12)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.shell{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:calc(100vh - 58px)}
+nav#nav{background:#fff;border-right:1px solid var(--line);padding:12px 10px;position:sticky;top:58px;align-self:start;height:calc(100vh - 58px);overflow:auto}
+nav#nav .grp{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px}
+nav#nav a{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500;cursor:pointer;min-height:40px}
+nav#nav a:hover{background:var(--bg)}
+nav#nav a.on{background:var(--navy);color:#fff}
+nav#nav .badge{background:var(--bad);color:#fff;border-radius:99px;font-size:.72rem;font-weight:700;padding:1px 7px}
+nav#nav .aviso{font-size:.72rem;color:var(--muted);padding:12px 10px;border-top:1px solid var(--line2);margin-top:12px;line-height:1.35}
+main#main{padding:22px 26px 60px;min-width:0}
+.pagehead{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.pagehead p{color:var(--muted);font-size:.9rem;margin-top:2px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.card + .card{margin-top:14px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi .l{font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kpi .v{font-family:Georgia,serif;font-size:1.55rem;font-weight:700;margin-top:4px}
+.kpi .s{font-size:.8rem;color:var(--muted);margin-top:2px}
+.banner{background:var(--warnbg);border-bottom:1px solid #ecd08a;color:#5c4200;padding:10px 22px;display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.banner.info{background:var(--infobg);border-color:#bcd0f3;color:#1d3f7a}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.filters .f{display:flex;flex-direction:column;gap:3px}
+label.lbl,.f>label{font-size:.76rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=search],select,textarea{width:100%;min-height:38px;padding:7px 10px;border:1px solid #c9d0de;border-radius:6px;background:#fff}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold)}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--navy)}
+input.num{text-align:right;font-variant-numeric:tabular-nums}
+.filters input,.filters select{width:auto;min-width:130px}
+.filters input[type=search]{min-width:220px}
+.filters input[type=checkbox]{min-width:0;width:18px}
+table.lin th:nth-child(3){min-width:170px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+table.t{width:100%;border-collapse:collapse;font-size:.9rem}
+table.t th{background:#f6f7fb;text-align:left;font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0}
+table.t td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+table.t tr:last-child td{border-bottom:none}
+table.t tbody tr.click{cursor:pointer}
+table.t tbody tr.click:hover{background:#f8f9fd}
+table.t .r,table.t th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.t tr.tot td{font-weight:700;background:#f6f7fb;border-top:2px solid var(--line)}
+table.t tr.sub td{font-weight:600;background:#fafbfd}
+table.t tr.cls td{font-weight:700;background:#eef1f8}
+table.t tr.muted td{color:var(--muted)}
+.empty{padding:34px;text-align:center;color:var(--muted)}
+.tag{align-self:flex-start;flex:none;display:inline-block;border-radius:99px;padding:1px 9px;font-size:.74rem;font-weight:700;background:var(--line2);color:var(--muted);white-space:nowrap}
+.tag.ok{background:var(--okbg);color:var(--ok)}.tag.warn{background:var(--warnbg);color:var(--warn)}.tag.bad{background:var(--badbg);color:var(--bad)}.tag.info{background:var(--infobg);color:var(--info)}
+.muted{color:var(--muted)}.small{font-size:.82rem}.right{text-align:right}.mt{margin-top:14px}.mb{margin-bottom:14px}
+.neg{color:var(--bad)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tabs button{background:none;border:none;border-bottom:3px solid transparent;padding:9px 14px;font-weight:600;color:var(--muted);cursor:pointer;min-height:40px}
+.tabs button.on{color:var(--navy);border-color:var(--gold)}
+/* kanban */
+.kanban{display:grid;grid-template-columns:repeat(5,minmax(230px,1fr));gap:12px;overflow-x:auto;padding-bottom:10px}
+.col{background:#e9edf5;border-radius:var(--radius);padding:10px;min-height:260px}
+.col.over{outline:2px dashed var(--gold)}
+.col h3{display:flex;justify-content:space-between;align-items:baseline;font-family:system-ui,sans-serif;font-size:.86rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.col .sum{font-size:.78rem;color:var(--muted);margin-bottom:8px}
+.opp{background:#fff;border:1px solid var(--line);border-radius:7px;padding:10px;margin-bottom:8px;cursor:grab;box-shadow:0 1px 2px rgba(15,28,59,.06)}
+.opp .ti{font-weight:700;font-size:.92rem}.opp .te{font-size:.82rem;color:var(--muted)}
+.opp .va{font-weight:700;margin-top:4px}
+.opp .meta{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0;font-size:.76rem}
+.opp .row{display:flex;gap:6px;align-items:center;margin-top:6px}
+.opp select{min-height:30px;padding:2px 6px;font-size:.8rem}
+.stale{border-left:4px solid var(--warn)}
+.funnel .bar{display:flex;align-items:center;gap:10px;margin:8px 0}
+.funnel .name{width:140px;font-size:.86rem;font-weight:600}
+.funnel .track{flex:1;background:var(--line2);border-radius:5px;height:28px;position:relative}
+.funnel .fill{height:100%;border-radius:5px;background:var(--navy);min-width:3px}
+.funnel .val{width:200px;font-size:.84rem;text-align:right}
+/* dialog */
+dialog{border:none;border-radius:12px;padding:0;max-width:calc(100vw - 24px);width:560px;box-shadow:0 20px 60px rgba(10,20,50,.35);background:#fff;color:var(--ink)}
+dialog.wide{width:1040px}dialog.mid{width:760px}
+dialog::backdrop{background:rgba(15,28,59,.5)}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2;border-radius:12px 12px 0 0}
+.dbody{padding:18px 20px;max-height:calc(100vh - 190px);overflow:auto}
+.dfoot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding:12px 20px;border-top:1px solid var(--line);background:#fafbfd;border-radius:0 0 12px 12px}
+.x{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1;padding:4px 8px}
+.fgrid{display:grid;gap:12px;grid-template-columns:repeat(6,minmax(0,1fr))}
+.fgrid .f{display:flex;flex-direction:column;gap:3px;grid-column:span 3}
+.fgrid .f.s2{grid-column:span 2}.fgrid .f.s4{grid-column:span 4}.fgrid .f.s6{grid-column:span 6}
+.err{background:var(--badbg);border:1px solid #f0c2bc;color:var(--bad);padding:8px 12px;border-radius:6px;margin-top:10px;font-size:.88rem}
+.err ul{margin-left:18px}
+.notice{background:var(--infobg);border:1px solid #bcd0f3;color:#1d3f7a;padding:9px 12px;border-radius:6px;font-size:.84rem}
+.notice.warn{background:var(--warnbg);border-color:#ecd08a;color:#5c4200}
+.wizard{background:#fbf7ec;border:1px solid #ecdcae;border-radius:8px;padding:12px;margin:12px 0}
+.wizard .wrow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.wizard .f{display:flex;flex-direction:column;gap:3px}
+.wizard .inl{display:flex;gap:6px;align-items:center;min-height:38px}
+.wizard input.pct{width:70px}
+table.lin{width:100%;border-collapse:collapse}
+table.lin th{font-size:.72rem;text-transform:uppercase;color:var(--muted);text-align:left;padding:4px 4px}
+table.lin td{padding:3px 3px}
+table.lin td.acc{white-space:nowrap;width:78px}
+table.lin td.acc button{border:1px solid var(--line);background:#fff;border-radius:5px;min-width:32px;min-height:32px;cursor:pointer}
+.totales{display:flex;gap:18px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-top:8px;font-variant-numeric:tabular-nums;font-weight:600}
+.cuadre{padding:3px 12px;border-radius:99px;font-size:.82rem}
+.cuadre.ok{background:var(--okbg);color:var(--ok)}.cuadre.bad{background:var(--badbg);color:var(--bad)}
+.fecha-wrap{position:relative;display:block}
+.fecha-wrap input.fecha{padding-right:38px}
+.fecha-wrap .cal{position:absolute;right:2px;top:2px;height:34px;width:34px;border:none;background:none;cursor:pointer;font-size:1rem}
+.fecha-wrap .calh{position:absolute;right:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0}
+#toasts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:var(--navy-deep);color:#fff;padding:10px 18px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:.9rem;max-width:90vw}
+.toast.err2{background:var(--bad)}.toast.ok2{background:var(--ok)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sel{background:#fff6dc !important;outline:2px solid var(--gold);outline-offset:-2px}
+.done td{color:#8a93a6}
+.timeline .it{padding:8px 0;border-bottom:1px solid var(--line2)}
+.timeline .it:last-child{border:none}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:.9rem}
+.kv dt{color:var(--muted);font-weight:600}
+.pill-row{display:flex;gap:6px;flex-wrap:wrap}
+hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
+.print-title{display:none}
+@media (max-width:1100px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  nav#nav{position:static;height:auto;display:flex;flex-wrap:nowrap;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line);padding:6px 8px;gap:2px;top:auto}
+  nav#nav .grp,nav#nav .aviso{display:none}
+  nav#nav a{white-space:nowrap;flex:none}
+  main#main{padding:16px 14px 50px}
+  .g2,.g3,.g4,.split{grid-template-columns:1fr}
+  .funnel .name{width:100px}.funnel .val{width:130px;font-size:.76rem}
+}
+@media (max-width:640px){.fgrid .f,.fgrid .f.s2,.fgrid .f.s4{grid-column:span 6}.filters input,.filters select{min-width:0;width:100%}.filters .f{flex:1 1 140px}}
+table.lin{min-width:780px}
+.linwrap{overflow-x:auto}
+@media print{
+  .topbar,nav#nav,#banner,.actions,.filters,.tabs,.no-print,#toasts{display:none !important}
+  .shell{display:block}main#main{padding:0}body{background:#fff}
+  .card{border:none;padding:0}.print-title{display:block;margin-bottom:10px}
+  .tablewrap{border:none;overflow:visible}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">CG</div><div>CG Finance S.A.S.<small>Contabilidad y CRM</small></div></div>
+  <div class="spacer"></div>
+  <div class="top-actions">
+    <span id="estado-respaldo"></span>
+    <button class="btn ghost-w sm" data-act="exportar-json" title="Descargar todos los datos en un archivo JSON">Exportar JSON</button>
+    <button class="btn ghost-w sm" data-act="importar-json" title="Cargar un archivo JSON de respaldo">Importar JSON</button>
+  </div>
+</header>
+<div id="banner"></div>
+<div class="shell">
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+<datalist id="dl-cuentas"></datalist>
+<datalist id="dl-terceros"></datalist>
+<datalist id="dl-servicios"></datalist>
+<dialog id="dlg"></dialog>
+<dialog id="dlg2"></dialog>
+<div id="toasts"></div>
+<input type="file" id="file-json" accept=".json,application/json" hidden>
+<input type="file" id="file-csv" accept=".csv,.txt,text/csv" hidden>
+<script>
+'use strict';
+/* =====================================================================
+   CG FINANCE S.A.S. — Contabilidad y CRM (aplicación autocontenida)
+   Solución puente hasta migrar a Xubio. Sin servidor, sin dependencias.
+   Esta aplicación NO emite facturas electrónicas: las facturas se emiten
+   en el portal gratuito de la DIAN y aquí solo se registra el asiento.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   ▼▼▼  CONEXIÓN DIRECTA CON MICROSOFT ONEDRIVE (DESACTIVADA)  ▼▼▼
+   Para activarla: registre una aplicación en Azure (Microsoft Entra ID →
+   Registros de aplicaciones), tipo "Aplicación de página única (SPA)",
+   agregue como URI de redirección la dirección https donde publique este
+   archivo, permisos delegados de Microsoft Graph: Files.ReadWrite y
+   offline_access. Luego pegue aquí el "Id. de aplicación (cliente)".
+   Mientras esté vacío, la conexión permanece desactivada; al pegarlo se
+   activa sola (OAuth 2.0 con PKCE + Microsoft Graph).
+   --------------------------------------------------------------------- */
+const ONEDRIVE_CLIENT_ID = '';   // ← PEGUE AQUÍ EL IDENTIFICADOR DE CLIENTE DE AZURE
+const ONEDRIVE_CARPETA   = 'CG Finance/Respaldos';  // carpeta dentro de OneDrive
+/* ▲▲▲ ------------------------------------------------------------- ▲▲▲ */
+
+const VERSION_DATOS = 1;
+const MAX_RESPALDOS_FECHA = 30;
+const ESPERA_RESPALDO_MS = 2000;
+
+/* ---------- Utilidades ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = p => (p || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const p2 = n => String(n).padStart(2, '0');
+const isoDe = d => `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+const hoy = () => isoDe(new Date());
+const partesISO = s => s.split('-').map(Number);
+function sumarDias(iso, n) { const [y, m, d] = partesISO(iso); return isoDe(new Date(y, m - 1, d + n)); }
+function diasEntre(a, b) { const f = s => { const [y, m, d] = partesISO(s); return Date.UTC(y, m - 1, d); }; return Math.round((f(b) - f(a)) / 864e5); }
+const fmtFecha = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
+function fechaValida(y, m, d) { const dt = new Date(y, m - 1, d); return (dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d) ? `${y}-${p2(m)}-${p2(d)}` : null; }
+function parseFecha(s) {
+  s = String(s || '').trim(); let m;
+  if ((m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2}|\d{4})$/))) { let y = +m[3]; if (y < 100) y += 2000; return fechaValida(y, +m[2], +m[1]); }
+  if ((m = s.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/))) return fechaValida(+m[1], +m[2], +m[3]);
+  if ((m = s.match(/^(\d{4})(\d{2})(\d{2})$/))) return fechaValida(+m[1], +m[2], +m[3]);
+  return null;
+}
+const agrupar = n => String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const fmtNum = n => { n = Math.round(n || 0); return (n < 0 ? '-' : '') + agrupar(n); };
+const fmt = n => { n = Math.round(n || 0); return (n < 0 ? '-' : '') + '$ ' + agrupar(n); };
+const cls = n => n < 0 ? ' neg' : '';
+function parseCOP(s) {
+  s = String(s ?? '').trim(); if (!s) return 0;
+  const neg = /^-|\(.*\)/.test(s);
+  s = s.replace(/[^\d,]/g, '');
+  if (s.includes(',')) s = s.replace(',', '.');
+  const n = Math.round(parseFloat(s) || 0);
+  return neg ? -n : n;
+}
+const pct = n => (Math.round(n * 100) / 100).toString().replace('.', ',') + '%';
+function toast(msg, tipo) {
+  const t = document.createElement('div'); t.className = 'toast ' + (tipo === 'error' ? 'err2' : tipo === 'ok' ? 'ok2' : ''); t.textContent = msg;
+  $('#toasts').appendChild(t); setTimeout(() => t.remove(), tipo === 'error' ? 6000 : 3200);
+}
+function descargar(nombre, contenido, mime) {
+  const blob = new Blob([contenido], { type: mime || 'application/octet-stream' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+/* Dígito de verificación DIAN (módulo 11) */
+function calcularDV(nit) {
+  nit = String(nit || '').replace(/\D/g, ''); if (!nit) return '';
+  const pr = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71];
+  let s = 0; const d = nit.split('').reverse();
+  for (let i = 0; i < d.length && i < pr.length; i++) s += +d[i] * pr[i];
+  const r = s % 11; return String(r > 1 ? 11 - r : r);
+}
+
+/* ---------- Catálogo PUC (Decreto 2650 de 1993) para empresa de servicios ---------- */
+const PUC_TEXTO = `
+1|ACTIVO
+11|DISPONIBLE
+1105|CAJA
+110505|Caja general
+110510|Cajas menores
+1110|BANCOS
+111005|Moneda nacional
+1120|CUENTAS DE AHORRO
+112005|Bancos
+13|DEUDORES
+1305|CLIENTES
+130505|Nacionales
+1330|ANTICIPOS Y AVANCES
+133005|A proveedores
+1355|ANTICIPO DE IMPUESTOS Y CONTRIBUCIONES O SALDOS A FAVOR
+135505|Anticipo de impuesto de renta y complementarios
+135515|Retención en la fuente
+135517|Impuesto a las ventas retenido
+135518|Impuesto de industria y comercio retenido
+15|PROPIEDADES, PLANTA Y EQUIPO
+1524|EQUIPO DE OFICINA
+152405|Muebles y enseres
+1528|EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN
+152805|Equipos de procesamiento de datos
+1592|DEPRECIACIÓN ACUMULADA
+159215|Equipo de oficina|C
+159220|Equipo de computación y comunicación|C
+17|DIFERIDOS
+1705|GASTOS PAGADOS POR ANTICIPADO
+170520|Seguros y fianzas
+2|PASIVO
+21|OBLIGACIONES FINANCIERAS
+2105|BANCOS NACIONALES
+210505|Sobregiros bancarios
+210510|Pagarés
+22|PROVEEDORES
+2205|PROVEEDORES NACIONALES
+220505|Proveedores nacionales
+23|CUENTAS POR PAGAR
+2335|COSTOS Y GASTOS POR PAGAR
+233525|Honorarios
+233530|Servicios técnicos
+233540|Arrendamientos
+233550|Servicios públicos
+233595|Otros
+2365|RETENCIÓN EN LA FUENTE
+236505|Salarios y pagos laborales
+236515|Honorarios
+236520|Comisiones
+236525|Servicios
+236530|Arrendamientos
+236540|Compras
+2367|IMPUESTO A LAS VENTAS RETENIDO
+236701|Impuesto a las ventas retenido (ReteIVA)
+2368|IMPUESTO DE INDUSTRIA Y COMERCIO RETENIDO
+236801|Impuesto de industria y comercio retenido (ReteICA)
+24|IMPUESTOS, GRAVÁMENES Y TASAS
+2404|DE RENTA Y COMPLEMENTARIOS
+240405|Vigencia fiscal corriente
+2408|IMPUESTO SOBRE LAS VENTAS POR PAGAR
+240801|IVA generado
+240802|IVA descontable|D
+2412|DE INDUSTRIA Y COMERCIO
+241205|Vigencia fiscal corriente
+25|OBLIGACIONES LABORALES
+2505|SALARIOS POR PAGAR
+250501|Salarios por pagar
+3|PATRIMONIO
+31|CAPITAL SOCIAL
+3105|CAPITAL SUSCRITO Y PAGADO
+310505|Capital autorizado
+33|RESERVAS
+3305|RESERVAS OBLIGATORIAS
+330505|Reserva legal
+36|RESULTADOS DEL EJERCICIO
+3605|UTILIDAD DEL EJERCICIO
+360505|Utilidad del ejercicio
+3610|PÉRDIDA DEL EJERCICIO
+361005|Pérdida del ejercicio|D
+37|RESULTADOS DE EJERCICIOS ANTERIORES
+3705|UTILIDADES ACUMULADAS
+370505|Utilidades acumuladas
+3710|PÉRDIDAS ACUMULADAS
+371005|Pérdidas acumuladas|D
+4|INGRESOS
+41|OPERACIONALES
+4155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER
+415560|Actividades empresariales de consultoría (honorarios)
+42|NO OPERACIONALES
+4210|FINANCIEROS
+421005|Intereses
+4295|DIVERSOS
+429581|Ajuste al peso
+5|GASTOS
+51|OPERACIONALES DE ADMINISTRACIÓN
+5105|GASTOS DE PERSONAL
+510506|Sueldos
+5110|HONORARIOS
+511010|Revisoría fiscal
+511025|Asesoría jurídica
+511030|Asesoría financiera
+511035|Asesoría técnica
+511095|Otros honorarios (contador y otros)
+5115|IMPUESTOS
+511505|Industria y comercio
+511595|Otros impuestos
+5120|ARRENDAMIENTOS
+512010|Construcciones y edificaciones
+5135|SERVICIOS
+513520|Procesamiento electrónico de datos (software y nube)
+513525|Acueducto y alcantarillado
+513530|Energía eléctrica
+513535|Teléfono e internet
+513540|Correo, portes y telegramas
+513550|Transporte, fletes y acarreos
+513595|Otros servicios
+5140|GASTOS LEGALES
+514005|Notariales
+514010|Registro mercantil
+514015|Trámites y licencias
+5145|MANTENIMIENTO Y REPARACIONES
+514540|Equipo de oficina
+514545|Equipo de computación y comunicación
+5160|DEPRECIACIONES
+516015|Equipo de oficina
+516020|Equipo de computación y comunicación
+5195|DIVERSOS
+519520|Gastos de representación y relaciones públicas
+519525|Elementos de aseo y cafetería
+519530|Útiles, papelería y fotocopias
+519545|Taxis y buses
+519595|Otros gastos diversos
+53|NO OPERACIONALES
+5305|FINANCIEROS
+530505|Gastos bancarios
+530515|Comisiones
+530520|Intereses
+530595|Otros gastos financieros (GMF 4x1000)
+54|IMPUESTO DE RENTA Y COMPLEMENTARIOS
+5405|IMPUESTO DE RENTA Y COMPLEMENTARIOS
+540505|Impuesto de renta y complementarios
+6|COSTOS DE VENTAS
+61|COSTO DE VENTAS Y DE PRESTACIÓN DE SERVICIOS
+6155|ACTIVIDADES INMOBILIARIAS, EMPRESARIALES Y DE ALQUILER
+615560|Costo de servicios de consultoría
+`;
+const NAT_CLASE = { 1: 'D', 2: 'C', 3: 'C', 4: 'C', 5: 'D', 6: 'D' };
+const TIPO_CLASE = { 1: 'Activo', 2: 'Pasivo', 3: 'Patrimonio', 4: 'Ingreso', 5: 'Gasto', 6: 'Costo' };
+function construirCuentas() {
+  return PUC_TEXTO.trim().split('\n').map(l => {
+    const [codigo, nombre, nat] = l.split('|');
+    const nombreFmt = codigo.length <= 4 ? nombre : nombre;
+    return { codigo, nombre: nombreFmt, naturaleza: nat || NAT_CLASE[codigo[0]] };
+  });
+}
+
+/* ---------- Comprobantes, etapas y servicios ---------- */
+const TIPOS_COMP = { FV: 'Factura de venta', FC: 'Factura de compra', RC: 'Recibo de caja', CE: 'Comprobante de egreso', NC: 'Nota contable' };
+const ETAPAS = [
+  { id: 'prospecto', nombre: 'Prospecto', prob: 10 },
+  { id: 'propuesta', nombre: 'Propuesta enviada', prob: 30 },
+  { id: 'negociacion', nombre: 'Negociación', prob: 60 },
+  { id: 'ganada', nombre: 'Ganada', prob: 100 },
+  { id: 'perdida', nombre: 'Perdida', prob: 0 },
+];
+const ETAPA = Object.fromEntries(ETAPAS.map(e => [e.id, e]));
+const ABIERTAS = ['prospecto', 'propuesta', 'negociacion'];
+const TIPOS_INT = { llamada: 'Llamada', correo: 'Correo', reunion: 'Reunión' };
+const SERVICIOS_DEF = ['CFO fraccional', 'Consultoría financiera', 'Planeación financiera personal', 'Insolvencia económica', 'Tableros de control', 'Asesoría contable y tributaria'];
+const TIPOS_DOC = ['NIT', 'CC', 'CE', 'TI', 'Pasaporte'];
+
+function dbVacia() {
+  return {
+    app: 'cgfinance', version: VERSION_DATOS, creadoEn: new Date().toISOString(), guardadoEn: null, ejemplo: false,
+    config: {
+      empresa: { nombre: 'CG Finance S.A.S.', nit: '' },
+      ivaTarifa: 19, reteHonorarios: 11, diasSinMovimiento: 15,
+      servicios: SERVICIOS_DEF.slice(),
+      consecutivos: {},
+      cuentasAuto: {
+        clientes: '130505', ingresos: '415560', ivaGenerado: '240801', ivaDescontable: '240802',
+        reteNosPractican: '135515', reteHonorariosPagar: '236515', proveedores: '220505', gastoHonorarios: '511095',
+      },
+    },
+    cuentas: construirCuentas(),
+    terceros: [], asientos: [], oportunidades: [], interacciones: [], tareas: [], extractos: [],
+  };
+}
+function normalizar(o) {
+  if (!o || typeof o !== 'object' || o.app !== 'cgfinance') throw new Error('El archivo no es un respaldo de CG Finance.');
+  const base = dbVacia();
+  const r = Object.assign(base, o);
+  r.config = Object.assign(base.config, o.config || {});
+  r.config.empresa = Object.assign({ nombre: 'CG Finance S.A.S.', nit: '' }, (o.config || {}).empresa);
+  r.config.cuentasAuto = Object.assign(dbVacia().config.cuentasAuto, (o.config || {}).cuentasAuto);
+  r.config.consecutivos = (o.config || {}).consecutivos || {};
+  for (const k of ['cuentas', 'terceros', 'asientos', 'oportunidades', 'interacciones', 'tareas', 'extractos']) if (!Array.isArray(r[k])) r[k] = [];
+  if (!r.cuentas.length) r.cuentas = construirCuentas();
+  for (const a of r.asientos) { a.lineas = a.lineas || []; for (const l of a.lineas) { if (!l.id) l.id = uid('l'); l.debito = +l.debito || 0; l.credito = +l.credito || 0; } }
+  return r;
+}
+
+/* ---------- Estado global ---------- */
+let db = null;
+const idx = { cuentas: new Map(), padres: new Set(), terceros: new Map(), asientos: new Map(), opps: new Map() };
+const ui = { vista: 'tablero', f: {}, rep: { tab: 'prueba' }, conc: {}, };
+function reindexar() {
+  idx.cuentas = new Map(db.cuentas.map(c => [c.codigo, c]));
+  idx.padres = new Set();
+  for (const c of db.cuentas) for (let n = 1; n < c.codigo.length; n++) idx.padres.add(c.codigo.slice(0, n));
+  idx.terceros = new Map(db.terceros.map(t => [t.id, t]));
+  idx.asientos = new Map(db.asientos.map(a => [a.id, a]));
+  idx.opps = new Map(db.oportunidades.map(o => [o.id, o]));
+}
+const esMovimiento = codigo => idx.cuentas.has(codigo) && !idx.padres.has(codigo);
+const cuentaNombre = c => (idx.cuentas.get(c) || {}).nombre || nombreGrupo(c);
+function nombreGrupo(c) { const x = idx.cuentas.get(c); return x ? x.nombre : 'Cuenta ' + c; }
+const cfg = () => db.config;
+const terceroNombre = id => (idx.terceros.get(id) || {}).nombre || '';
+const terceroDoc = id => { const t = idx.terceros.get(id); return t ? t.documento || '' : ''; };
+const docConDV = t => t && t.documento ? t.documento + (t.tipoDoc === 'NIT' && t.dv ? '-' + t.dv : '') : '';
+const textoCuenta = c => `${c} · ${cuentaNombre(c)}`;
+const textoTercero = id => { const t = idx.terceros.get(id); return t ? (t.documento ? t.documento + ' · ' : '') + t.nombre : ''; };
+function resolverCuenta(txt) {
+  txt = String(txt || '').trim(); if (!txt) return '';
+  const m = txt.match(/^(\d{4,12})/); if (m) return m[1];
+  const l = txt.toLowerCase();
+  const c = db.cuentas.find(c => c.nombre.toLowerCase() === l) || db.cuentas.find(c => esMovimiento(c.codigo) && c.nombre.toLowerCase().includes(l));
+  return c ? c.codigo : '';
+}
+function resolverTercero(txt) {
+  txt = String(txt || '').trim(); if (!txt) return '';
+  const t = db.terceros.find(t => textoTercero(t.id) === txt) || db.terceros.find(t => t.nombre.toLowerCase() === txt.toLowerCase()) || db.terceros.find(t => t.documento && t.documento === txt);
+  return t ? t.id : null;
+}
+function actualizarListas() {
+  $('#dl-cuentas').innerHTML = db.cuentas.filter(c => esMovimiento(c.codigo)).sort((a, b) => a.codigo.localeCompare(b.codigo)).map(c => `<option value="${esc(textoCuenta(c.codigo))}"></option>`).join('');
+  $('#dl-terceros').innerHTML = db.terceros.slice().sort((a, b) => a.nombre.localeCompare(b.nombre)).map(t => `<option value="${esc(textoTercero(t.id))}"></option>`).join('');
+  $('#dl-servicios').innerHTML = cfg().servicios.map(s => `<option value="${esc(s)}"></option>`).join('');
+}
+
+/* ---------- Persistencia local (IndexedDB con respaldo en localStorage) ---------- */
+const IDB = (() => {
+  let dbp;
+  const abrir = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open('cgfinance', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('kv');
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  async function tx(modo, fn) {
+    const d = await abrir();
+    return new Promise((res, rej) => {
+      const t = d.transaction('kv', modo); const r = fn(t.objectStore('kv'));
+      t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+    });
+  }
+  return { get: k => tx('readonly', s => s.get(k)), set: (k, v) => tx('readwrite', s => s.put(v, k)), del: k => tx('readwrite', s => s.delete(k)) };
+})();
+const Almacen = {
+  async leer() {
+    try { const v = await IDB.get('db'); if (v) return v; } catch (e) { }
+    try { const s = localStorage.getItem('cg_db'); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+  },
+  async escribir(obj) {
+    try { await IDB.set('db', obj); return; } catch (e) { }
+    try { localStorage.setItem('cg_db', JSON.stringify(obj)); } catch (e) { toast('No se pudo guardar en este navegador. Exporte el JSON ya.', 'error'); }
+  },
+};
+let tPersistir = null;
+function persistirPronto() { clearTimeout(tPersistir); tPersistir = setTimeout(() => Almacen.escribir(db), 150); }
+function guardar() {
+  db.guardadoEn = new Date().toISOString();
+  reindexar(); actualizarListas(); persistirPronto(); Respaldo.programar(); pintarNav();
+}
+window.addEventListener('pagehide', () => { clearTimeout(tPersistir); if (db) Almacen.escribir(db); });
+
+/* ---------- Lógica contable ---------- */
+function lineasPlanas() {
+  const out = [];
+  for (const a of db.asientos) for (const l of a.lineas) out.push({ fecha: a.fecha, asiento: a, linea: l, cuenta: l.cuenta, tercero: l.terceroId || a.terceroId || '', debito: l.debito || 0, credito: l.credito || 0 });
+  out.sort((x, y) => x.fecha < y.fecha ? -1 : x.fecha > y.fecha ? 1 : x.asiento.numero < y.asiento.numero ? -1 : x.asiento.numero > y.asiento.numero ? 1 : 0);
+  return out;
+}
+function saldosPorCuenta({ desde, hasta, terceroId } = {}) {
+  const m = new Map();
+  for (const x of lineasPlanas()) {
+    if (hasta && x.fecha > hasta) continue;
+    if (terceroId && x.tercero !== terceroId) continue;
+    let r = m.get(x.cuenta); if (!r) { r = { codigo: x.cuenta, ini: 0, deb: 0, cred: 0 }; m.set(x.cuenta, r); }
+    if (desde && x.fecha < desde) r.ini += x.debito - x.credito; else { r.deb += x.debito; r.cred += x.credito; }
+  }
+  return m;
+}
+/* saldo natural (positivo) de una cuenta según su naturaleza */
+function saldoCuenta(codigo, hasta) {
+  let s = 0; for (const x of lineasPlanas()) if (x.cuenta.startsWith(codigo) && (!hasta || x.fecha <= hasta)) s += x.debito - x.credito; return s;
+}
+function lineasVenta(o) {
+  const A = cfg().cuentasAuto;
+  const iva = o.aplicaIva ? Math.round(o.base * o.ivaPct / 100) : 0;
+  const rete = o.aplicaRete ? Math.round(o.base * o.retePct / 100) : 0;
+  const L = [{ cuenta: A.clientes, debito: o.base + iva - rete, credito: 0, detalle: 'Cuenta por cobrar al cliente' }];
+  if (rete) L.push({ cuenta: A.reteNosPractican, debito: rete, credito: 0, detalle: `Retención en la fuente a título de renta (${pct(o.retePct)})` });
+  L.push({ cuenta: o.cuentaBase || A.ingresos, debito: 0, credito: o.base, detalle: 'Honorarios' });
+  if (iva) L.push({ cuenta: A.ivaGenerado, debito: 0, credito: iva, detalle: `IVA generado (${pct(o.ivaPct)})` });
+  return L;
+}
+function lineasCompra(o) {
+  const A = cfg().cuentasAuto;
+  const iva = o.aplicaIva ? Math.round(o.base * o.ivaPct / 100) : 0;
+  const rete = o.aplicaRete ? Math.round(o.base * o.retePct / 100) : 0;
+  const L = [{ cuenta: o.cuentaBase || A.gastoHonorarios, debito: o.base, credito: 0, detalle: 'Gasto / honorarios' }];
+  if (iva) L.push({ cuenta: A.ivaDescontable, debito: iva, credito: 0, detalle: `IVA descontable (${pct(o.ivaPct)})` });
+  if (rete) L.push({ cuenta: A.reteHonorariosPagar, debito: 0, credito: rete, detalle: `Retención en la fuente practicada (${pct(o.retePct)})` });
+  L.push({ cuenta: A.proveedores, debito: 0, credito: o.base + iva - rete, detalle: 'Cuenta por pagar al proveedor' });
+  return L;
+}
+function siguienteNumero(tipo) { return `${tipo}-${String((cfg().consecutivos[tipo] || 0) + 1).padStart(4, '0')}`; }
+function registrarConsecutivo(numero) {
+  const m = String(numero).match(/^([A-Z]{2})-(\d+)$/); if (!m) return;
+  cfg().consecutivos[m[1]] = Math.max(cfg().consecutivos[m[1]] || 0, +m[2]);
+}
+function totalAsiento(a) { return a.lineas.reduce((s, l) => s + (l.debito || 0), 0); }
+
+/* ---------- Datos de ejemplo ---------- */
+function crearDatosEjemplo() {
+  db = dbVacia(); db.ejemplo = true;
+  const d = n => sumarDias(hoy(), -n), f = n => sumarDias(hoy(), n);
+  const T = (id, o) => db.terceros.push(Object.assign({ id: 'ej_' + id, tipoDoc: 'NIT', documento: '', dv: '', tipoPersona: 'Jurídica', ciudad: 'Bogotá', correo: '', telefono: '', direccion: '', roles: [], empresaId: '', cargo: '', notas: '' }, o, { dv: o.documento && (o.tipoDoc || 'NIT') === 'NIT' ? calcularDV(o.documento) : '' }));
+  T('t1', { documento: '900123456', nombre: 'Inversiones Andina S.A.S.', ciudad: 'Bogotá', correo: 'contabilidad@inversionesandina.example', telefono: '3105550101', roles: ['cliente'] });
+  T('t2', { documento: '901234567', nombre: 'Constructora Horizonte S.A.S.', ciudad: 'Medellín', correo: 'admin@horizonte.example', telefono: '3105550102', roles: ['cliente'] });
+  T('t3', { documento: '800765432', nombre: 'Clínica del Norte S.A.', ciudad: 'Cali', correo: 'finanzas@clinicadelnorte.example', telefono: '3105550103', roles: ['cliente'] });
+  T('t4', { tipoDoc: 'CC', documento: '52123456', nombre: 'María Fernanda Ospina', tipoPersona: 'Natural', ciudad: 'Bogotá', correo: 'mfospina@correo.example', telefono: '3105550104', roles: ['cliente'] });
+  T('t5', { tipoDoc: 'CC', documento: '80123456', nombre: 'Andrés Felipe Rojas', tipoPersona: 'Natural', ciudad: 'Bogotá', correo: 'arojas@inversionesandina.example', telefono: '3105550105', roles: ['contacto'], empresaId: 'ej_t1', cargo: 'Gerente financiero' });
+  T('t6', { tipoDoc: 'CC', documento: '43123456', nombre: 'Laura Camila Duarte', tipoPersona: 'Natural', ciudad: 'Medellín', correo: 'lduarte@horizonte.example', telefono: '3105550106', roles: ['contacto'], empresaId: 'ej_t2', cargo: 'Directora administrativa' });
+  T('t7', { documento: '890456789', nombre: 'Inmobiliaria Central S.A.S.', roles: ['proveedor'], correo: 'cartera@inmocentral.example' });
+  T('t8', { documento: '830123123', nombre: 'Telecomunicaciones del Sur S.A.', roles: ['proveedor'] });
+  T('t9', { documento: '860000001', nombre: 'Banco de Ejemplo S.A.', roles: ['proveedor'] });
+  T('t10', { documento: '800197268', nombre: 'Dirección de Impuestos y Aduanas Nacionales (DIAN)', roles: ['proveedor'] });
+  T('t11', { documento: '900876543', nombre: 'Contadores Asociados S.A.S.', roles: ['proveedor'], ciudad: 'Barranquilla' });
+  T('t12', { documento: '', nombre: 'Grupo Textil Pacífico S.A.S.', ciudad: 'Cali', correo: 'gerencia@textilpacifico.example', roles: ['contacto'], notas: 'Prospecto referido por Inversiones Andina.' });
+  cfg().consecutivos = {};
+  const A = (tipo, fecha, ter, concepto, lineas, extra) => {
+    const numero = siguienteNumero(tipo); registrarConsecutivo(numero);
+    const a = Object.assign({ id: uid('ej'), numero, tipo, fecha, terceroId: ter, concepto, lineas: lineas.map(l => Object.assign({ id: uid('ej_l'), detalle: '', terceroId: '' }, l, { debito: l.debito || 0, credito: l.credito || 0 })) }, extra || {});
+    db.asientos.push(a); return a;
+  };
+  const base = { aplicaIva: true, ivaPct: 19, retePct: 11 };
+  A('NC', d(120), '', 'Aporte de capital inicial de los socios', [{ cuenta: '111005', debito: 30000000 }, { cuenta: '310505', credito: 30000000 }]);
+  const fv1 = A('FV', d(75), 'ej_t1', 'Honorarios CFO fraccional — mes 1', lineasVenta(Object.assign({ base: 6000000, aplicaRete: true }, base)));
+  A('RC', d(60), 'ej_t1', 'Pago factura ' + fv1.numero + ' (neto de retención)', [{ cuenta: '111005', debito: 6480000 }, { cuenta: '130505', credito: 6480000 }]);
+  A('CE', d(55), 'ej_t7', 'Arriendo oficina mes 1', [{ cuenta: '512010', debito: 1800000 }, { cuenta: '111005', credito: 1800000 }]);
+  const fv2 = A('FV', d(50), 'ej_t2', 'Consultoría financiera — diagnóstico y flujo de caja', lineasVenta(Object.assign({ base: 8500000, aplicaRete: true }, base)));
+  const fc1 = A('FC', d(45), 'ej_t11', 'Honorarios contador — servicio contable', lineasCompra(Object.assign({ base: 1200000, aplicaRete: true }, base)));
+  A('CE', d(40), 'ej_t11', 'Pago factura ' + fc1.numero, [{ cuenta: '220505', debito: 1296000 }, { cuenta: '111005', credito: 1296000 }]);
+  A('CE', d(35), 'ej_t8', 'Servicio de internet y telefonía', [{ cuenta: '513535', debito: 180000 }, { cuenta: '111005', credito: 180000 }]);
+  const fv3 = A('FV', d(30), 'ej_t3', 'Tablero de control financiero', lineasVenta(Object.assign({ base: 4200000, aplicaRete: true }, base)));
+  A('RC', d(20), 'ej_t2', 'Pago factura ' + fv2.numero + ' (neto de retención)', [{ cuenta: '111005', debito: 9180000 }, { cuenta: '130505', credito: 9180000 }]);
+  A('NC', d(10), 'ej_t9', 'Gastos bancarios y GMF del mes', [{ cuenta: '530505', debito: 45000 }, { cuenta: '530595', debito: 26000 }, { cuenta: '111005', credito: 71000 }]);
+  const fv4 = A('FV', d(12), 'ej_t4', 'Planeación financiera personal', lineasVenta(Object.assign({ base: 1500000, aplicaRete: false }, base)));
+  A('CE', d(3), 'ej_t10', 'Pago retención en la fuente del periodo', [{ cuenta: '236515', debito: 132000 }, { cuenta: '111005', credito: 132000 }]);
+  /* extracto de ejemplo */
+  const bancoLinea = num => { const a = db.asientos.find(x => x.numero === num); return a && a.lineas.find(l => l.cuenta === '111005'); };
+  const ex = (dias, desc, valor, lineaId) => db.extractos.push({ id: uid('ej_x'), cuenta: '111005', fecha: d(dias), descripcion: desc, valor, lineaId: lineaId || null });
+  const nc1 = db.asientos.find(a => a.numero === 'NC-0001');
+  ex(120, 'CONSIGNACION APORTE SOCIOS', 30000000, nc1.lineas[0].id);
+  ex(60, 'ABONO TRANSF INVERSIONES ANDINA', 6480000, bancoLinea('RC-0001').id);
+  ex(55, 'PAGO PSE INMOBILIARIA CENTRAL', -1800000, bancoLinea('CE-0001').id);
+  ex(40, 'TRANSF A CONTADORES ASOCIADOS', -1296000, null);
+  ex(34, 'PAGO PSE TELECOMUNICACIONES', -180000, null);
+  ex(20, 'ABONO TRANSF CONSTRUCTORA HORIZONTE', 9180000, null);
+  ex(15, 'ABONO INTERESES CUENTA', 12500, null);
+  ex(10, 'CUOTA MANEJO Y GMF', -71000, null);
+  /* CRM */
+  const O = (id, o) => db.oportunidades.push(Object.assign({ id: 'ej_' + id, terceroId: '', titulo: '', servicio: '', etapa: 'prospecto', valor: 0, probabilidad: 10, fechaCierre: f(30), creada: d(40), ultimoMovimiento: d(5), asientoId: '', motivoPerdida: '' }, o));
+  O('o1', { terceroId: 'ej_t12', titulo: 'CFO fraccional — 6 meses', servicio: 'CFO fraccional', etapa: 'prospecto', valor: 18000000, probabilidad: 10, fechaCierre: f(45), creada: d(30), ultimoMovimiento: d(22) });
+  O('o2', { terceroId: 'ej_t1', titulo: 'Tablero de control ejecutivo', servicio: 'Tableros de control', etapa: 'propuesta', valor: 7500000, probabilidad: 30, fechaCierre: f(20), creada: d(25), ultimoMovimiento: d(6) });
+  O('o3', { terceroId: 'ej_t2', titulo: 'Planeación financiera y flujo de caja 2027', servicio: 'Consultoría financiera', etapa: 'negociacion', valor: 12000000, probabilidad: 60, fechaCierre: f(10), creada: d(35), ultimoMovimiento: d(2) });
+  O('o4', { terceroId: 'ej_t3', titulo: 'Reestructuración de pasivos', servicio: 'Insolvencia económica', etapa: 'negociacion', valor: 25000000, probabilidad: 60, fechaCierre: f(14), creada: d(50), ultimoMovimiento: d(18) });
+  O('o5', { terceroId: 'ej_t4', titulo: 'Planeación financiera personal', servicio: 'Planeación financiera personal', etapa: 'ganada', valor: 1500000, probabilidad: 100, fechaCierre: d(12), creada: d(30), ultimoMovimiento: d(12), asientoId: fv4.id });
+  O('o6', { terceroId: 'ej_t3', titulo: 'Tablero de control financiero', servicio: 'Tableros de control', etapa: 'ganada', valor: 4200000, probabilidad: 100, fechaCierre: d(30), creada: d(60), ultimoMovimiento: d(30), asientoId: fv3.id });
+  O('o7', { terceroId: 'ej_t2', titulo: 'Asesoría tributaria anual', servicio: 'Asesoría contable y tributaria', etapa: 'perdida', valor: 3000000, probabilidad: 0, fechaCierre: d(20), creada: d(55), ultimoMovimiento: d(20), motivoPerdida: 'Eligió otra firma por precio' });
+  fv4.oportunidadId = 'ej_o5'; fv3.oportunidadId = 'ej_o6';
+  const I = (id, o) => db.interacciones.push(Object.assign({ id: 'ej_' + id, terceroId: '', oportunidadId: '', tipo: 'llamada', fecha: hoy(), nota: '' }, o));
+  I('i1', { terceroId: 'ej_t12', oportunidadId: 'ej_o1', tipo: 'reunion', fecha: d(22), nota: 'Primera reunión: interesados en CFO fraccional; piden propuesta.' });
+  I('i2', { terceroId: 'ej_t5', oportunidadId: 'ej_o2', tipo: 'correo', fecha: d(6), nota: 'Se envió propuesta del tablero de control con dos alternativas de alcance.' });
+  I('i3', { terceroId: 'ej_t6', oportunidadId: 'ej_o3', tipo: 'llamada', fecha: d(2), nota: 'Solicitan ajustar cronograma de entregables; decisión esta semana.' });
+  I('i4', { terceroId: 'ej_t3', oportunidadId: 'ej_o4', tipo: 'reunion', fecha: d(18), nota: 'Reunión con junta directiva; quedaron de revisar el alcance jurídico.' });
+  I('i5', { terceroId: 'ej_t2', oportunidadId: 'ej_o3', tipo: 'correo', fecha: d(9), nota: 'Se envió borrador de contrato para revisión.' });
+  const Tk = (id, o) => db.tareas.push(Object.assign({ id: 'ej_' + id, titulo: '', fecha: hoy(), terceroId: '', oportunidadId: '', hecha: false }, o));
+  Tk('k1', { titulo: 'Hacer seguimiento a propuesta de tablero de control', fecha: d(2), terceroId: 'ej_t1', oportunidadId: 'ej_o2' });
+  Tk('k2', { titulo: 'Llamar a la Clínica del Norte para retomar la negociación', fecha: d(1), terceroId: 'ej_t3', oportunidadId: 'ej_o4' });
+  Tk('k3', { titulo: 'Enviar contrato ajustado a Constructora Horizonte', fecha: hoy(), terceroId: 'ej_t2', oportunidadId: 'ej_o3' });
+  Tk('k4', { titulo: 'Agendar segunda reunión con Grupo Textil Pacífico', fecha: f(3), terceroId: 'ej_t12', oportunidadId: 'ej_o1' });
+  Tk('k5', { titulo: 'Preparar declaración de IVA del bimestre', fecha: f(12) });
+  Tk('k6', { titulo: 'Emitir factura en el portal DIAN y registrar asiento', fecha: d(8), hecha: true });
+  return db;
+}
+function borrarEjemplo() {
+  const ej = x => String(x.id).startsWith('ej_');
+  db.asientos = db.asientos.filter(x => !ej(x));
+  db.oportunidades = db.oportunidades.filter(x => !ej(x));
+  db.interacciones = db.interacciones.filter(x => !ej(x));
+  db.tareas = db.tareas.filter(x => !ej(x));
+  db.extractos = db.extractos.filter(x => !ej(x));
+  const gone = new Set(db.terceros.filter(ej).map(t => t.id));
+  db.terceros = db.terceros.filter(t => !ej(t));
+  for (const a of db.asientos) { if (gone.has(a.terceroId)) a.terceroId = ''; for (const l of a.lineas) if (gone.has(l.terceroId)) l.terceroId = ''; }
+  for (const k of [db.oportunidades, db.interacciones, db.tareas]) for (const x of k) { if (gone.has(x.terceroId)) x.terceroId = ''; }
+  for (const t of db.terceros) if (gone.has(t.empresaId)) t.empresaId = '';
+  db.ejemplo = false;
+  if (!db.asientos.length) cfg().consecutivos = {};
+  guardar();
+}
+
+/* =====================================================================
+   RESPALDO AUTOMÁTICO: carpeta local (File System Access) y OneDrive (Graph)
+   ===================================================================== */
+const RE_DIA = /^cgfinance-respaldo-\d{4}-\d{2}-\d{2}\.json$/;
+const SinkCarpeta = {
+  id: 'carpeta', nombre: 'Carpeta', handle: null, estado: 'sin', ultimo: null, error: '',
+  soportado: () => 'showDirectoryPicker' in window,
+  listo() { return this.handle && this.estado === 'ok'; },
+  async guardar(nombre, texto) {
+    const fh = await this.handle.getFileHandle(nombre, { create: true });
+    const w = await fh.createWritable(); await w.write(texto); await w.close();
+  },
+  async existe(nombre) { try { await this.handle.getFileHandle(nombre); return true; } catch (e) { if (e.name === 'NotFoundError') return false; throw e; } },
+  async listar() { const n = []; for await (const [k, v] of this.handle.entries()) if (v.kind === 'file') n.push(k); return n; },
+  async borrar(nombre) { await this.handle.removeEntry(nombre); },
+  async leer(nombre) { const fh = await this.handle.getFileHandle(nombre); return (await fh.getFile()).text(); },
+};
+const b64u = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const SinkOneDrive = {
+  id: 'onedrive', nombre: 'OneDrive', estado: 'sin', ultimo: null, error: '',
+  auth: 'https://login.microsoftonline.com/common/oauth2/v2.0',
+  graph: 'https://graph.microsoft.com/v1.0',
+  scopes: 'Files.ReadWrite offline_access User.Read',
+  get activo() { return !!String(ONEDRIVE_CLIENT_ID || '').trim(); },
+  redirect() { return location.origin + location.pathname; },
+  soportado() { return this.activo && location.protocol.startsWith('http') && !!(window.crypto && crypto.subtle); },
+  tokens() { try { return JSON.parse(localStorage.getItem('cg_od_tokens') || 'null'); } catch (e) { return null; } },
+  guardarTokens(t) { try { localStorage.setItem('cg_od_tokens', JSON.stringify(t)); } catch (e) { } },
+  listo() { return this.activo && !!this.tokens(); },
+  async conectar() {
+    const a = new Uint8Array(48); crypto.getRandomValues(a); const verifier = b64u(a);
+    const challenge = b64u(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
+    const st = b64u(crypto.getRandomValues(new Uint8Array(16)));
+    sessionStorage.setItem('cg_od_pkce', JSON.stringify({ verifier, st }));
+    const q = new URLSearchParams({ client_id: ONEDRIVE_CLIENT_ID.trim(), response_type: 'code', redirect_uri: this.redirect(), response_mode: 'query', scope: this.scopes, code_challenge: challenge, code_challenge_method: 'S256', state: st });
+    location.href = this.auth + '/authorize?' + q;
+  },
+  async completarRetorno() {
+    const p = new URLSearchParams(location.search);
+    if (!this.activo || !(p.get('code') && p.get('state'))) return;
+    let g; try { g = JSON.parse(sessionStorage.getItem('cg_od_pkce') || 'null'); } catch (e) { }
+    history.replaceState(null, '', location.pathname + location.hash);
+    if (!g || g.st !== p.get('state')) { toast('OneDrive: respuesta de autorización no válida.', 'error'); return; }
+    sessionStorage.removeItem('cg_od_pkce');
+    try {
+      await this.pedirToken({ grant_type: 'authorization_code', code: p.get('code'), redirect_uri: this.redirect(), code_verifier: g.verifier });
+      toast('OneDrive conectado.', 'ok');
+    } catch (e) { toast('OneDrive: ' + e.message, 'error'); }
+  },
+  async pedirToken(extra) {
+    const r = await fetch(this.auth + '/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(Object.assign({ client_id: ONEDRIVE_CLIENT_ID.trim(), scope: this.scopes }, extra)) });
+    const j = await r.json(); if (!r.ok) throw new Error(j.error_description || j.error || 'error de autorización');
+    const t = { access: j.access_token, refresh: j.refresh_token || (this.tokens() || {}).refresh, exp: Date.now() + (j.expires_in - 60) * 1000 };
+    this.guardarTokens(t); return t;
+  },
+  async token() {
+    let t = this.tokens(); if (!t) throw new Error('OneDrive no está conectado');
+    if (Date.now() > t.exp) t = await this.pedirToken({ grant_type: 'refresh_token', refresh_token: t.refresh });
+    return t.access;
+  },
+  desconectar() { localStorage.removeItem('cg_od_tokens'); this.estado = 'sin'; },
+  async g(ruta, op = {}) {
+    const r = await fetch(this.graph + ruta, Object.assign({}, op, { headers: Object.assign({ Authorization: 'Bearer ' + await this.token() }, op.headers || {}) }));
+    return r;
+  },
+  ruta(nombre) { return '/me/drive/root:/' + ONEDRIVE_CARPETA.split('/').map(encodeURIComponent).join('/') + (nombre ? '/' + encodeURIComponent(nombre) : ''); },
+  async guardar(nombre, texto) {
+    const bytes = new TextEncoder().encode(texto);
+    if (bytes.length < 3.5 * 1024 * 1024) {
+      const r = await this.g(this.ruta(nombre) + ':/content', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: bytes });
+      if (!r.ok) throw new Error('Graph ' + r.status);
+    } else {
+      const s = await this.g(this.ruta(nombre) + ':/createUploadSession', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item: { '@microsoft.graph.conflictBehavior': 'replace' } }) });
+      if (!s.ok) throw new Error('Graph ' + s.status);
+      const { uploadUrl } = await s.json();
+      const r = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Range': `bytes 0-${bytes.length - 1}/${bytes.length}` }, body: bytes });
+      if (!r.ok) throw new Error('Graph ' + r.status);
+    }
+  },
+  async existe(nombre) { const r = await this.g(this.ruta(nombre)); if (r.status === 404) return false; if (!r.ok) throw new Error('Graph ' + r.status); return true; },
+  async listar() { const r = await this.g(this.ruta() + ':/children?$select=name&$top=500'); if (r.status === 404) return []; if (!r.ok) throw new Error('Graph ' + r.status); return (await r.json()).value.map(x => x.name); },
+  async borrar(nombre) { await this.g(this.ruta(nombre), { method: 'DELETE' }); },
+  async leer(nombre) { const r = await this.g(this.ruta(nombre) + ':/content'); if (!r.ok) throw new Error('Graph ' + r.status); return r.text(); },
+};
+
+const Respaldo = {
+  timer: null, corriendo: false, repetir: false, pendiente: false,
+  sinks() { return [SinkCarpeta, SinkOneDrive].filter(s => s === SinkCarpeta || s.activo); },
+  async iniciar() {
+    try { const u = localStorage.getItem('cg_ultimo_respaldo'); if (u) SinkCarpeta.ultimo = new Date(u); } catch (e) { }
+    if (!SinkCarpeta.soportado()) { SinkCarpeta.estado = 'nosoporta'; }
+    else {
+      try {
+        const h = await IDB.get('dirHandle');
+        if (h) { SinkCarpeta.handle = h; SinkCarpeta.estado = (await h.queryPermission({ mode: 'readwrite' })) === 'granted' ? 'ok' : 'permiso'; }
+      } catch (e) { }
+    }
+    await SinkOneDrive.completarRetorno();
+    this.pintar();
+  },
+  programar() { this.pendiente = true; clearTimeout(this.timer); this.timer = setTimeout(() => this.ejecutar(), ESPERA_RESPALDO_MS); this.pintar(); },
+  async ahora() { clearTimeout(this.timer); await this.ejecutar(); },
+  async ejecutar() {
+    if (this.corriendo) { this.repetir = true; return; }
+    this.corriendo = true;
+    try {
+      const texto = JSON.stringify(db, null, 1);
+      const nombreDia = `cgfinance-respaldo-${hoy()}.json`;
+      for (const s of this.sinks()) {
+        if (!s.listo()) continue;
+        try {
+          if (s === SinkCarpeta && (await s.handle.queryPermission({ mode: 'readwrite' })) !== 'granted') { s.estado = 'permiso'; continue; }
+          await s.guardar('cgfinance-actual.json', texto);
+          if (!(await s.existe(nombreDia))) { await s.guardar(nombreDia, texto); await this.podar(s); }
+          s.ultimo = new Date(); s.error = ''; s.estado = 'ok';
+          if (s === SinkCarpeta) try { localStorage.setItem('cg_ultimo_respaldo', s.ultimo.toISOString()); } catch (e) { }
+        } catch (e) {
+          if (e && (e.name === 'NotAllowedError' || e.name === 'SecurityError')) s.estado = 'permiso';
+          else { s.estado = 'error'; s.error = (e && e.message) || String(e); }
+        }
+      }
+    } finally {
+      this.corriendo = false; this.pendiente = false;
+      if (this.repetir) { this.repetir = false; this.programar(); }
+    }
+    this.pintar();
+  },
+  async podar(s) {
+    try {
+      const fechas = (await s.listar()).filter(n => RE_DIA.test(n)).sort().reverse();
+      for (const n of fechas.slice(MAX_RESPALDOS_FECHA)) await s.borrar(n);
+    } catch (e) { }
+  },
+  async conectarCarpeta() {
+    if (!SinkCarpeta.soportado()) return this.avisoNoSoportado();
+    let h;
+    try { h = await window.showDirectoryPicker({ id: 'cgfinance-respaldo', mode: 'readwrite', startIn: 'documents' }); }
+    catch (e) { if (e.name !== 'AbortError') toast('No se pudo abrir la carpeta: ' + e.message, 'error'); return; }
+    SinkCarpeta.handle = h; SinkCarpeta.estado = 'ok'; SinkCarpeta.error = '';
+    try { await IDB.set('dirHandle', h); } catch (e) { toast('El navegador no permitió recordar la carpeta.', 'error'); }
+    let hayActual = false; try { await h.getFileHandle('cgfinance-actual.json'); hayActual = true; } catch (e) { }
+    const vacia = !db.asientos.length && !db.terceros.length || db.ejemplo;
+    if (hayActual && vacia) {
+      this.pintar();
+      if (await confirmar('Esta carpeta ya contiene un respaldo (cgfinance-actual.json). ¿Restaurar los datos desde ese archivo? Se reemplazarán los datos que ve ahora en pantalla.', 'Restaurar desde la carpeta', 'No, conservar lo actual')) {
+        await this.restaurar('cgfinance-actual.json', SinkCarpeta); return;
+      }
+    }
+    await this.ahora(); toast('Carpeta de respaldo conectada.', 'ok'); render();
+  },
+  async reconectar() {
+    try {
+      const p = await SinkCarpeta.handle.requestPermission({ mode: 'readwrite' });
+      if (p === 'granted') { SinkCarpeta.estado = 'ok'; await this.ahora(); toast('Respaldo reconectado.', 'ok'); }
+      else toast('Permiso no concedido.', 'error');
+    } catch (e) { toast('No se pudo reconectar: ' + e.message, 'error'); }
+    this.pintar(); if (ui.vista === 'config') render();
+  },
+  async desconectarCarpeta() {
+    SinkCarpeta.handle = null; SinkCarpeta.estado = 'sin'; try { await IDB.del('dirHandle'); } catch (e) { }
+    this.pintar(); render();
+  },
+  avisoNoSoportado() {
+    abrirDialogo(`<div class="dhead"><h2>Respaldo automático no disponible</h2><button class="x" data-act="cerrar">×</button></div>
+    <div class="dbody"><p>Este navegador no soporta la API de acceso a carpetas (File System Access), necesaria para el respaldo automático en OneDrive.</p>
+    <p class="mt">Use <b>Microsoft Edge</b> o <b>Google Chrome</b> en el computador o tableta con Windows/macOS, o descargue el respaldo manualmente con el botón de abajo. Los datos siguen guardados en este navegador.</p></div>
+    <div class="dfoot"><button class="btn" data-act="cerrar">Cerrar</button><button class="btn pri" data-act="exportar-json">Descargar JSON ahora</button></div>`);
+  },
+  async elegirYRestaurar() {
+    if (!SinkCarpeta.soportado()) return this.avisoNoSoportado();
+    let h; try { h = await window.showDirectoryPicker({ id: 'cgfinance-respaldo', mode: 'read' }); } catch (e) { return; }
+    await this.dialogoRestaurar({ nombre: h.name, listar: async () => { const n = []; for await (const [k, v] of h.entries()) if (v.kind === 'file') n.push(k); return n; }, leer: async n => (await (await h.getFileHandle(n)).getFile()).text() });
+  },
+  async dialogoRestaurar(fuente) {
+    let nombres = (await fuente.listar()).filter(n => n === 'cgfinance-actual.json' || RE_DIA.test(n)).sort().reverse();
+    nombres = nombres.filter(n => n === 'cgfinance-actual.json').concat(nombres.filter(n => n !== 'cgfinance-actual.json'));
+    if (!nombres.length) { toast('No hay archivos de respaldo de CG Finance en la carpeta.', 'error'); return; }
+    window._fuenteRestaurar = fuente;
+    abrirDialogo(`<div class="dhead"><h2>Restaurar respaldo</h2><button class="x" data-act="cerrar">×</button></div>
+      <div class="dbody"><p class="muted mb">Carpeta: <b>${esc(fuente.nombre)}</b>. Al restaurar se reemplazan todos los datos actuales.</p>
+      <div class="tablewrap"><table class="t"><tbody>${nombres.map(n => `<tr><td>${esc(n)}${n === 'cgfinance-actual.json' ? ' <span class="tag ok">más reciente</span>' : ''}</td><td class="r"><button class="btn sm pri" data-act="restaurar-archivo" data-n="${esc(n)}">Restaurar</button></td></tr>`).join('')}</tbody></table></div></div>
+      <div class="dfoot"><button class="btn" data-act="cerrar">Cancelar</button></div>`);
+  },
+  async restaurar(nombre, fuente) {
+    try {
+      const texto = await (fuente.leer ? fuente.leer(nombre) : Promise.reject(new Error('sin fuente')));
+      await importarTexto(texto, true);
+    } catch (e) { toast('No se pudo restaurar: ' + e.message, 'error'); }
+  },
+  pintar() {
+    const el = $('#estado-respaldo'); if (!el) return;
+    const c = SinkCarpeta; let h = '';
+    const hora = d => d ? d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) : '';
+    if (c.estado === 'nosoporta') h = `<span class="chip warn" data-act="aviso-nosoporta">⚠ Sin respaldo automático (navegador no compatible) <button data-act="exportar-json">Descargar JSON</button></span>`;
+    else if (c.estado === 'sin') h = `<span class="chip warn" data-act="conectar-carpeta">⚠ Carpeta de respaldo NO conectada <button>Conectar</button></span>`;
+    else if (c.estado === 'permiso') h = `<span class="chip quiet" data-act="reconectar" title="El navegador pide confirmar de nuevo el acceso a la carpeta">Respaldo en pausa · <button>Reconectar</button></span>`;
+    else if (c.estado === 'error') h = `<span class="chip bad" data-act="reintentar-respaldo" title="${esc(c.error)}">⚠ Error de respaldo <button>Reintentar</button></span>`;
+    else h = `<span class="chip ok" title="Carpeta: ${esc(c.handle ? c.handle.name : '')}">${this.pendiente || this.corriendo ? '⟳ Guardando…' : '✓ Respaldo: ' + (c.ultimo ? (c.ultimo.toDateString() === new Date().toDateString() ? 'hoy ' : fmtFecha(isoDe(c.ultimo)) + ' ') + hora(c.ultimo) : 'sin cambios aún')}</span>`;
+    if (SinkOneDrive.activo) {
+      const o = SinkOneDrive;
+      h += o.listo() ? ` <span class="chip ok">OneDrive ✓${o.ultimo ? ' ' + hora(o.ultimo) : ''}</span>` : ` <span class="chip warn" data-act="conectar-onedrive">OneDrive sin conectar</span>`;
+      if (o.estado === 'error') h += ` <span class="chip bad" title="${esc(o.error)}">OneDrive: error</span>`;
+    }
+    el.innerHTML = h;
+    if (ui.vista === 'config' && !$('dialog[open]')) { const p = $('#panel-respaldo'); if (p) p.innerHTML = panelRespaldo(); }
+  },
+};
+
+async function importarTexto(texto, restaurando) {
+  let o; try { o = JSON.parse(texto.replace(/^﻿/, '')); } catch (e) { toast('El archivo no es un JSON válido.', 'error'); return; }
+  try { db = normalizar(o); } catch (e) { toast(e.message, 'error'); return; }
+  cerrarDialogo(); guardar(); render();
+  if (restaurando) Respaldo.ahora();
+  toast(`Datos ${restaurando ? 'restaurados' : 'importados'}: ${db.asientos.length} asientos, ${db.terceros.length} terceros, ${db.oportunidades.length} oportunidades.`, 'ok');
+}
+function exportarJSON() {
+  descargar(`cgfinance-${hoy()}.json`, JSON.stringify(db, null, 1), 'application/json;charset=utf-8');
+  toast('Archivo JSON descargado.', 'ok');
+}
+
+/* ---------- Diálogos ---------- */
+function abrirDialogo(html, ancho, el) {
+  const d = el || $('#dlg'); d.className = ancho || ''; d.innerHTML = html;
+  if (!d.open) d.showModal(); return d;
+}
+function cerrarDialogo() { for (const d of $$('dialog[open]')) d.close(); }
+function confirmar(msg, si, no) {
+  return new Promise(res => {
+    const d = $('#dlg2'); d.className = '';
+    d.innerHTML = `<div class="dbody" style="padding:22px 22px 8px"><p>${esc(msg)}</p></div><div class="dfoot"><button class="btn" data-r="0">${esc(no || 'Cancelar')}</button><button class="btn pri" data-r="1">${esc(si || 'Aceptar')}</button></div>`;
+    const fin = v => { d.removeEventListener('click', h); d.removeEventListener('cancel', c); d.close(); res(v); };
+    const h = e => { const b = e.target.closest('[data-r]'); if (b) fin(b.dataset.r === '1'); };
+    const c = e => { e.preventDefault(); fin(false); };
+    d.addEventListener('click', h); d.addEventListener('cancel', c); d.showModal();
+  });
+}
+
+/* =====================================================================
+   INTERFAZ: navegación, componentes comunes
+   ===================================================================== */
+const VISTAS = {}, POST = {}, FORMS = {}, ACC = {}, LISTAS = {};
+const sum = (arr, f) => arr.reduce((s, x) => s + (f ? f(x) : x), 0);
+const tareaVencida = t => !t.hecha && t.fecha && t.fecha < hoy();
+function ultimaActividad(o) {
+  let m = o.ultimoMovimiento || o.creada || hoy();
+  for (const i of db.interacciones) if (i.oportunidadId === o.id && i.fecha > m && i.fecha <= hoy()) m = i.fecha;
+  return m;
+}
+const diasSin = o => diasEntre(ultimaActividad(o), hoy());
+const sinMovimiento = o => ABIERTAS.includes(o.etapa) && diasSin(o) > cfg().diasSinMovimiento;
+
+const NAV = [
+  ['Resumen', [['tablero', 'Tablero']]],
+  ['CRM', [['oportunidades', 'Oportunidades'], ['terceros', 'Terceros y contactos'], ['interacciones', 'Interacciones'], ['tareas', 'Tareas']]],
+  ['Contabilidad', [['asientos', 'Asientos contables'], ['conciliacion', 'Conciliación bancaria'], ['reportes', 'Reportes'], ['cuentas', 'Catálogo de cuentas']]],
+  ['Datos', [['exportar', 'Exportar a CSV'], ['config', 'Respaldo y configuración']]],
+];
+function pintarNav() {
+  const venc = db.tareas.filter(tareaVencida).length;
+  $('#nav').innerHTML = NAV.map(([g, items]) => `<div class="grp">${g}</div>` + items.map(([id, t]) => `<a data-ir="${id}" class="${ui.vista === id ? 'on' : ''}">${t}${id === 'tareas' && venc ? `<span class="badge">${venc}</span>` : ''}</a>`).join('')).join('')
+    + `<div class="aviso">Esta aplicación <b>no emite facturas electrónicas</b>. Emítalas en el portal gratuito de la DIAN y registre aquí el asiento contable.</div>`;
+}
+function pintarBanner() {
+  const b = $('#banner');
+  b.innerHTML = db.ejemplo ? `<div class="banner info"><b>Está viendo datos de ejemplo.</b> <span>Explore la aplicación y, cuando quiera, bórrelos con un clic.</span>
+    <button class="btn sm pri" data-act="borrar-ejemplo">Borrar datos de ejemplo</button>
+    <span class="small">¿Ya usaba la aplicación en otro equipo? <a href="#" data-act="elegir-restaurar">Restaurar desde la carpeta de respaldo</a> · <a href="#" data-act="importar-json">Importar JSON</a></span></div>` : '';
+}
+function irA(v) { ui.vista = v; if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v); render(); window.scrollTo(0, 0); }
+function render() {
+  if (!VISTAS[ui.vista]) ui.vista = 'tablero';
+  pintarNav(); pintarBanner();
+  $('#main').innerHTML = VISTAS[ui.vista]();
+  const post = POST[ui.vista]; if (post) post();
+}
+function cabecera(titulo, sub, acciones) { return `<div class="pagehead"><div><h1>${titulo}</h1>${sub ? `<p>${sub}</p>` : ''}</div><div class="actions">${acciones || ''}</div></div>`; }
+function campoFecha(name, iso, extra) {
+  return `<span class="fecha-wrap"><input type="text" class="fecha" name="${name}" inputmode="numeric" maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off" value="${fmtFecha(iso || '')}" ${extra || ''}><button type="button" class="cal" data-act="calendario" tabindex="-1" aria-label="Abrir calendario">📅</button><input type="date" class="calh" tabindex="-1" aria-hidden="true" value="${iso || ''}"></span>`;
+}
+const filtro = (v, k, def) => ((ui.f[v] = ui.f[v] || {})[k] ?? def ?? '');
+const optsTerceros = () => '';
+function tagRoles(t) { return (t.roles || []).map(r => `<span class="tag ${r === 'cliente' ? 'ok' : r === 'proveedor' ? 'info' : ''}">${{ cliente: 'Cliente', proveedor: 'Proveedor', contacto: 'Contacto' }[r] || r}</span>`).join(' '); }
+function tablaVacia(msg) { return `<div class="empty">${msg}</div>`; }
+function errores(lista) { return `<div class="err"><b>Revise lo siguiente:</b><ul>${lista.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div>`; }
+function mostrarErrores(form, lista) { let e = $('.errbox', form); if (!e) { e = document.createElement('div'); e.className = 'errbox'; form.querySelector('.dbody').appendChild(e); } e.innerHTML = lista.length ? errores(lista) : ''; if (lista.length) e.scrollIntoView({ block: 'nearest' }); }
+const nombreTerc = id => id ? esc(terceroNombre(id) || '(eliminado)') : '<span class="muted">—</span>';
+
+/* ---------- Tablero ---------- */
+function resultadoPeriodo(desde, hasta) {
+  const m = saldosPorCuenta({ desde, hasta }); let ing = 0, gas = 0;
+  for (const r of m.values()) { const net = r.deb - r.cred; if (desde && false) { } if (r.codigo[0] === '4') ing -= net; else if (r.codigo[0] === '5' || r.codigo[0] === '6') gas += net; }
+  return { ing, gas, util: ing - gas };
+}
+function vTablero() {
+  const ops = db.oportunidades, abiertas = ops.filter(o => ABIERTAS.includes(o.etapa));
+  const vNeg = sum(ops.filter(o => o.etapa === 'negociacion'), o => o.valor);
+  const pond = sum(abiertas, o => o.valor * o.probabilidad / 100);
+  const anio = hoy().slice(0, 4);
+  const ganAnio = ops.filter(o => o.etapa === 'ganada' && (o.fechaCierre || '').startsWith(anio));
+  const stale = abiertas.filter(sinMovimiento).sort((a, b) => diasSin(b) - diasSin(a));
+  const venc = db.tareas.filter(tareaVencida).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  const prox = db.tareas.filter(t => !t.hecha && !tareaVencida(t) && t.fecha <= sumarDias(hoy(), 7)).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  const maxV = Math.max(1, ...ETAPAS.map(e => sum(ops.filter(o => o.etapa === e.id), o => o.valor)));
+  const res = resultadoPeriodo(anio + '-01-01', hoy());
+  const linkTarea = t => `<div class="it" style="display:flex;justify-content:space-between;gap:8px"><span>${esc(t.titulo)} <span class="muted small">${t.terceroId ? '· ' + esc(terceroNombre(t.terceroId)) : ''}</span></span><span class="tag ${tareaVencida(t) ? 'bad' : 'info'}">${fmtFecha(t.fecha)}</span></div>`;
+  return cabecera('Tablero', 'Resumen comercial y contable a ' + fmtFecha(hoy()), `<button class="btn pri" data-act="nueva-opp">＋ Nueva oportunidad</button><button class="btn navy" data-act="nuevo-asiento">＋ Nuevo asiento</button>`) + `
+  <div class="grid g4">
+    <div class="card kpi"><div class="l">En negociación</div><div class="v">${fmt(vNeg)}</div><div class="s">${ops.filter(o => o.etapa === 'negociacion').length} oportunidad(es)</div></div>
+    <div class="card kpi"><div class="l">Embudo ponderado</div><div class="v">${fmt(pond)}</div><div class="s">${abiertas.length} abiertas · valor × probabilidad</div></div>
+    <div class="card kpi"><div class="l">Ganado ${anio}</div><div class="v">${fmt(sum(ganAnio, o => o.valor))}</div><div class="s">${ganAnio.length} oportunidad(es) ganada(s)</div></div>
+    <div class="card kpi"><div class="l">Tareas vencidas</div><div class="v${venc.length ? ' neg' : ''}">${venc.length}</div><div class="s">${prox.length} para los próximos 7 días</div></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card funnel"><h3>Embudo por etapa</h3>${ETAPAS.map(e => { const l = ops.filter(o => o.etapa === e.id), v = sum(l, o => o.valor); return `<div class="bar"><div class="name">${e.nombre}</div><div class="track"><div class="fill" style="width:${Math.max(v ? 2 : 0, v / maxV * 100)}%;${e.id === 'ganada' ? 'background:var(--ok)' : e.id === 'perdida' ? 'background:#9aa3b8' : ''}"></div></div><div class="val"><b>${fmt(v)}</b> · ${l.length}</div></div>`; }).join('')}</div>
+    <div class="card"><h3>Sin movimiento en más de ${cfg().diasSinMovimiento} días</h3>
+      ${stale.length ? `<div class="timeline mt">${stale.map(o => `<div class="it" style="display:flex;justify-content:space-between;gap:8px;cursor:pointer" data-act="editar-opp" data-id="${o.id}"><span><b>${esc(o.titulo)}</b><br><span class="muted small">${esc(terceroNombre(o.terceroId))} · ${ETAPA[o.etapa].nombre} · ${fmt(o.valor)}</span></span><span class="tag warn">${diasSin(o)} días</span></div>`).join('')}</div>` : '<p class="muted mt">Todas las oportunidades abiertas tienen movimiento reciente. ✓</p>'}</div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="card"><h3>Tareas de seguimiento</h3><div class="timeline mt">${[...venc, ...prox].map(linkTarea).join('') || '<p class="muted">Sin tareas vencidas ni próximas.</p>'}</div><p class="mt"><a href="#" data-ir="tareas">Ver todas las tareas →</a></p></div>
+    <div class="card"><h3>Contabilidad (año ${anio})</h3>
+      <dl class="kv mt"><dt>Caja y bancos</dt><dd><b>${fmt(saldoCuenta('11'))}</b></dd><dt>Cuentas por cobrar</dt><dd><b>${fmt(saldoCuenta('13'))}</b></dd><dt>IVA por pagar (neto)</dt><dd><b>${fmt(-saldoCuenta('2408'))}</b></dd>
+      <dt>Ingresos del año</dt><dd>${fmt(res.ing)}</dd><dt>Gastos y costos</dt><dd>${fmt(res.gas)}</dd><dt>Resultado</dt><dd class="${cls(res.util)}"><b>${fmt(res.util)}</b></dd></dl>
+      <p class="mt"><a href="#" data-ir="reportes">Ver reportes →</a></p></div>
+  </div>`;
+}
+
+/* ---------- Terceros ---------- */
+function listaTerceros() {
+  const q = filtro('terceros', 'q').toLowerCase(), rol = filtro('terceros', 'rol'), tp = filtro('terceros', 'tp');
+  const l = db.terceros.filter(t => (!q || (t.nombre + ' ' + t.documento + ' ' + (t.ciudad || '') + ' ' + (t.correo || '')).toLowerCase().includes(q)) && (!rol || (t.roles || []).includes(rol)) && (!tp || t.tipoPersona === tp)).sort((a, b) => a.nombre.localeCompare(b.nombre));
+  if (!l.length) return tablaVacia('No hay terceros que coincidan. Use “Nuevo tercero” para crear uno.');
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Documento</th><th>Nombre</th><th>Persona</th><th>Ciudad</th><th>Correo</th><th>Roles</th><th>Empresa</th></tr></thead><tbody>${l.map(t => `<tr class="click" data-act="ficha-tercero" data-id="${t.id}"><td>${esc(t.tipoDoc)} ${esc(docConDV(t)) || '<span class="muted">s/d</span>'}</td><td><b>${esc(t.nombre)}</b>${t.cargo ? `<br><span class="muted small">${esc(t.cargo)}</span>` : ''}</td><td>${esc(t.tipoPersona)}</td><td>${esc(t.ciudad)}</td><td>${esc(t.correo)}</td><td>${tagRoles(t)}</td><td>${t.empresaId ? esc(terceroNombre(t.empresaId)) : ''}</td></tr>`).join('')}</tbody></table></div><p class="muted small mt">${l.length} de ${db.terceros.length} terceros</p>`;
+}
+function vTerceros() {
+  return cabecera('Terceros y contactos', 'Un solo maestro para contabilidad y CRM. Se exporta a CSV con NIT y dígito de verificación.', `<button class="btn pri" data-act="nuevo-tercero">＋ Nuevo tercero</button>`) + `
+  <div class="filters"><div class="f"><label>Buscar</label><input type="search" data-filtro="q" placeholder="Nombre, NIT, ciudad, correo" value="${esc(filtro('terceros', 'q'))}"></div>
+  <div class="f"><label>Rol</label><select data-filtro="rol"><option value="">Todos</option>${[['cliente', 'Clientes'], ['proveedor', 'Proveedores'], ['contacto', 'Contactos / prospectos']].map(([v, t]) => `<option value="${v}" ${filtro('terceros', 'rol') === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+  <div class="f"><label>Persona</label><select data-filtro="tp"><option value="">Todas</option><option ${filtro('terceros', 'tp') === 'Jurídica' ? 'selected' : ''}>Jurídica</option><option ${filtro('terceros', 'tp') === 'Natural' ? 'selected' : ''}>Natural</option></select></div></div>
+  <div id="lista">${listaTerceros()}</div>`;
+}
+function formTercero(id, pre) {
+  const t = Object.assign({ tipoDoc: 'NIT', documento: '', dv: '', nombre: '', tipoPersona: 'Jurídica', ciudad: '', correo: '', telefono: '', direccion: '', roles: ['cliente'], empresaId: '', cargo: '', notas: '' }, id ? idx.terceros.get(id) : pre || {});
+  const empresas = db.terceros.filter(x => x.tipoPersona === 'Jurídica' && x.id !== t.id).sort((a, b) => a.nombre.localeCompare(b.nombre));
+  abrirDialogo(`<form data-form="tercero" data-id="${id || ''}" novalidate><div class="dhead"><h2>${id ? 'Editar' : 'Nuevo'} tercero</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
+    <div class="f s2"><label>Tipo de documento</label><select name="tipoDoc">${TIPOS_DOC.map(x => `<option ${t.tipoDoc === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div>
+    <div class="f s2"><label>NIT / cédula</label><input type="text" name="documento" inputmode="numeric" value="${esc(t.documento)}" autocomplete="off"></div>
+    <div class="f s2"><label>Dígito de verificación</label><input type="text" name="dv" value="${esc(t.dv)}" readonly tabindex="-1" title="Se calcula automáticamente para NIT"></div>
+    <div class="f s4"><label>Razón social o nombre completo *</label><input type="text" name="nombre" value="${esc(t.nombre)}"></div>
+    <div class="f s2"><label>Tipo de persona</label><select name="tipoPersona"><option ${t.tipoPersona === 'Jurídica' ? 'selected' : ''}>Jurídica</option><option ${t.tipoPersona === 'Natural' ? 'selected' : ''}>Natural</option></select></div>
+    <div class="f s6"><label>Roles</label><div class="pill-row" style="min-height:38px;align-items:center">${[['cliente', 'Cliente'], ['proveedor', 'Proveedor'], ['contacto', 'Contacto / prospecto']].map(([v, l]) => `<label style="display:flex;gap:6px;align-items:center;margin-right:14px;font-size:.92rem"><input type="checkbox" name="rol_${v}" ${(t.roles || []).includes(v) ? 'checked' : ''}> ${l}</label>`).join('')}</div></div>
+    <div class="f"><label>Empresa a la que pertenece (si es contacto)</label><select name="empresaId"><option value="">— Ninguna —</option>${empresas.map(e => `<option value="${e.id}" ${t.empresaId === e.id ? 'selected' : ''}>${esc(e.nombre)}</option>`).join('')}</select></div>
+    <div class="f"><label>Cargo</label><input type="text" name="cargo" value="${esc(t.cargo)}"></div>
+    <div class="f"><label>Ciudad</label><input type="text" name="ciudad" value="${esc(t.ciudad)}"></div>
+    <div class="f"><label>Correo electrónico</label><input type="email" name="correo" value="${esc(t.correo)}"></div>
+    <div class="f"><label>Teléfono</label><input type="tel" name="telefono" value="${esc(t.telefono)}"></div>
+    <div class="f"><label>Dirección</label><input type="text" name="direccion" value="${esc(t.direccion)}"></div>
+    <div class="f s6"><label>Notas</label><textarea name="notas">${esc(t.notas)}</textarea></div></div></div>
+    <div class="dfoot">${id ? `<button type="button" class="btn bad" data-act="borrar-tercero" data-id="${id}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`, 'mid');
+  const f = $('#dlg form'); actualizarDV(f);
+}
+function actualizarDV(f) { const tipo = f.elements.tipoDoc.value; f.elements.dv.value = tipo === 'NIT' ? calcularDV(f.elements.documento.value) : ''; }
+
+FORMS.tercero = function (f) {
+  const g = n => f.elements[n];
+  const id = f.dataset.id, err = [];
+  const t = { tipoDoc: g('tipoDoc').value, documento: g('documento').value.replace(/[\s.\-]/g, ''), nombre: g('nombre').value.trim().replace(/\s+/g, ' '), tipoPersona: g('tipoPersona').value,
+    ciudad: g('ciudad').value.trim(), correo: g('correo').value.trim(), telefono: g('telefono').value.trim(), direccion: g('direccion').value.trim(), empresaId: g('empresaId').value, cargo: g('cargo').value.trim(), notas: g('notas').value.trim(),
+    roles: ['cliente', 'proveedor', 'contacto'].filter(r => g('rol_' + r).checked) };
+  t.dv = t.tipoDoc === 'NIT' ? calcularDV(t.documento) : '';
+  if (!t.nombre) err.push('El nombre o razón social es obligatorio.');
+  if (t.documento && t.tipoDoc !== 'Pasaporte' && !/^\d+$/.test(t.documento)) err.push('El documento debe contener solo números.');
+  if (!t.documento && (t.roles.includes('cliente') || t.roles.includes('proveedor'))) err.push('Los clientes y proveedores necesitan NIT o cédula (se usa en contabilidad y en la exportación).');
+  if (t.documento && db.terceros.some(x => x.id !== id && x.documento === t.documento && x.tipoDoc === t.tipoDoc)) err.push('Ya existe un tercero con ese documento.');
+  if (t.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.correo)) err.push('El correo electrónico no parece válido.');
+  if (!t.roles.length) t.roles = ['contacto'];
+  if (err.length) return mostrarErrores(f, err);
+  let tid = id;
+  if (id) Object.assign(idx.terceros.get(id), t); else { tid = uid('t'); db.terceros.push(Object.assign({ id: tid }, t)); }
+  guardar(); cerrarDialogo(); render(); toast('Tercero guardado.', 'ok');
+  if (ACC._alGuardarTercero) { const cb = ACC._alGuardarTercero; ACC._alGuardarTercero = null; cb(tid); }
+};
+function usoTercero(id) {
+  return { asientos: db.asientos.filter(a => a.terceroId === id || a.lineas.some(l => l.terceroId === id)).length, opps: db.oportunidades.filter(o => o.terceroId === id).length, ints: db.interacciones.filter(o => o.terceroId === id).length, tareas: db.tareas.filter(o => o.terceroId === id).length };
+}
+ACC['nuevo-tercero'] = () => formTercero();
+ACC['ficha-tercero'] = el => fichaTercero(el.dataset.id);
+ACC['editar-tercero'] = el => formTercero(el.dataset.id);
+ACC['borrar-tercero'] = async el => {
+  const id = el.dataset.id, u = usoTercero(id);
+  if (u.asientos) { toast(`No se puede eliminar: tiene ${u.asientos} asiento(s) contable(s).`, 'error'); return; }
+  if (!await confirmar(`¿Eliminar a ${terceroNombre(id)}? ${u.opps + u.ints + u.tareas ? `También se eliminarán ${u.opps} oportunidad(es), ${u.ints} interacción(es) y ${u.tareas} tarea(s) asociadas.` : ''}`, 'Eliminar')) return;
+  db.oportunidades = db.oportunidades.filter(o => o.terceroId !== id); db.interacciones = db.interacciones.filter(o => o.terceroId !== id); db.tareas = db.tareas.filter(o => o.terceroId !== id);
+  db.terceros = db.terceros.filter(t => t.id !== id); for (const t of db.terceros) if (t.empresaId === id) t.empresaId = '';
+  guardar(); cerrarDialogo(); render(); toast('Tercero eliminado.');
+};
+function fichaTercero(id) {
+  const t = idx.terceros.get(id); if (!t) return;
+  const ops = db.oportunidades.filter(o => o.terceroId === id), ints = db.interacciones.filter(i => i.terceroId === id).sort((a, b) => a.fecha < b.fecha ? 1 : -1);
+  const tks = db.tareas.filter(k => k.terceroId === id && !k.hecha), nas = usoTercero(id).asientos;
+  const contactos = db.terceros.filter(c => c.empresaId === id);
+  abrirDialogo(`<div class="dhead"><div><h2>${esc(t.nombre)}</h2><div>${tagRoles(t)} <span class="muted small">${esc(t.tipoPersona)}</span></div></div><button class="x" data-act="cerrar">×</button></div><div class="dbody">
+  <dl class="kv"><dt>${esc(t.tipoDoc)}</dt><dd>${esc(docConDV(t)) || '—'}</dd><dt>Ciudad</dt><dd>${esc(t.ciudad) || '—'}</dd><dt>Correo</dt><dd>${t.correo ? `<a href="mailto:${esc(t.correo)}">${esc(t.correo)}</a>` : '—'}</dd><dt>Teléfono</dt><dd>${esc(t.telefono) || '—'}</dd>
+  ${t.empresaId ? `<dt>Empresa</dt><dd>${esc(terceroNombre(t.empresaId))} ${t.cargo ? '· ' + esc(t.cargo) : ''}</dd>` : ''}${t.direccion ? `<dt>Dirección</dt><dd>${esc(t.direccion)}</dd>` : ''}${t.notas ? `<dt>Notas</dt><dd>${esc(t.notas)}</dd>` : ''}
+  ${contactos.length ? `<dt>Contactos</dt><dd>${contactos.map(c => esc(c.nombre)).join(', ')}</dd>` : ''}<dt>Asientos</dt><dd>${nas} con este tercero</dd></dl>
+  <hr class="sep"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Oportunidades (${ops.length})</h3><button class="btn sm" data-act="nueva-opp" data-ter="${id}">＋ Oportunidad</button></div>
+  ${ops.map(o => `<div class="it" style="padding:6px 0;cursor:pointer" data-act="editar-opp" data-id="${o.id}"><b>${esc(o.titulo)}</b> · <span class="tag">${ETAPA[o.etapa].nombre}</span> ${fmt(o.valor)}</div>`).join('') || '<p class="muted small">Ninguna.</p>'}
+  <hr class="sep"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Interacciones (${ints.length})</h3><button class="btn sm" data-act="nueva-int" data-ter="${id}">＋ Interacción</button></div>
+  ${ints.slice(0, 8).map(i => `<div class="it" style="padding:6px 0"><span class="tag info">${TIPOS_INT[i.tipo]}</span> <b>${fmtFecha(i.fecha)}</b> — ${esc(i.nota)}</div>`).join('') || '<p class="muted small">Ninguna.</p>'}
+  <hr class="sep"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Tareas pendientes (${tks.length})</h3><button class="btn sm" data-act="nueva-tarea" data-ter="${id}">＋ Tarea</button></div>
+  ${tks.map(k => `<div class="it" style="padding:6px 0">${esc(k.titulo)} <span class="tag ${tareaVencida(k) ? 'bad' : 'info'}">${fmtFecha(k.fecha)}</span></div>`).join('') || '<p class="muted small">Ninguna.</p>'}
+  </div><div class="dfoot"><button class="btn" data-act="cerrar">Cerrar</button><button class="btn pri" data-act="editar-tercero" data-id="${id}">Editar datos</button></div>`, 'mid');
+}
+
+/* ---------- Oportunidades (CRM) ---------- */
+function tarjetaOpp(o) {
+  const ds = diasSin(o), stale = sinMovimiento(o), abierta = ABIERTAS.includes(o.etapa);
+  return `<div class="opp ${stale ? 'stale' : ''}" draggable="true" data-opp="${o.id}">
+    <div class="ti" style="cursor:pointer" data-act="editar-opp" data-id="${o.id}">${esc(o.titulo)}</div><div class="te">${nombreTerc(o.terceroId)}</div>
+    <div class="va">${fmt(o.valor)}</div>
+    <div class="meta"><span class="tag">${o.probabilidad}%</span>${o.servicio ? `<span class="tag info">${esc(o.servicio)}</span>` : ''}${o.fechaCierre ? `<span class="tag ${abierta && o.fechaCierre < hoy() ? 'bad' : ''}">Cierre ${fmtFecha(o.fechaCierre)}</span>` : ''}${stale ? `<span class="tag warn">⏱ ${ds} días sin movimiento</span>` : ''}${o.etapa === 'ganada' ? (o.asientoId && idx.asientos.get(o.asientoId) ? `<span class="tag ok">Asiento ${esc(idx.asientos.get(o.asientoId).numero)}</span>` : `<span class="tag warn">Sin asiento</span>`) : ''}</div>
+    <div class="row"><select data-act-change="mover-opp" data-id="${o.id}" aria-label="Mover a etapa">${ETAPAS.map(e => `<option value="${e.id}" ${o.etapa === e.id ? 'selected' : ''}>${e.nombre}</option>`).join('')}</select>
+    <button class="btn sm" data-act="nueva-int" data-ter="${o.terceroId}" data-opp="${o.id}" title="Registrar interacción">✉</button>
+    ${o.etapa === 'ganada' && !(o.asientoId && idx.asientos.get(o.asientoId)) ? `<button class="btn sm pri" data-act="asiento-opp" data-id="${o.id}">Crear asiento</button>` : ''}</div></div>`;
+}
+function vOportunidades() {
+  const ops = db.oportunidades;
+  return cabecera('Oportunidades', 'Arrastre las tarjetas entre etapas o use el selector de cada una.', `<button class="btn pri" data-act="nueva-opp">＋ Nueva oportunidad</button>`) + `
+  <div class="kanban">${ETAPAS.map(e => { const l = ops.filter(o => o.etapa === e.id).sort((a, b) => (a.fechaCierre || '9') < (b.fechaCierre || '9') ? -1 : 1); return `<div class="col" data-col="${e.id}"><h3><span>${e.nombre}</span><span>${l.length}</span></h3><div class="sum">${fmt(sum(l, o => o.valor))}${ABIERTAS.includes(e.id) ? ' · pond. ' + fmt(sum(l, o => o.valor * o.probabilidad / 100)) : ''}</div>${l.map(tarjetaOpp).join('')}</div>`; }).join('')}</div>`;
+}
+POST.oportunidades = () => {
+  let arrastrando = null;
+  $$('.opp').forEach(c => { c.addEventListener('dragstart', e => { arrastrando = c.dataset.opp; e.dataTransfer.setData('text/plain', arrastrando); e.dataTransfer.effectAllowed = 'move'; }); });
+  $$('.col').forEach(col => {
+    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('over'));
+    col.addEventListener('drop', e => { e.preventDefault(); col.classList.remove('over'); const id = e.dataTransfer.getData('text/plain') || arrastrando; if (id) cambiarEtapa(id, col.dataset.col); });
+  });
+};
+async function cambiarEtapa(id, etapa) {
+  const o = idx.opps.get(id); if (!o || o.etapa === etapa) return;
+  o.etapa = etapa; o.ultimoMovimiento = hoy(); o.probabilidad = ETAPA[etapa].prob;
+  if (etapa === 'ganada' || etapa === 'perdida') o.fechaCierre = hoy();
+  guardar(); render();
+  if (etapa === 'ganada') ofrecerFactura(o);
+  else if (etapa === 'perdida') formOpp(id);
+}
+function ofrecerFactura(o) {
+  if (o.asientoId && idx.asientos.get(o.asientoId)) { toast('Oportunidad ganada. Ya tiene el asiento ' + idx.asientos.get(o.asientoId).numero + '.', 'ok'); return; }
+  abrirDialogo(`<div class="dhead"><h2>🎉 Oportunidad ganada</h2><button class="x" data-act="cerrar">×</button></div><div class="dbody">
+    <p><b>${esc(o.titulo)}</b> — ${esc(terceroNombre(o.terceroId))} — ${fmt(o.valor)}</p>
+    <p class="mt">¿Desea crear ahora el asiento de la factura de honorarios? Se abrirá el comprobante con el tercero ya diligenciado y el valor como base antes de IVA (IVA ${cfg().ivaTarifa}% y retención sugeridos, editables).</p>
+    <div class="notice mt">La aplicación no emite la factura electrónica: emítala en el portal gratuito de la DIAN y aquí registre el asiento.</div></div>
+    <div class="dfoot"><button class="btn" data-act="cerrar">Más tarde</button><button class="btn pri" data-act="asiento-opp" data-id="${o.id}">Sí, crear el asiento</button></div>`);
+}
+ACC['asiento-opp'] = el => {
+  const o = idx.opps.get(el.dataset.id); const t = idx.terceros.get(o.terceroId) || {};
+  cerrarDialogo();
+  abrirAsiento({ plantilla: { tipo: 'FV', fecha: hoy(), terceroId: o.terceroId, concepto: `Honorarios ${o.servicio || o.titulo}${o.servicio && o.titulo ? ' — ' + o.titulo : ''}`, oportunidadId: o.id, wizard: { modo: 'venta', base: o.valor, iva: true, rete: t.tipoPersona === 'Jurídica' } } });
+};
+ACC['nueva-opp'] = el => formOpp(null, el && el.dataset && el.dataset.ter ? { terceroId: el.dataset.ter } : null);
+ACC['editar-opp'] = el => formOpp(el.dataset.id);
+function formOpp(id, pre) {
+  const o = Object.assign({ terceroId: '', titulo: '', servicio: '', etapa: 'prospecto', valor: 0, probabilidad: 10, fechaCierre: sumarDias(hoy(), 30), motivoPerdida: '' }, id ? idx.opps.get(id) : pre || {});
+  abrirDialogo(`<form data-form="opp" data-id="${id || ''}" novalidate><div class="dhead"><h2>${id ? 'Editar' : 'Nueva'} oportunidad</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
+    <div class="f s6"><label>Cliente o prospecto (tercero) *</label><input type="text" name="tercero" list="dl-terceros" value="${esc(o.terceroId ? textoTercero(o.terceroId) : '')}" placeholder="Escriba para buscar…" autocomplete="off"><span class="muted small">¿No existe? <a href="#" data-act="tercero-desde-opp">Créelo aquí</a></span></div>
+    <div class="f s6"><label>Título *</label><input type="text" name="titulo" value="${esc(o.titulo)}"></div>
+    <div class="f"><label>Servicio asociado</label><input type="text" name="servicio" list="dl-servicios" value="${esc(o.servicio)}"></div>
+    <div class="f"><label>Etapa</label><select name="etapa">${ETAPAS.map(e => `<option value="${e.id}" ${o.etapa === e.id ? 'selected' : ''}>${e.nombre}</option>`).join('')}</select></div>
+    <div class="f s2"><label>Valor (COP, antes de IVA)</label><input type="text" class="num" name="valor" inputmode="numeric" value="${o.valor ? fmtNum(o.valor) : ''}"></div>
+    <div class="f s2"><label>Probabilidad (%)</label><input type="text" class="num" name="probabilidad" inputmode="numeric" value="${o.probabilidad}"></div>
+    <div class="f s2"><label>Cierre estimado</label>${campoFecha('fechaCierre', o.fechaCierre)}</div>
+    <div class="f s6"><label>Motivo de pérdida (si aplica)</label><input type="text" name="motivoPerdida" value="${esc(o.motivoPerdida || '')}"></div></div></div>
+    <div class="dfoot">${id ? `<button type="button" class="btn bad" data-act="borrar-opp" data-id="${id}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`, 'mid');
+  const f = $('#dlg form'); f._etapaInicial = o.etapa; f._probInicial = String(o.probabilidad);
+}
+ACC['tercero-desde-opp'] = () => {
+  const f = $('#dlg form'), datos = { titulo: f.elements.titulo.value, servicio: f.elements.servicio.value, etapa: f.elements.etapa.value, valor: parseCOP(f.elements.valor.value), probabilidad: parseInt(f.elements.probabilidad.value) || 0, fechaCierre: parseFecha(f.elements.fechaCierre.value) || '' };
+  ACC._alGuardarTercero = tid => formOpp(null, Object.assign(datos, { terceroId: tid }));
+  formTercero(null, { roles: ['cliente'] });
+};
+FORMS.opp = function (f) {
+  const g = n => f.elements[n], id = f.dataset.id, err = [];
+  const terId = resolverTercero(g('tercero').value);
+  const o = { terceroId: terId, titulo: g('titulo').value.trim(), servicio: g('servicio').value.trim(), etapa: g('etapa').value, valor: parseCOP(g('valor').value), probabilidad: Math.min(100, Math.max(0, parseInt(g('probabilidad').value) || 0)), fechaCierre: parseFecha(g('fechaCierre').value), motivoPerdida: g('motivoPerdida').value.trim() };
+  if (!terId) err.push('Seleccione un tercero existente de la lista (o créelo primero).');
+  if (!o.titulo) err.push('El título es obligatorio.');
+  if (o.valor < 0) err.push('El valor no puede ser negativo.');
+  if (g('fechaCierre').value.trim() && !o.fechaCierre) err.push('La fecha de cierre debe tener formato DD/MM/AAAA.');
+  if (err.length) return mostrarErrores(f, err);
+  let actual, cambioEtapa = false;
+  if (id) { actual = idx.opps.get(id); cambioEtapa = actual.etapa !== o.etapa; Object.assign(actual, o); }
+  else { actual = Object.assign({ id: uid('o'), creada: hoy(), asientoId: '' }, o); db.oportunidades.push(actual); cambioEtapa = o.etapa === 'ganada'; }
+  if (cambioEtapa || !id) actual.ultimoMovimiento = hoy();
+  if (id && cambioEtapa && g('probabilidad').value.trim() === f._probInicial) actual.probabilidad = ETAPA[o.etapa].prob;
+  if (cambioEtapa && (o.etapa === 'ganada' || o.etapa === 'perdida') && !g('fechaCierre').value.trim()) actual.fechaCierre = hoy();
+  guardar(); cerrarDialogo(); render(); toast('Oportunidad guardada.', 'ok');
+  if (cambioEtapa && actual.etapa === 'ganada') ofrecerFactura(actual);
+};
+ACC['borrar-opp'] = async el => {
+  const o = idx.opps.get(el.dataset.id);
+  if (!await confirmar(`¿Eliminar la oportunidad “${o.titulo}”? Sus interacciones quedarán sin oportunidad asociada. Los asientos contables no se modifican.`, 'Eliminar')) return;
+  db.oportunidades = db.oportunidades.filter(x => x.id !== o.id); for (const i of db.interacciones) if (i.oportunidadId === o.id) i.oportunidadId = ''; for (const k of db.tareas) if (k.oportunidadId === o.id) k.oportunidadId = '';
+  for (const a of db.asientos) if (a.oportunidadId === o.id) a.oportunidadId = '';
+  guardar(); cerrarDialogo(); render();
+};
+
+/* ---------- Interacciones ---------- */
+function listaInteracciones() {
+  const q = filtro('interacciones', 'q').toLowerCase(), tp = filtro('interacciones', 'tipo');
+  const l = db.interacciones.filter(i => (!tp || i.tipo === tp) && (!q || (i.nota + ' ' + terceroNombre(i.terceroId)).toLowerCase().includes(q))).sort((a, b) => a.fecha < b.fecha ? 1 : -1);
+  if (!l.length) return tablaVacia('Aún no hay interacciones registradas.');
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Fecha</th><th>Tipo</th><th>Tercero</th><th>Oportunidad</th><th>Nota</th></tr></thead><tbody>${l.map(i => `<tr class="click" data-act="editar-int" data-id="${i.id}"><td>${fmtFecha(i.fecha)}</td><td><span class="tag info">${TIPOS_INT[i.tipo]}</span></td><td>${nombreTerc(i.terceroId)}</td><td>${i.oportunidadId && idx.opps.get(i.oportunidadId) ? esc(idx.opps.get(i.oportunidadId).titulo) : ''}</td><td>${esc(i.nota)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function vInteracciones() {
+  return cabecera('Interacciones', 'Llamadas, correos y reuniones con clientes y prospectos.', `<button class="btn pri" data-act="nueva-int">＋ Registrar interacción</button>`) + `
+  <div class="filters"><div class="f"><label>Buscar</label><input type="search" data-filtro="q" value="${esc(filtro('interacciones', 'q'))}" placeholder="Nota o tercero"></div>
+  <div class="f"><label>Tipo</label><select data-filtro="tipo"><option value="">Todos</option>${Object.entries(TIPOS_INT).map(([k, v]) => `<option value="${k}" ${filtro('interacciones', 'tipo') === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div></div><div id="lista">${listaInteracciones()}</div>`;
+}
+ACC['nueva-int'] = el => formInt(null, { terceroId: el && el.dataset ? el.dataset.ter || '' : '', oportunidadId: el && el.dataset ? el.dataset.opp || '' : '' });
+ACC['editar-int'] = el => formInt(el.dataset.id);
+function formInt(id, pre) {
+  const i = Object.assign({ terceroId: '', oportunidadId: '', tipo: 'llamada', fecha: hoy(), nota: '' }, id ? idx.interacciones_get(id) : pre || {});
+  abrirDialogo(`<form data-form="int" data-id="${id || ''}" novalidate><div class="dhead"><h2>${id ? 'Editar' : 'Nueva'} interacción</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
+    <div class="f"><label>Tipo</label><select name="tipo">${Object.entries(TIPOS_INT).map(([k, v]) => `<option value="${k}" ${i.tipo === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
+    <div class="f"><label>Fecha</label>${campoFecha('fecha', i.fecha)}</div>
+    <div class="f s6"><label>Tercero *</label><input type="text" name="tercero" list="dl-terceros" value="${esc(i.terceroId ? textoTercero(i.terceroId) : '')}" autocomplete="off"></div>
+    <div class="f s6"><label>Oportunidad (opcional)</label><select name="oportunidadId"><option value="">— Ninguna —</option>${db.oportunidades.map(o => `<option value="${o.id}" ${i.oportunidadId === o.id ? 'selected' : ''}>${esc(o.titulo)} — ${esc(terceroNombre(o.terceroId))}</option>`).join('')}</select></div>
+    <div class="f s6"><label>Nota *</label><textarea name="nota">${esc(i.nota)}</textarea></div></div></div>
+    <div class="dfoot">${id ? `<button type="button" class="btn bad" data-act="borrar-int" data-id="${id}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`, 'mid');
+}
+idx.interacciones_get = id => db.interacciones.find(x => x.id === id);
+FORMS.int = function (f) {
+  const g = n => f.elements[n], id = f.dataset.id, err = [];
+  const terId = resolverTercero(g('tercero').value), fecha = parseFecha(g('fecha').value);
+  const i = { tipo: g('tipo').value, fecha, terceroId: terId, oportunidadId: g('oportunidadId').value, nota: g('nota').value.trim() };
+  if (!terId) err.push('Seleccione un tercero existente de la lista.');
+  if (!fecha) err.push('La fecha debe tener formato DD/MM/AAAA.');
+  if (!i.nota) err.push('Escriba una nota.');
+  if (err.length) return mostrarErrores(f, err);
+  if (id) Object.assign(idx.interacciones_get(id), i); else db.interacciones.push(Object.assign({ id: uid('i') }, i));
+  if (i.oportunidadId && idx.opps.get(i.oportunidadId) && fecha <= hoy() && fecha > (idx.opps.get(i.oportunidadId).ultimoMovimiento || '')) idx.opps.get(i.oportunidadId).ultimoMovimiento = fecha;
+  guardar(); cerrarDialogo(); render(); toast('Interacción guardada.', 'ok');
+};
+ACC['borrar-int'] = async el => { if (!await confirmar('¿Eliminar esta interacción?', 'Eliminar')) return; db.interacciones = db.interacciones.filter(x => x.id !== el.dataset.id); guardar(); cerrarDialogo(); render(); };
+
+/* ---------- Tareas ---------- */
+function listaTareas() {
+  const m = filtro('tareas', 'estado', 'pend');
+  let l = db.tareas.filter(t => m === 'todas' || (m === 'pend' && !t.hecha) || (m === 'venc' && tareaVencida(t)) || (m === 'hechas' && t.hecha));
+  l.sort((a, b) => (a.hecha - b.hecha) || (a.fecha < b.fecha ? -1 : 1));
+  if (!l.length) return tablaVacia('No hay tareas en esta vista.');
+  return `<div class="tablewrap"><table class="t"><thead><tr><th style="width:40px"></th><th>Tarea</th><th>Tercero</th><th>Oportunidad</th><th>Vence</th></tr></thead><tbody>${l.map(t => `<tr class="${t.hecha ? 'done' : ''}"><td><input type="checkbox" data-act-change="toggle-tarea" data-id="${t.id}" ${t.hecha ? 'checked' : ''} aria-label="Completada"></td><td class="click" data-act="editar-tarea" data-id="${t.id}" style="cursor:pointer;${t.hecha ? 'text-decoration:line-through' : ''}">${esc(t.titulo)}</td><td>${nombreTerc(t.terceroId)}</td><td>${t.oportunidadId && idx.opps.get(t.oportunidadId) ? esc(idx.opps.get(t.oportunidadId).titulo) : ''}</td><td>${tareaVencida(t) ? `<span class="tag bad">⚠ Vencida ${fmtFecha(t.fecha)}</span>` : `<span class="tag ${t.hecha ? '' : 'info'}">${fmtFecha(t.fecha)}</span>`}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function vTareas() {
+  return cabecera('Tareas de seguimiento', 'Las tareas vencidas se resaltan en rojo.', `<button class="btn pri" data-act="nueva-tarea">＋ Nueva tarea</button>`) + `
+  <div class="filters"><div class="f"><label>Mostrar</label><select data-filtro="estado">${[['pend', 'Pendientes'], ['venc', 'Vencidas'], ['hechas', 'Completadas'], ['todas', 'Todas']].map(([v, t]) => `<option value="${v}" ${filtro('tareas', 'estado', 'pend') === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div></div><div id="lista">${listaTareas()}</div>`;
+}
+ACC['nueva-tarea'] = el => formTarea(null, { terceroId: el && el.dataset ? el.dataset.ter || '' : '' });
+ACC['editar-tarea'] = el => formTarea(el.dataset.id);
+function formTarea(id, pre) {
+  const k = Object.assign({ titulo: '', fecha: sumarDias(hoy(), 3), terceroId: '', oportunidadId: '' }, id ? db.tareas.find(x => x.id === id) : pre || {});
+  abrirDialogo(`<form data-form="tarea" data-id="${id || ''}" novalidate><div class="dhead"><h2>${id ? 'Editar' : 'Nueva'} tarea</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
+    <div class="f s6"><label>Tarea *</label><input type="text" name="titulo" value="${esc(k.titulo)}"></div>
+    <div class="f"><label>Fecha de vencimiento *</label>${campoFecha('fecha', k.fecha)}</div>
+    <div class="f"><label>Tercero (opcional)</label><input type="text" name="tercero" list="dl-terceros" value="${esc(k.terceroId ? textoTercero(k.terceroId) : '')}" autocomplete="off"></div>
+    <div class="f s6"><label>Oportunidad (opcional)</label><select name="oportunidadId"><option value="">— Ninguna —</option>${db.oportunidades.map(o => `<option value="${o.id}" ${k.oportunidadId === o.id ? 'selected' : ''}>${esc(o.titulo)} — ${esc(terceroNombre(o.terceroId))}</option>`).join('')}</select></div></div></div>
+    <div class="dfoot">${id ? `<button type="button" class="btn bad" data-act="borrar-tarea" data-id="${id}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`, 'mid');
+}
+FORMS.tarea = function (f) {
+  const g = n => f.elements[n], id = f.dataset.id, err = [];
+  const terTxt = g('tercero').value.trim(), terId = resolverTercero(terTxt), fecha = parseFecha(g('fecha').value);
+  const k = { titulo: g('titulo').value.trim(), fecha, terceroId: terId || '', oportunidadId: g('oportunidadId').value };
+  if (!k.titulo) err.push('Escriba la tarea.'); if (!fecha) err.push('La fecha debe tener formato DD/MM/AAAA.'); if (terTxt && terId === null) err.push('El tercero no existe; elíjalo de la lista o déjelo vacío.');
+  if (err.length) return mostrarErrores(f, err);
+  if (id) Object.assign(db.tareas.find(x => x.id === id), k); else db.tareas.push(Object.assign({ id: uid('k'), hecha: false }, k));
+  guardar(); cerrarDialogo(); render(); toast('Tarea guardada.', 'ok');
+};
+ACC['borrar-tarea'] = async el => { if (!await confirmar('¿Eliminar esta tarea?', 'Eliminar')) return; db.tareas = db.tareas.filter(x => x.id !== el.dataset.id); guardar(); cerrarDialogo(); render(); };
+
+/* =====================================================================
+   ASIENTOS CONTABLES (partida doble)
+   ===================================================================== */
+function listaAsientos() {
+  const q = filtro('asientos', 'q').toLowerCase(), tp = filtro('asientos', 'tipo');
+  const d = parseFecha(filtro('asientos', 'desde')), h = parseFecha(filtro('asientos', 'hasta'));
+  const l = db.asientos.filter(a => (!tp || a.tipo === tp) && (!d || a.fecha >= d) && (!h || a.fecha <= h) && (!q || (a.numero + ' ' + a.concepto + ' ' + terceroNombre(a.terceroId) + ' ' + terceroDoc(a.terceroId)).toLowerCase().includes(q)))
+    .sort((a, b) => a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : a.numero < b.numero ? 1 : -1);
+  if (!l.length) return tablaVacia(db.asientos.length ? 'Ningún asiento coincide con los filtros.' : 'Todavía no hay asientos. Use “Nuevo asiento”.');
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Fecha</th><th>Comprobante</th><th>Tipo</th><th>Tercero</th><th>Concepto</th><th class="r">Valor</th></tr></thead><tbody>${l.slice(0, 500).map(a => `<tr class="click" data-act="editar-asiento" data-id="${a.id}"><td>${fmtFecha(a.fecha)}</td><td><b>${esc(a.numero)}</b></td><td>${esc(TIPOS_COMP[a.tipo] || a.tipo)}</td><td>${nombreTerc(a.terceroId)}</td><td>${esc(a.concepto)}</td><td class="r">${fmtNum(totalAsiento(a))}</td></tr>`).join('')}</tbody></table></div><p class="muted small mt">${l.length} asiento(s)${l.length > 500 ? ' — se muestran los primeros 500; use los filtros' : ''}. Total de valores: ${fmt(sum(l, totalAsiento))}</p>`;
+}
+function vAsientos() {
+  return cabecera('Asientos contables', 'Partida doble: cada comprobante debe cuadrar (débitos = créditos) antes de guardarse.', `<button class="btn pri" data-act="nuevo-asiento">＋ Nuevo asiento</button>`) + `
+  <div class="filters"><div class="f"><label>Buscar</label><input type="search" data-filtro="q" placeholder="Número, concepto o tercero" value="${esc(filtro('asientos', 'q'))}"></div>
+  <div class="f"><label>Desde</label><input type="text" class="fecha" data-filtro="desde" placeholder="DD/MM/AAAA" maxlength="10" style="width:130px" value="${esc(filtro('asientos', 'desde'))}"></div>
+  <div class="f"><label>Hasta</label><input type="text" class="fecha" data-filtro="hasta" placeholder="DD/MM/AAAA" maxlength="10" style="width:130px" value="${esc(filtro('asientos', 'hasta'))}"></div>
+  <div class="f"><label>Tipo</label><select data-filtro="tipo"><option value="">Todos</option>${Object.entries(TIPOS_COMP).map(([k, v]) => `<option value="${k}" ${filtro('asientos', 'tipo') === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div></div>
+  <div id="lista">${listaAsientos()}</div>`;
+}
+ACC['nuevo-asiento'] = () => abrirAsiento();
+ACC['editar-asiento'] = el => abrirAsiento({ id: el.dataset.id });
+
+function filaLinea(l) {
+  return `<tr data-lid="${l.id || ''}"><td><input type="text" class="l-cuenta" list="dl-cuentas" value="${esc(l.cuenta ? textoCuenta(l.cuenta) : '')}" placeholder="Código o nombre de cuenta" autocomplete="off"></td>
+  <td><input type="text" class="l-ter" list="dl-terceros" value="${esc(l.terceroId ? textoTercero(l.terceroId) : '')}" placeholder="(igual al encabezado)" autocomplete="off"></td>
+  <td><input type="text" class="l-det" value="${esc(l.detalle || '')}"></td>
+  <td><input type="text" class="l-deb num" inputmode="numeric" value="${l.debito ? fmtNum(l.debito) : ''}"></td>
+  <td><input type="text" class="l-cre num" inputmode="numeric" value="${l.credito ? fmtNum(l.credito) : ''}"></td>
+  <td class="acc"><button type="button" data-act="lin-cuadrar" title="Cuadrar el asiento con esta línea">⇄</button> <button type="button" data-act="lin-del" title="Quitar línea">✕</button></td></tr>`;
+}
+function opcionesCuentaBase(modo, sel) {
+  const pref = modo === 'venta' ? ['41'] : ['5', '6'];
+  return db.cuentas.filter(c => esMovimiento(c.codigo) && pref.some(p => c.codigo.startsWith(p))).sort((a, b) => a.codigo.localeCompare(b.codigo)).map(c => `<option value="${c.codigo}" ${c.codigo === sel ? 'selected' : ''}>${esc(textoCuenta(c.codigo))}</option>`).join('');
+}
+function abrirAsiento(o = {}) {
+  const a = o.id ? idx.asientos.get(o.id) : null;
+  const p = a ? { tipo: a.tipo, fecha: a.fecha, terceroId: a.terceroId, concepto: a.concepto, oportunidadId: a.oportunidadId || '' } : Object.assign({ tipo: 'NC', fecha: hoy(), terceroId: '', concepto: '', oportunidadId: '' }, o.plantilla || {});
+  const w = Object.assign({ modo: '', base: 0, iva: true, rete: false }, (o.plantilla || {}).wizard || {});
+  const A = cfg().cuentasAuto;
+  let lineas = a ? a.lineas.map(l => Object.assign({}, l)) : [];
+  if (!a && w.modo) lineas = (w.modo === 'venta' ? lineasVenta : lineasCompra)({ base: w.base, aplicaIva: w.iva, ivaPct: cfg().ivaTarifa, aplicaRete: w.rete, retePct: cfg().reteHonorarios });
+  if (!lineas.length) lineas = [{}, {}];
+  const numero = a ? a.numero : siguienteNumero(p.tipo);
+  const cuentaBaseSel = w.modo === 'compra' ? A.gastoHonorarios : A.ingresos;
+  abrirDialogo(`<form data-form="asiento" data-id="${a ? a.id : ''}" data-sugerido="${numero}" novalidate>
+  <div class="dhead"><h2>${a ? 'Editar comprobante ' + esc(a.numero) : 'Nuevo asiento contable'}</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody">
+  <input type="hidden" name="oportunidadId" value="${esc(p.oportunidadId)}">
+  <div class="fgrid">
+    <div class="f s2"><label>Fecha *</label>${campoFecha('fecha', p.fecha)}</div>
+    <div class="f s2"><label>Tipo de comprobante *</label><select name="tipo">${Object.entries(TIPOS_COMP).map(([k, v]) => `<option value="${k}" ${p.tipo === k ? 'selected' : ''}>${k} · ${v}</option>`).join('')}</select></div>
+    <div class="f s2"><label>Número *</label><input type="text" name="numero" value="${esc(numero)}"></div>
+    <div class="f s6"><label>Tercero</label><input type="text" name="tercero" list="dl-terceros" value="${esc(p.terceroId ? textoTercero(p.terceroId) : '')}" placeholder="Escriba NIT o nombre…" autocomplete="off"></div>
+    <div class="f s6"><label>Concepto *</label><input type="text" name="concepto" value="${esc(p.concepto)}"></div>
+  </div>
+  <div class="wizard"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px"><b>Asistente de IVA y retención</b><span class="muted small">Registra el asiento de una factura; no emite factura electrónica (esa se emite en el portal gratuito de la DIAN).</span></div>
+    <div class="wrow">
+      <div class="f"><label class="lbl">Tipo de operación</label><select name="w_modo"><option value="" ${!w.modo ? 'selected' : ''}>Manual (sin asistente)</option><option value="venta" ${w.modo === 'venta' ? 'selected' : ''}>Venta de honorarios</option><option value="compra" ${w.modo === 'compra' ? 'selected' : ''}>Compra de gasto / honorarios</option></select></div>
+      <div class="f"><label class="lbl">Base (antes de IVA)</label><input type="text" class="num" name="w_base" inputmode="numeric" style="width:150px" value="${w.base ? fmtNum(w.base) : ''}"></div>
+      <div class="f"><label class="lbl">IVA</label><div class="inl"><input type="checkbox" name="w_iva" ${w.iva ? 'checked' : ''}><input type="text" class="num pct" name="w_ivap" value="${cfg().ivaTarifa}"> %</div></div>
+      <div class="f"><label class="lbl" id="w_rete_l">${w.modo === 'compra' ? 'Retención que practicamos' : 'Retención que nos practican'}</label><div class="inl"><input type="checkbox" name="w_rete" ${w.rete ? 'checked' : ''}><input type="text" class="num pct" name="w_retep" value="${cfg().reteHonorarios}"> %</div></div>
+      <div class="f" style="flex:1;min-width:220px"><label class="lbl">Cuenta de ingreso / gasto</label><select name="w_cuenta">${opcionesCuentaBase(w.modo || 'venta', cuentaBaseSel)}</select></div>
+    </div></div>
+  <div class="linwrap"><table class="lin"><thead><tr><th style="width:27%">Cuenta PUC</th><th style="width:22%">Tercero (opcional)</th><th>Detalle</th><th style="width:130px">Débito</th><th style="width:130px">Crédito</th><th></th></tr></thead><tbody id="lineas">${lineas.map(filaLinea).join('')}</tbody></table></div>
+  <div style="margin-top:8px"><button type="button" class="btn sm" data-act="lin-add">＋ Agregar línea</button></div>
+  <div class="totales"><span>Débitos: <b id="tot-d">0</b></span><span>Créditos: <b id="tot-c">0</b></span><span id="tot-dif" class="cuadre ok">Cuadrado</span></div>
+  <div class="errbox"></div></div>
+  <div class="dfoot">${a ? `<button type="button" class="btn bad" data-act="borrar-asiento" data-id="${a.id}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button>${a ? '' : '<button class="btn" type="submit" data-nuevo="1">Guardar y nuevo</button>'}<button class="btn pri" type="submit">Guardar asiento</button></div></form>`, 'wide');
+  recalcAsiento();
+}
+function leerLineasForm(f) {
+  return $$('#lineas tr', f).map(tr => ({ tr, id: tr.dataset.lid, cuentaTxt: $('.l-cuenta', tr).value.trim(), terTxt: $('.l-ter', tr).value.trim(), detalle: $('.l-det', tr).value.trim(), debito: parseCOP($('.l-deb', tr).value), credito: parseCOP($('.l-cre', tr).value) }));
+}
+function recalcAsiento() {
+  const f = $('#dlg form[data-form="asiento"]'); if (!f) return;
+  const L = leerLineasForm(f), d = sum(L, l => l.debito), c = sum(L, l => l.credito), dif = d - c;
+  $('#tot-d').textContent = fmtNum(d); $('#tot-c').textContent = fmtNum(c);
+  const e = $('#tot-dif'); const ok = dif === 0 && d > 0;
+  e.className = 'cuadre ' + (ok ? 'ok' : 'bad'); e.textContent = ok ? '✓ Cuadrado' : d === 0 && c === 0 ? 'Sin valores' : 'Descuadre: ' + fmtNum(Math.abs(dif)) + (dif > 0 ? ' a favor del débito' : ' a favor del crédito');
+}
+function wizardAplicar() {
+  const f = $('#dlg form[data-form="asiento"]'), g = n => f.elements[n];
+  const modo = g('w_modo').value; if (!modo) return;
+  const base = parseCOP(g('w_base').value); if (!base) return;
+  const o = { base, aplicaIva: g('w_iva').checked, ivaPct: parseFloat(String(g('w_ivap').value).replace(',', '.')) || 0, aplicaRete: g('w_rete').checked, retePct: parseFloat(String(g('w_retep').value).replace(',', '.')) || 0, cuentaBase: g('w_cuenta').value };
+  const L = (modo === 'venta' ? lineasVenta : lineasCompra)(o);
+  $('#lineas').innerHTML = L.map(filaLinea).join(''); recalcAsiento();
+}
+FORMS.asiento = function (f, ev) {
+  const g = n => f.elements[n], id = f.dataset.id, err = [];
+  const fecha = parseFecha(g('fecha').value), tipo = g('tipo').value, numero = g('numero').value.trim(), concepto = g('concepto').value.trim();
+  const terTxt = g('tercero').value.trim(), terId = resolverTercero(terTxt);
+  if (!fecha) err.push('La fecha debe tener formato DD/MM/AAAA.');
+  if (!numero) err.push('Indique el número de comprobante.');
+  else if (db.asientos.some(x => x.id !== id && x.numero === numero)) err.push(`El número ${numero} ya existe.`);
+  if (!concepto) err.push('El concepto es obligatorio.');
+  if (terTxt && terId === null) err.push('El tercero del encabezado no existe en el maestro; elíjalo de la lista o créelo en “Terceros”.');
+  const lineas = [];
+  leerLineasForm(f).forEach((l, i) => {
+    if (!l.cuentaTxt && !l.debito && !l.credito && !l.terTxt && !l.detalle) return;
+    const n = i + 1, cuenta = resolverCuenta(l.cuentaTxt);
+    if (!cuenta || !idx.cuentas.has(cuenta)) err.push(`Línea ${n}: la cuenta no existe en el catálogo.`);
+    else if (!esMovimiento(cuenta)) err.push(`Línea ${n}: la cuenta ${cuenta} es una cuenta mayor; use una cuenta auxiliar.`);
+    const tid = l.terTxt ? resolverTercero(l.terTxt) : ''; if (tid === null) err.push(`Línea ${n}: el tercero no existe en el maestro.`);
+    if (l.debito < 0 || l.credito < 0) err.push(`Línea ${n}: no se admiten valores negativos.`);
+    else if (l.debito > 0 && l.credito > 0) err.push(`Línea ${n}: use débito o crédito, no ambos.`);
+    else if (!l.debito && !l.credito) err.push(`Línea ${n}: falta el valor.`);
+    lineas.push({ id: l.id || uid('l'), cuenta, terceroId: tid || '', detalle: l.detalle, debito: l.debito, credito: l.credito });
+  });
+  if (lineas.length < 2) err.push('Un asiento necesita al menos dos líneas.');
+  const d = sum(lineas, l => l.debito), c = sum(lineas, l => l.credito);
+  if (d !== c) err.push(`El asiento no cuadra: débitos ${fmtNum(d)} ≠ créditos ${fmtNum(c)} (diferencia ${fmtNum(Math.abs(d - c))}).`);
+  if (!err.length && d === 0) err.push('El asiento no tiene valores.');
+  if (err.length) return mostrarErrores(f, err);
+  let a;
+  if (id) { a = idx.asientos.get(id); Object.assign(a, { fecha, tipo, numero, terceroId: terId || '', concepto, lineas }); }
+  else { a = { id: uid('a'), fecha, tipo, numero, terceroId: terId || '', concepto, lineas, oportunidadId: g('oportunidadId').value }; db.asientos.push(a); }
+  registrarConsecutivo(numero);
+  if (a.oportunidadId && !id) { const op = idx.opps.get(a.oportunidadId); if (op) op.asientoId = a.id; }
+  limpiarConciliaciones();
+  const nuevo = ev && ev.submitter && ev.submitter.dataset.nuevo;
+  guardar(); cerrarDialogo(); render(); toast(`Asiento ${numero} guardado.`, 'ok');
+  if (nuevo) abrirAsiento();
+};
+function limpiarConciliaciones() {
+  const ids = new Set(db.asientos.flatMap(a => a.lineas.map(l => l.id)));
+  for (const x of db.extractos) if (x.lineaId && !ids.has(x.lineaId)) x.lineaId = null;
+}
+ACC['lin-add'] = () => { $('#lineas').insertAdjacentHTML('beforeend', filaLinea({})); $('#lineas tr:last-child .l-cuenta').focus(); };
+ACC['lin-del'] = el => { const tb = $('#lineas'); if (tb.rows.length <= 2) { const tr = el.closest('tr'); $$('input', tr).forEach(i => i.value = ''); } else el.closest('tr').remove(); recalcAsiento(); };
+ACC['lin-cuadrar'] = el => {
+  const tr = el.closest('tr'), f = tr.closest('form'), L = leerLineasForm(f).filter(l => l.tr !== tr);
+  const dif = sum(L, l => l.debito) - sum(L, l => l.credito);
+  $('.l-deb', tr).value = dif < 0 ? fmtNum(-dif) : ''; $('.l-cre', tr).value = dif > 0 ? fmtNum(dif) : '';
+  recalcAsiento();
+};
+ACC['borrar-asiento'] = async el => {
+  const a = idx.asientos.get(el.dataset.id);
+  if (!await confirmar(`¿Eliminar el comprobante ${a.numero}? Esta acción no se puede deshacer (puede restaurar desde un respaldo).`, 'Eliminar')) return;
+  db.asientos = db.asientos.filter(x => x.id !== a.id);
+  for (const o of db.oportunidades) if (o.asientoId === a.id) o.asientoId = '';
+  limpiarConciliaciones(); guardar(); cerrarDialogo(); render(); toast('Asiento eliminado.');
+};
+
+/* =====================================================================
+   CONCILIACIÓN BANCARIA
+   ===================================================================== */
+const cuentasBanco = () => db.cuentas.filter(c => esMovimiento(c.codigo) && /^(1110|1120)/.test(c.codigo));
+function decodificar(buf) {
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(buf).replace(/^﻿/, ''); } catch (e) { return new TextDecoder('windows-1252').decode(buf); }
+}
+function detectarDelim(t) { const l = t.split(/\r?\n/).slice(0, 6).join('\n'), c = { ';': 0, ',': 0, '\t': 0, '|': 0 }; for (const ch of l) if (ch in c) c[ch]++; return Object.entries(c).sort((a, b) => b[1] - a[1])[0][0]; }
+function parseCSV(t, delim) {
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < t.length; i++) {
+    const ch = t[i];
+    if (q) { if (ch === '"') { if (t[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === delim) { row.push(cell); cell = ''; }
+    else if (ch === '\n' || ch === '\r') { if (ch === '\r' && t[i + 1] === '\n') i++; row.push(cell); cell = ''; if (row.some(x => x.trim() !== '')) rows.push(row); row = []; }
+    else cell += ch;
+  }
+  row.push(cell); if (row.some(x => x.trim() !== '')) rows.push(row);
+  return rows;
+}
+function parseNumeroFlex(s) {
+  s = String(s ?? '').trim(); if (!s) return 0;
+  let neg = /^\(.*\)$/.test(s) || /^-/.test(s) || /-$/.test(s) || /\bDB\b/i.test(s);
+  s = s.replace(/[^\d.,]/g, '');
+  const pc = s.lastIndexOf('.'), cm = s.lastIndexOf(',');
+  if (pc >= 0 && cm >= 0) { const dec = pc > cm ? '.' : ','; s = dec === '.' ? s.replace(/,/g, '') : s.replace(/\./g, '').replace(',', '.'); }
+  else if (cm >= 0) s = /,\d{1,2}$/.test(s) && (s.match(/,/g) || []).length === 1 ? s.replace(',', '.') : s.replace(/,/g, '');
+  else if (pc >= 0) s = ((s.match(/\./g) || []).length > 1 || /\.\d{3}$/.test(s)) ? s.replace(/\./g, '') : s;
+  const n = Math.round(parseFloat(s) || 0); return neg ? -n : n;
+}
+function vConciliacion() {
+  const bancos = cuentasBanco(); const c = ui.conc; if (!c.cuenta || !idx.cuentas.has(c.cuenta)) { const conEx = bancos.find(b => db.extractos.some(x => x.cuenta === b.codigo)); c.cuenta = conEx ? conEx.codigo : bancos[0] ? bancos[0].codigo : ''; }
+  return cabecera('Conciliación bancaria', 'Cargue el extracto del banco (CSV) y marque cada partida contra los asientos de la cuenta.', `<button class="btn pri" data-act="cargar-extracto">⇪ Cargar extracto CSV</button>`) + `
+  <div class="filters"><div class="f"><label>Cuenta bancaria</label><select data-conc="cuenta">${bancos.map(b => `<option value="${b.codigo}" ${c.cuenta === b.codigo ? 'selected' : ''}>${esc(textoCuenta(b.codigo))}</option>`).join('')}</select></div>
+  <div class="f"><label>&nbsp;</label><label style="display:flex;gap:6px;align-items:center;text-transform:none;font-size:.9rem;min-height:38px"><input type="checkbox" data-conc="ver" ${c.ver ? 'checked' : ''}> Mostrar ya conciliadas</label></div>
+  <div class="f"><label>&nbsp;</label><button class="btn" data-act="conc-auto" title="Empareja partidas con el mismo valor y fecha a ±5 días">✨ Conciliar coincidencias exactas</button></div>
+  <div class="f"><label>&nbsp;</label><button class="btn bad" data-act="conc-limpiar">Borrar extracto cargado</button></div></div>
+  <div id="conc-cuerpo">${cuerpoConciliacion()}</div>`;
+}
+function cuerpoConciliacion() {
+  const c = ui.conc, cuenta = c.cuenta; if (!cuenta) return tablaVacia('No hay cuentas de bancos en el catálogo.');
+  const ext = db.extractos.filter(x => x.cuenta === cuenta).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  const libros = lineasPlanas().filter(x => x.cuenta === cuenta).map(x => ({ id: x.linea.id, fecha: x.fecha, numero: x.asiento.numero, tercero: x.tercero, concepto: x.asiento.concepto, valor: x.debito - x.credito }));
+  const usados = new Map(ext.filter(x => x.lineaId).map(x => [x.lineaId, x]));
+  const extPend = ext.filter(x => !x.lineaId), libPend = libros.filter(l => !usados.has(l.id));
+  const libById = new Map(libros.map(l => [l.id, l]));
+  const saldoLibros = sum(libros, l => l.valor);
+  const filasExt = ext.filter(x => c.ver || !x.lineaId).map(x => { const l = x.lineaId && libById.get(x.lineaId); return `<tr class="${c.selExt === x.id ? 'sel' : ''} ${x.lineaId ? 'done' : ''} ${x.lineaId ? '' : 'click'}" ${x.lineaId ? '' : `data-act="conc-sel-ext" data-id="${x.id}"`}><td>${fmtFecha(x.fecha)}</td><td>${esc(x.descripcion)}</td><td class="r${cls(x.valor)}">${fmtNum(x.valor)}</td><td>${x.lineaId ? `<span class="tag ok">✓ ${l ? esc(l.numero) : ''}</span> <button class="btn sm" data-act="conc-des" data-id="${x.id}">Deshacer</button>` : ''}</td></tr>`; }).join('');
+  const filasLib = libros.filter(l => c.ver || !usados.has(l.id)).map(l => `<tr class="${c.selLib === l.id ? 'sel' : ''} ${usados.has(l.id) ? 'done' : 'click'}" ${usados.has(l.id) ? '' : `data-act="conc-sel-lib" data-id="${l.id}"`}><td>${fmtFecha(l.fecha)}</td><td><b>${esc(l.numero)}</b><br><span class="muted small">${esc(l.concepto)}</span></td><td class="r${cls(l.valor)}">${fmtNum(l.valor)}</td><td>${usados.has(l.id) ? '<span class="tag ok">✓</span>' : ''}</td></tr>`).join('');
+  return `<div class="grid g4 mb">
+    <div class="card kpi"><div class="l">Saldo según libros</div><div class="v">${fmt(saldoLibros)}</div><div class="s">${libros.length} movimientos</div></div>
+    <div class="card kpi"><div class="l">Extracto sin conciliar</div><div class="v">${extPend.length}</div><div class="s">${fmt(sum(extPend, x => x.valor))}</div></div>
+    <div class="card kpi"><div class="l">Libros sin conciliar</div><div class="v">${libPend.length}</div><div class="s">${fmt(sum(libPend, l => l.valor))}</div></div>
+    <div class="card kpi"><div class="l">Conciliadas</div><div class="v">${ext.length - extPend.length}</div><div class="s">de ${ext.length} líneas del extracto</div></div></div>
+  <p class="muted small mb">Toque una partida del extracto y luego la partida de libros que le corresponde. Valor positivo = entra al banco (débito en libros); negativo = sale del banco.</p>
+  <div class="split"><div><h3 class="mb">Extracto bancario</h3>${ext.length ? `<div class="tablewrap"><table class="t"><thead><tr><th>Fecha</th><th>Descripción</th><th class="r">Valor</th><th></th></tr></thead><tbody>${filasExt || '<tr><td colspan="4" class="empty">Todo conciliado ✓</td></tr>'}</tbody></table></div>` : tablaVacia('Cargue un extracto en CSV con el botón de arriba.')}</div>
+  <div><h3 class="mb">Movimientos en libros (${esc(cuentaNombre(cuenta))})</h3>${libros.length ? `<div class="tablewrap"><table class="t"><thead><tr><th>Fecha</th><th>Comprobante</th><th class="r">Valor</th><th></th></tr></thead><tbody>${filasLib || '<tr><td colspan="4" class="empty">Todo conciliado ✓</td></tr>'}</tbody></table></div>` : tablaVacia('No hay asientos en esta cuenta.')}</div></div>`;
+}
+function refrescarConc() { const e = $('#conc-cuerpo'); if (e) e.innerHTML = cuerpoConciliacion(); }
+function emparejar() {
+  const c = ui.conc, x = db.extractos.find(e => e.id === c.selExt);
+  const l = lineasPlanas().find(z => z.linea.id === c.selLib); if (!x || !l) return;
+  const v = l.debito - l.credito;
+  const hacer = () => { x.lineaId = l.linea.id; c.selExt = c.selLib = null; guardar(); refrescarConc(); };
+  if (v !== x.valor) confirmar(`Los valores no coinciden: extracto ${fmt(x.valor)} vs libros ${fmt(v)}. ¿Conciliar de todos modos?`, 'Conciliar').then(ok => { if (ok) hacer(); });
+  else hacer();
+}
+ACC['conc-sel-ext'] = el => { ui.conc.selExt = ui.conc.selExt === el.dataset.id ? null : el.dataset.id; refrescarConc(); if (ui.conc.selExt && ui.conc.selLib) emparejar(); };
+ACC['conc-sel-lib'] = el => { ui.conc.selLib = ui.conc.selLib === el.dataset.id ? null : el.dataset.id; refrescarConc(); if (ui.conc.selExt && ui.conc.selLib) emparejar(); };
+ACC['conc-des'] = el => { const x = db.extractos.find(e => e.id === el.dataset.id); x.lineaId = null; guardar(); refrescarConc(); };
+ACC['conc-limpiar'] = async () => {
+  const n = db.extractos.filter(x => x.cuenta === ui.conc.cuenta).length; if (!n) return;
+  if (await confirmar(`¿Borrar las ${n} líneas de extracto cargadas para esta cuenta? Los asientos no se modifican.`, 'Borrar')) { db.extractos = db.extractos.filter(x => x.cuenta !== ui.conc.cuenta); guardar(); refrescarConc(); }
+};
+ACC['conc-auto'] = () => {
+  const cuenta = ui.conc.cuenta;
+  const usados = new Set(db.extractos.filter(x => x.lineaId).map(x => x.lineaId));
+  const libros = lineasPlanas().filter(x => x.cuenta === cuenta && !usados.has(x.linea.id)).map(x => ({ id: x.linea.id, fecha: x.fecha, valor: x.debito - x.credito }));
+  let n = 0;
+  for (const x of db.extractos.filter(e => e.cuenta === cuenta && !e.lineaId).sort((a, b) => a.fecha < b.fecha ? -1 : 1)) {
+    let mejor = null, md = 99;
+    for (const l of libros) { if (l.usado || l.valor !== x.valor) continue; const d = Math.abs(diasEntre(l.fecha, x.fecha)); if (d <= 5 && d < md) { md = d; mejor = l; } }
+    if (mejor) { mejor.usado = true; x.lineaId = mejor.id; n++; }
+  }
+  if (n) guardar(); refrescarConc(); toast(n ? `${n} partida(s) conciliadas automáticamente.` : 'No se encontraron coincidencias exactas nuevas.', n ? 'ok' : '');
+};
+ACC['cargar-extracto'] = () => { const f = $('#file-csv'); f.value = ''; f.dataset.uso = 'extracto'; f.click(); };
+function abrirImportExtracto(nombre, texto) {
+  const delim = detectarDelim(texto), filas = parseCSV(texto, delim);
+  if (filas.length < 1) { toast('El archivo está vacío.', 'error'); return; }
+  const tieneEnc = !filas[0].some(c => parseFecha(c));
+  const enc = tieneEnc ? filas[0] : filas[0].map((_, i) => 'Columna ' + (i + 1));
+  const datos = tieneEnc ? filas.slice(1) : filas;
+  const guess = re => { const i = enc.findIndex(h => re.test(h)); return i; };
+  let cf = guess(/fecha|date/i), cd = guess(/descrip|concepto|detalle|referencia|movimiento|observ/i), cv = guess(/^(valor|monto|importe|amount|saldo movimiento)/i), ce = guess(/entrada|abono|cr[eé]dito|ingreso|deposit/i), cs = guess(/salida|cargo|d[eé]bito|egreso|retiro/i);
+  if (cf < 0) cf = 0; if (cd < 0) cd = Math.min(1, enc.length - 1);
+  const modo = (cv < 0 && (ce >= 0 || cs >= 0)) ? 'dos' : 'uno'; if (cv < 0) cv = enc.length - 1;
+  window._imp = { filas: datos, enc };
+  const opts = (sel, vacio) => (vacio ? '<option value="-1">— ninguna —</option>' : '') + enc.map((h, i) => `<option value="${i}" ${i === sel ? 'selected' : ''}>${i + 1}. ${esc(h)}</option>`).join('');
+  abrirDialogo(`<form data-form="extracto" novalidate><div class="dhead"><h2>Cargar extracto: ${esc(nombre)}</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody">
+    <p class="muted mb">Se detectaron ${datos.length} filas (separador “${delim === '\t' ? 'tabulador' : delim}”). Indique qué columna es cada dato:</p>
+    <div class="fgrid"><div class="f s2"><label>Fecha</label><select name="cf">${opts(cf)}</select></div><div class="f s4"><label>Descripción</label><select name="cd">${opts(cd)}</select></div>
+    <div class="f s2"><label>Formato de valores</label><select name="modo"><option value="uno" ${modo === 'uno' ? 'selected' : ''}>Una columna (negativo = salida)</option><option value="dos" ${modo === 'dos' ? 'selected' : ''}>Columnas separadas</option></select></div>
+    <div class="f s2"><label>Valor</label><select name="cv">${opts(cv)}</select></div><div class="f s2"><label>Entradas / abonos</label><select name="ce">${opts(ce, true)}</select></div><div class="f s2"><label>Salidas / cargos</label><select name="cs">${opts(cs, true)}</select></div></div>
+    <p class="small muted mt">Vista previa (primeras filas del archivo):</p><div class="tablewrap"><table class="t"><thead><tr>${enc.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${datos.slice(0, 5).map(r => `<tr>${enc.map((_, i) => `<td>${esc(r[i] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div><div class="errbox"></div></div>
+    <div class="dfoot"><button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Importar a ${esc(textoCuenta(ui.conc.cuenta))}</button></div></form>`, 'wide');
+}
+FORMS.extracto = function (f) {
+  const g = n => f.elements[n], I = window._imp, cf = +g('cf').value, cd = +g('cd').value, modo = g('modo').value, cv = +g('cv').value, ce = +g('ce').value, cs = +g('cs').value;
+  const nuevas = []; let malas = 0, dup = 0;
+  for (const r of I.filas) {
+    const fecha = parseFecha(r[cf]); if (!fecha) { malas++; continue; }
+    const valor = modo === 'uno' ? parseNumeroFlex(r[cv]) : (ce >= 0 ? Math.abs(parseNumeroFlex(r[ce])) : 0) - (cs >= 0 ? Math.abs(parseNumeroFlex(r[cs])) : 0);
+    if (!valor) { malas++; continue; }
+    const desc = String(r[cd] || '').trim();
+    if (db.extractos.some(x => x.cuenta === ui.conc.cuenta && x.fecha === fecha && x.valor === valor && x.descripcion === desc)) { dup++; continue; }
+    nuevas.push({ id: uid('x'), cuenta: ui.conc.cuenta, fecha, descripcion: desc, valor, lineaId: null });
+  }
+  if (!nuevas.length) return mostrarErrores(f, [`No se pudo importar ninguna fila (${malas} con fecha o valor no reconocido, ${dup} duplicadas). Revise las columnas elegidas.`]);
+  db.extractos.push(...nuevas); guardar(); cerrarDialogo(); render();
+  toast(`${nuevas.length} línea(s) importadas${malas ? `, ${malas} omitidas` : ''}${dup ? `, ${dup} duplicadas ignoradas` : ''}.`, 'ok');
+};
+
+/* =====================================================================
+   REPORTES
+   ===================================================================== */
+const nivelNombre = (cod) => { const c = idx.cuentas.get(cod); return c ? c.nombre : '—'; };
+function repDefaults() { const r = ui.rep; if (!r.desde) r.desde = hoy().slice(0, 4) + '-01-01'; if (!r.hasta) r.hasta = hoy(); if (!r.nivel) r.nivel = 6; if (!r.agrupar) r.agrupar = 'cuenta'; if (!r.per) r.per = 'mensual'; return r; }
+function datosPrueba() {
+  const r = repDefaults(), m = saldosPorCuenta({ desde: r.desde, hasta: r.hasta }), n = +r.nivel, ag = new Map();
+  for (const x of m.values()) { const k = x.codigo.slice(0, n); let a = ag.get(k); if (!a) { a = { codigo: k, ini: 0, deb: 0, cred: 0 }; ag.set(k, a); } a.ini += x.ini; a.deb += x.deb; a.cred += x.cred; }
+  return [...ag.values()].filter(a => a.ini || a.deb || a.cred).sort((a, b) => a.codigo.localeCompare(b.codigo)).map(a => Object.assign(a, { fin: a.ini + a.deb - a.cred, nombre: nivelNombre(a.codigo) }));
+}
+/* saldo mostrado con su signo natural: débito positivo / crédito negativo -> se muestra en columnas D/C */
+const colDC = v => v >= 0 ? [v, 0] : [0, -v];
+function repPrueba() {
+  const l = datosPrueba();
+  const t = l.reduce((s, x) => { s.ini += x.ini; s.deb += x.deb; s.cred += x.cred; s.fin += x.fin; return s; }, { ini: 0, deb: 0, cred: 0, fin: 0 });
+  const rows = l.map(x => ({ c: [x.codigo, x.nombre, x.ini, x.deb, x.cred, x.fin] }));
+  return { titulo: 'Balance de prueba', sub: `Del ${fmtFecha(ui.rep.desde)} al ${fmtFecha(ui.rep.hasta)}`, cols: ['Código', 'Cuenta', 'Saldo inicial', 'Débitos', 'Créditos', 'Saldo final'], num: [2, 3, 4, 5], filas: rows, total: ['', 'TOTALES', t.ini, t.deb, t.cred, t.fin], nota: 'Saldos: positivo = saldo débito, negativo = saldo crédito. Débitos y créditos totales deben ser iguales.' };
+}
+function seccion(m, prefijos, signo, titulo) {
+  const filas = []; let total = 0;
+  const cods = [...m.keys()].filter(c => prefijos.some(p => c.startsWith(p))).sort();
+  const g4 = new Map(); for (const c of cods) { const k = c.slice(0, 4); (g4.get(k) || g4.set(k, []).get(k)).push(c); }
+  for (const [k, hijos] of g4) {
+    const sub = sum(hijos, c => signo * (m.get(c).ini + m.get(c).deb - m.get(c).cred)); total += sub;
+    filas.push({ cls: 'sub', c: [k, nivelNombre(k), sub] });
+    for (const c of hijos) { const v = signo * (m.get(c).ini + m.get(c).deb - m.get(c).cred); filas.push({ c: ['\u00a0\u00a0\u00a0' + c, nivelNombre(c), v] }); }
+  }
+  return { filas, total, titulo };
+}
+function repResultados() {
+  const r = repDefaults(), m = saldosPorCuenta({ desde: r.desde, hasta: r.hasta });
+  const mm = new Map([...m].map(([k, v]) => [k, { ini: 0, deb: v.deb, cred: v.cred }]));
+  const S = (pref, sg, t) => seccion(mm, pref, sg, t);
+  const ing = S(['41'], -1, 'Ingresos operacionales'), cos = S(['6'], 1, 'Costos de ventas y prestación de servicios'), gas = S(['51', '52'], 1, 'Gastos operacionales'), ino = S(['42'], -1, 'Ingresos no operacionales'), gno = S(['53'], 1, 'Gastos no operacionales'), imp = S(['54'], 1, 'Impuesto de renta y complementarios');
+  const uo = ing.total - cos.total - gas.total, un = uo + ino.total - gno.total, ua = un - imp.total;
+  const filas = []; const add = (s, sg) => { filas.push({ cls: 'cls', c: ['', s.titulo.toUpperCase(), ''] }); filas.push(...s.filas); filas.push({ cls: 'tot', c: ['', 'Total ' + s.titulo.toLowerCase(), s.total] }); };
+  add(ing); add(cos); add(gas); filas.push({ cls: 'tot', c: ['', 'UTILIDAD (PÉRDIDA) OPERACIONAL', uo] }); add(ino); add(gno); filas.push({ cls: 'tot', c: ['', 'UTILIDAD ANTES DE IMPUESTOS', un] }); add(imp); filas.push({ cls: 'tot', c: ['', 'UTILIDAD (PÉRDIDA) NETA DEL PERIODO', ua] });
+  return { titulo: 'Estado de resultados', sub: `Del ${fmtFecha(r.desde)} al ${fmtFecha(r.hasta)}`, cols: ['Código', 'Cuenta', 'Valor'], num: [2], filas, sinTotal: true };
+}
+function repBalance() {
+  const r = repDefaults(), m = saldosPorCuenta({ hasta: r.hasta });
+  const S = (pref, sg, t) => seccion(m, pref, sg, t);
+  const act = S(['1'], 1, 'Activo'), pas = S(['2'], -1, 'Pasivo'), pat = S(['3'], -1, 'Patrimonio');
+  let res = 0; for (const x of m.values()) if (/^[456]/.test(x.codigo)) res -= (x.ini + x.deb - x.cred);
+  const filas = []; const add = s => { filas.push({ cls: 'cls', c: ['', s.titulo.toUpperCase(), ''] }); filas.push(...s.filas); };
+  add(act); filas.push({ cls: 'tot', c: ['', 'TOTAL ACTIVO', act.total] });
+  add(pas); filas.push({ cls: 'tot', c: ['', 'TOTAL PASIVO', pas.total] });
+  add(pat); filas.push({ cls: 'sub', c: ['', 'Resultado acumulado (cuentas de ingresos, gastos y costos sin cierre)', res] }); filas.push({ cls: 'tot', c: ['', 'TOTAL PATRIMONIO', pat.total + res] });
+  const dif = act.total - (pas.total + pat.total + res);
+  filas.push({ cls: 'tot', c: ['', 'TOTAL PASIVO + PATRIMONIO', pas.total + pat.total + res] });
+  return { titulo: 'Balance general', sub: `Al ${fmtFecha(r.hasta)}`, cols: ['Código', 'Cuenta', 'Valor'], num: [2], filas, sinTotal: true, nota: dif === 0 ? 'La ecuación patrimonial cuadra: Activo = Pasivo + Patrimonio. ✓' : `⚠ No cuadra por ${fmtNum(dif)}. Revise los asientos.` };
+}
+function repAuxiliar() {
+  const r = repDefaults(), cuenta = r.cuenta || '', terId = r.tercero || '';
+  const lp = lineasPlanas().filter(x => (!cuenta || x.cuenta === cuenta || x.cuenta.startsWith(cuenta)) && (!terId || x.tercero === terId) && (!r.hasta || x.fecha <= r.hasta));
+  const grupos = new Map();
+  for (const x of lp) { const k = r.agrupar === 'tercero' ? (x.tercero || '-') + '|' + x.cuenta : x.cuenta + '|' + (r.agrupar === 'cuenta' ? '' : x.tercero); (grupos.get(k) || grupos.set(k, []).get(k)).push(x); }
+  const filas = [];
+  const claves = [...grupos.keys()].sort((a, b) => a.localeCompare(b));
+  for (const k of claves) {
+    const movs = grupos.get(k), cod = movs[0].cuenta;
+    let saldo = sum(movs.filter(x => x.fecha < r.desde), x => x.debito - x.credito), d = 0, c = 0;
+    const ini = saldo, vis = movs.filter(x => x.fecha >= r.desde);
+    if (!vis.length && !ini) continue;
+    const enc = r.agrupar === 'tercero' ? `${terceroDoc(movs[0].tercero) || 's/d'} · ${terceroNombre(movs[0].tercero) || 'Sin tercero'} — ${cod} ${cuentaNombre(cod)}` : `${cod} · ${cuentaNombre(cod)}`;
+    filas.push({ cls: 'cls', c: ['', '', enc, '', '', ''] });
+    filas.push({ cls: 'muted', c: ['', '', 'Saldo inicial', '', '', ini] });
+    for (const x of vis) { saldo += x.debito - x.credito; d += x.debito; c += x.credito; filas.push({ c: [fmtFecha(x.fecha), x.asiento.numero, (r.agrupar === 'cuenta' ? (terceroNombre(x.tercero) ? terceroNombre(x.tercero) + ' — ' : '') : '') + (x.linea.detalle || x.asiento.concepto), x.debito, x.credito, saldo] }); }
+    filas.push({ cls: 'tot', c: ['', '', 'Total movimientos / saldo final', d, c, saldo] });
+  }
+  return { titulo: 'Libro auxiliar', sub: `Del ${fmtFecha(r.desde)} al ${fmtFecha(r.hasta)}${cuenta ? ' · cuenta ' + cuenta : ''}${terId ? ' · ' + terceroNombre(terId) : ''}`, cols: ['Fecha', 'Comprobante', 'Concepto / detalle', 'Débito', 'Crédito', 'Saldo'], num: [3, 4, 5], filas, sinTotal: true, colspanEnc: true };
+}
+function periodoClave(fecha, per) { const [y, m] = fecha.split('-').map(Number); if (per === 'bimestral') { const b = Math.ceil(m / 2); return `${y}-B${b}`; } return `${y}-${p2(m)}`; }
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+function periodoNombre(k) { const [y, p] = k.split('-'); if (p[0] === 'B') { const b = +p[1]; return `Bimestre ${b} (${MESES[2 * b - 2].slice(0, 3)}–${MESES[2 * b - 1].slice(0, 3)}) ${y}`; } return `${MESES[+p - 1][0].toUpperCase() + MESES[+p - 1].slice(1)} ${y}`; }
+function repIva() {
+  const r = repDefaults(), per = new Map();
+  const lp = lineasPlanas().filter(x => x.fecha >= r.desde && x.fecha <= r.hasta);
+  const cta = { gen: '240801', desc: '240802', rete: '2365', reteiva: '2367', reteica: '2368', nos: ['135515', '135517', '135518'] };
+  for (const x of lp) {
+    const k = periodoClave(x.fecha, r.per); const p = per.get(k) || per.set(k, { ing: 0, gen: 0, desc: 0, rete: 0, reteiva: 0, reteica: 0, nos: 0 }).get(k);
+    if (x.cuenta.startsWith('41')) p.ing += x.credito - x.debito;
+    else if (x.cuenta.startsWith(cta.gen)) p.gen += x.credito - x.debito;
+    else if (x.cuenta.startsWith(cta.desc)) p.desc += x.debito - x.credito;
+    else if (x.cuenta.startsWith(cta.rete)) p.rete += x.credito;
+    else if (x.cuenta.startsWith(cta.reteiva)) p.reteiva += x.credito;
+    else if (x.cuenta.startsWith(cta.reteica)) p.reteica += x.credito;
+    else if (cta.nos.some(c => x.cuenta.startsWith(c))) p.nos += x.debito;
+  }
+  const filas = [...per.keys()].sort().map(k => { const p = per.get(k); return { c: [periodoNombre(k), p.ing, p.gen, p.desc, p.gen - p.desc, p.rete, p.reteiva + p.reteica, p.nos] }; });
+  const tot = filas.reduce((t, f) => f.c.map((v, i) => i ? (t[i] || 0) + v : 'TOTAL'), []);
+  return { titulo: 'Resumen de IVA y retenciones', sub: `Del ${fmtFecha(r.desde)} al ${fmtFecha(r.hasta)} · ${r.per}`, cols: ['Periodo', 'Ingresos', 'IVA generado', 'IVA descontable', 'IVA neto (a pagar +)', 'Retención en la fuente practicada', 'ReteIVA / ReteICA practicados', 'Retenciones que nos practicaron'], num: [1, 2, 3, 4, 5, 6, 7], filas, total: filas.length ? tot : null, extra: () => retencionesPorTercero(lp) };
+}
+function retencionesPorTercero(lp) {
+  const pr = new Map(), no = new Map();
+  for (const x of lp) {
+    if (/^(2365|2367|2368)/.test(x.cuenta)) { const v = x.credito; pr.set(x.tercero, (pr.get(x.tercero) || 0) + v); }
+    else if (/^(135515|135517|135518)/.test(x.cuenta)) { const v = x.debito; no.set(x.tercero, (no.get(x.tercero) || 0) + v); }
+  }
+  const t = (m, tit) => `<h3 class="mt">${tit}</h3>` + (m.size ? `<div class="tablewrap"><table class="t"><thead><tr><th>Documento</th><th>Tercero</th><th class="r">Valor</th></tr></thead><tbody>${[...m].sort((a, b) => b[1] - a[1]).map(([id, v]) => `<tr><td>${esc(terceroDoc(id))}</td><td>${nombreTerc(id)}</td><td class="r">${fmtNum(v)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="muted small">Sin movimientos en el periodo.</p>');
+  return t(pr, 'Retenciones practicadas, por tercero (se pagan a la DIAN)') + t(no, 'Retenciones que nos practicaron, por tercero (anticipo de impuestos)');
+}
+function tablaReporte(rep) {
+  const fnum = (v, i) => rep.num.includes(i) ? `<td class="r${typeof v === 'number' ? cls(v) : ''}">${v === '' ? '' : typeof v === 'number' ? fmtNum(v) : esc(v)}</td>` : `<td>${esc(v)}</td>`;
+  const body = rep.filas.map(f => `<tr class="${f.cls || ''}">${f.c.map((v, i) => rep.colspanEnc && f.cls === 'cls' ? (i === 2 ? `<td colspan="${rep.cols.length}">${esc(v)}</td>` : '') : fnum(v, i)).join('')}</tr>`).join('');
+  const tot = rep.total ? `<tr class="tot">${rep.total.map(fnum).join('')}</tr>` : '';
+  if (!rep.filas.length) return tablaVacia('No hay movimientos para los filtros elegidos.');
+  return `<div class="tablewrap"><table class="t"><thead><tr>${rep.cols.map((c, i) => `<th class="${rep.num.includes(i) ? 'r' : ''}">${c}</th>`).join('')}</tr></thead><tbody>${body}${tot}</tbody></table></div>${rep.nota ? `<p class="muted small mt">${esc(rep.nota)}</p>` : ''}${rep.extra ? rep.extra() : ''}`;
+}
+const REPS = { prueba: repPrueba, resultados: repResultados, balance: repBalance, auxiliar: repAuxiliar, iva: repIva };
+function cuerpoReporte() { const rep = REPS[ui.rep.tab](); return `<div class="print-title"><h2>${esc(cfg().empresa.nombre)} — ${rep.titulo}</h2><p>${esc(rep.sub)}</p></div><div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap" class="mb"><div><h2>${rep.titulo}</h2><span class="muted">${esc(rep.sub)}</span></div><div class="actions no-print"><button class="btn sm" data-act="rep-csv">Exportar CSV</button><button class="btn sm" data-act="rep-print">Imprimir / PDF</button></div></div>${tablaReporte(rep)}</div>`; }
+function vReportes() {
+  const r = repDefaults(), tabs = [['prueba', 'Balance de prueba'], ['resultados', 'Estado de resultados'], ['balance', 'Balance general'], ['auxiliar', 'Libro auxiliar'], ['iva', 'IVA y retenciones']];
+  const sinDesde = r.tab === 'balance';
+  const cuentas = db.cuentas.filter(c => esMovimiento(c.codigo)).sort((a, b) => a.codigo.localeCompare(b.codigo));
+  return cabecera('Reportes contables', 'Calculados en vivo a partir de los asientos.') + `<div class="tabs">${tabs.map(([k, t]) => `<button data-rep-tab="${k}" class="${r.tab === k ? 'on' : ''}">${t}</button>`).join('')}</div>
+  <div class="filters">${sinDesde ? '' : `<div class="f"><label>Desde</label><input type="text" class="fecha" data-rep="desde" maxlength="10" style="width:130px" value="${fmtFecha(r.desde)}"></div>`}<div class="f"><label>${sinDesde ? 'Al' : 'Hasta'}</label><input type="text" class="fecha" data-rep="hasta" maxlength="10" style="width:130px" value="${fmtFecha(r.hasta)}"></div>
+  ${r.tab === 'prueba' ? `<div class="f"><label>Nivel de detalle</label><select data-rep="nivel">${[[1, 'Clase (1 dígito)'], [2, 'Grupo (2 dígitos)'], [4, 'Cuenta (4 dígitos)'], [6, 'Auxiliar (6 dígitos)']].map(([v, t]) => `<option value="${v}" ${+r.nivel === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>` : ''}
+  ${r.tab === 'auxiliar' ? `<div class="f"><label>Agrupar por</label><select data-rep="agrupar"><option value="cuenta" ${r.agrupar === 'cuenta' ? 'selected' : ''}>Cuenta</option><option value="tercero" ${r.agrupar === 'tercero' ? 'selected' : ''}>Tercero</option></select></div>
+  <div class="f"><label>Cuenta</label><select data-rep="cuenta"><option value="">Todas</option>${cuentas.map(c => `<option value="${c.codigo}" ${r.cuenta === c.codigo ? 'selected' : ''}>${esc(textoCuenta(c.codigo))}</option>`).join('')}</select></div>
+  <div class="f"><label>Tercero</label><select data-rep="tercero"><option value="">Todos</option>${db.terceros.slice().sort((a, b) => a.nombre.localeCompare(b.nombre)).map(t => `<option value="${t.id}" ${r.tercero === t.id ? 'selected' : ''}>${esc(t.nombre)}</option>`).join('')}</select></div>` : ''}
+  ${r.tab === 'iva' ? `<div class="f"><label>Periodicidad</label><select data-rep="per"><option value="mensual" ${r.per === 'mensual' ? 'selected' : ''}>Mensual</option><option value="bimestral" ${r.per === 'bimestral' ? 'selected' : ''}>Bimestral</option></select></div>` : ''}</div>
+  <div id="rep-cuerpo">${cuerpoReporte()}</div>`;
+}
+function csvReporte() {
+  const rep = REPS[ui.rep.tab](); const rows = [rep.cols];
+  for (const f of rep.filas) rows.push(f.c.map(v => typeof v === 'string' ? v.trim() : v));
+  if (rep.total) rows.push(rep.total);
+  return { nombre: `cgfinance-${ui.rep.tab}-${hoy()}.csv`, filas: rows };
+}
+
+/* =====================================================================
+   CATÁLOGO DE CUENTAS
+   ===================================================================== */
+function listaCuentas() {
+  const q = filtro('cuentas', 'q').toLowerCase(), solo = filtro('cuentas', 'solo', '1');
+  const l = db.cuentas.filter(c => (!q || (c.codigo + ' ' + c.nombre).toLowerCase().includes(q)) && (solo !== '1' || esMovimiento(c.codigo))).sort((a, b) => a.codigo.localeCompare(b.codigo));
+  const usadas = new Set(db.asientos.flatMap(a => a.lineas.map(x => x.cuenta)));
+  return `<div class="tablewrap"><table class="t"><thead><tr><th>Código</th><th>Nombre</th><th>Tipo</th><th>Naturaleza</th><th></th></tr></thead><tbody>${l.map(c => { const mov = esMovimiento(c.codigo); return `<tr class="${mov ? 'click' : 'sub'}" ${mov ? `data-act="editar-cuenta" data-id="${c.codigo}"` : ''}><td>${esc(c.codigo)}</td><td>${esc(c.nombre)}</td><td>${TIPO_CLASE[c.codigo[0]] || ''}</td><td>${c.naturaleza === 'D' ? 'Débito' : 'Crédito'}</td><td>${mov ? `<span class="tag ${usadas.has(c.codigo) ? 'info' : ''}">${usadas.has(c.codigo) ? 'con movimientos' : 'auxiliar'}</span>` : '<span class="tag">mayor</span>'}</td></tr>`; }).join('')}</tbody></table></div><p class="muted small mt">${l.length} cuentas</p>`;
+}
+function vCuentas() {
+  return cabecera('Catálogo de cuentas (PUC)', 'Plan Único de Cuentas colombiano (Decreto 2650 de 1993) precargado para una empresa de servicios. Puede agregar o ajustar auxiliares para que coincidan con Xubio.', `<button class="btn pri" data-act="nueva-cuenta">＋ Nueva cuenta auxiliar</button>`) + `
+  <div class="filters"><div class="f"><label>Buscar</label><input type="search" data-filtro="q" placeholder="Código o nombre" value="${esc(filtro('cuentas', 'q'))}"></div>
+  <div class="f"><label>Mostrar</label><select data-filtro="solo"><option value="1" ${filtro('cuentas', 'solo', '1') === '1' ? 'selected' : ''}>Solo cuentas de movimiento</option><option value="0" ${filtro('cuentas', 'solo', '1') === '0' ? 'selected' : ''}>Todo el árbol</option></select></div></div><div id="lista">${listaCuentas()}</div>`;
+}
+ACC['nueva-cuenta'] = () => formCuenta();
+ACC['editar-cuenta'] = el => formCuenta(el.dataset.id);
+function formCuenta(cod) {
+  const c = cod ? idx.cuentas.get(cod) : { codigo: '', nombre: '', naturaleza: 'D' };
+  const usada = cod && db.asientos.some(a => a.lineas.some(l => l.cuenta === cod));
+  abrirDialogo(`<form data-form="cuenta" data-id="${cod || ''}" novalidate><div class="dhead"><h2>${cod ? 'Editar' : 'Nueva'} cuenta</h2><button type="button" class="x" data-act="cerrar">×</button></div><div class="dbody"><div class="fgrid">
+    <div class="f s2"><label>Código *</label><input type="text" name="codigo" inputmode="numeric" value="${esc(c.codigo)}" ${usada ? 'readonly' : ''}></div><div class="f s4"><label>Nombre *</label><input type="text" name="nombre" value="${esc(c.nombre)}"></div>
+    <div class="f s6"><label>Naturaleza</label><select name="naturaleza"><option value="D" ${c.naturaleza === 'D' ? 'selected' : ''}>Débito</option><option value="C" ${c.naturaleza === 'C' ? 'selected' : ''}>Crédito</option></select></div></div>
+    <p class="muted small mt">${usada ? 'El código no se puede cambiar porque la cuenta tiene movimientos.' : 'Use un código de 6 a 10 dígitos que empiece por el código de la cuenta mayor (p. ej. 111010 para un segundo banco).'}</p><div class="errbox"></div></div>
+    <div class="dfoot">${cod && !usada ? `<button type="button" class="btn bad" data-act="borrar-cuenta" data-id="${cod}" style="margin-right:auto">Eliminar</button>` : ''}<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri" type="submit">Guardar</button></div></form>`);
+}
+FORMS.cuenta = function (f) {
+  const g = n => f.elements[n], id = f.dataset.id, err = [];
+  const codigo = g('codigo').value.trim(), nombre = g('nombre').value.trim().replace(/\s+/g, ' ');
+  if (!/^[1-9]\d{3,11}$/.test(codigo)) err.push('El código debe ser numérico, de 4 a 12 dígitos, y empezar por 1–9.');
+  if (!nombre) err.push('El nombre es obligatorio.');
+  if (codigo !== id && idx.cuentas.has(codigo)) err.push('Ya existe una cuenta con ese código.');
+  if (/^\d+$/.test(codigo)) for (let n = 1; n < codigo.length; n++) { const p = codigo.slice(0, n); if (db.asientos.some(a => a.lineas.some(l => l.cuenta === p))) err.push(`La cuenta ${p} tiene movimientos y no puede pasar a ser cuenta mayor.`); }
+  if (err.length) return mostrarErrores(f, err);
+  if (id) { const c = idx.cuentas.get(id); Object.assign(c, { codigo, nombre, naturaleza: g('naturaleza').value }); }
+  else db.cuentas.push({ codigo, nombre, naturaleza: g('naturaleza').value });
+  guardar(); cerrarDialogo(); render(); toast('Cuenta guardada.', 'ok');
+};
+ACC['borrar-cuenta'] = async el => {
+  const cod = el.dataset.id; if (idx.padres.has(cod)) { toast('Tiene cuentas hijas.', 'error'); return; }
+  if (Object.values(cfg().cuentasAuto).includes(cod)) { toast('Esta cuenta está configurada como cuenta automática del asistente.', 'error'); return; }
+  if (!await confirmar('¿Eliminar la cuenta ' + cod + '?', 'Eliminar')) return;
+  db.cuentas = db.cuentas.filter(c => c.codigo !== cod); guardar(); cerrarDialogo(); render();
+};
+
+/* =====================================================================
+   EXPORTACIONES A CSV (UTF-8 con BOM, listas para Excel en español / Xubio)
+   ===================================================================== */
+function aCSV(filas, delim) {
+  const q = v => {
+    if (v == null) return '';
+    let s = typeof v === 'number' ? String(Math.round(v)) : String(v);
+    if (typeof v === 'string' && /^[=+@\t\r]/.test(s)) s = "'" + s;
+    return (s.includes(delim) || /["\r\n]/.test(s)) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  return '﻿' + filas.map(r => r.map(q).join(delim)).join('\r\n') + '\r\n';
+}
+const delimElegido = () => (ui.f.exportar && ui.f.exportar.delim) || ';';
+function bajarCSV(nombre, filas) { descargar(nombre, aCSV(filas, delimElegido()), 'text/csv;charset=utf-8'); toast(`${nombre} descargado (${Math.max(0, filas.length - 1)} filas).`, 'ok'); }
+function filasAsientos(desde, hasta) {
+  const f = [['Fecha', 'Número de comprobante', 'Tipo', 'Código de cuenta PUC', 'Nombre de la cuenta', 'NIT del tercero', 'Nombre del tercero', 'Concepto', 'Débito', 'Crédito']];
+  for (const a of db.asientos.slice().sort((x, y) => x.fecha < y.fecha ? -1 : x.fecha > y.fecha ? 1 : x.numero < y.numero ? -1 : x.numero > y.numero ? 1 : 0)) {
+    if ((desde && a.fecha < desde) || (hasta && a.fecha > hasta)) continue;
+    for (const l of a.lineas) { const tid = l.terceroId || a.terceroId; f.push([fmtFecha(a.fecha), a.numero, TIPOS_COMP[a.tipo] || a.tipo, l.cuenta, cuentaNombre(l.cuenta), terceroDoc(tid), terceroNombre(tid), a.concepto, l.debito || 0, l.credito || 0]); }
+  }
+  return f;
+}
+const filasTerceros = () => [['Tipo de documento', 'NIT o cédula', 'Dígito de verificación', 'Nombre o razón social', 'Tipo de persona', 'Ciudad', 'Correo electrónico', 'Teléfono', 'Dirección', 'Roles', 'NIT de la empresa asociada', 'Empresa asociada', 'Cargo']]
+  .concat(db.terceros.slice().sort((a, b) => a.nombre.localeCompare(b.nombre)).map(t => [t.tipoDoc, t.documento, t.dv, t.nombre, t.tipoPersona, t.ciudad, t.correo, t.telefono, t.direccion, (t.roles || []).map(r => ({ cliente: 'Cliente', proveedor: 'Proveedor', contacto: 'Contacto' }[r])).join(', '), terceroDoc(t.empresaId), terceroNombre(t.empresaId), t.cargo]));
+const filasOpps = () => [['ID', 'NIT del tercero', 'Nombre del tercero', 'Título', 'Servicio', 'Etapa', 'Valor (COP)', 'Probabilidad (%)', 'Fecha estimada de cierre', 'Fecha de creación', 'Último movimiento', 'Motivo de pérdida', 'Comprobante asociado']]
+  .concat(db.oportunidades.map(o => [o.id, terceroDoc(o.terceroId), terceroNombre(o.terceroId), o.titulo, o.servicio, ETAPA[o.etapa].nombre, o.valor, o.probabilidad, fmtFecha(o.fechaCierre), fmtFecha(o.creada), fmtFecha(ultimaActividad(o)), o.motivoPerdida || '', (idx.asientos.get(o.asientoId) || {}).numero || '']));
+const filasInts = () => [['Fecha', 'Tipo', 'NIT del tercero', 'Nombre del tercero', 'Oportunidad', 'Nota']]
+  .concat(db.interacciones.slice().sort((a, b) => a.fecha < b.fecha ? -1 : 1).map(i => [fmtFecha(i.fecha), TIPOS_INT[i.tipo], terceroDoc(i.terceroId), terceroNombre(i.terceroId), (idx.opps.get(i.oportunidadId) || {}).titulo || '', i.nota]));
+const filasTareas = () => [['Tarea', 'Fecha de vencimiento', 'Estado', 'NIT del tercero', 'Nombre del tercero', 'Oportunidad']]
+  .concat(db.tareas.map(k => [k.titulo, fmtFecha(k.fecha), k.hecha ? 'Completada' : tareaVencida(k) ? 'Vencida' : 'Pendiente', terceroDoc(k.terceroId), terceroNombre(k.terceroId), (idx.opps.get(k.oportunidadId) || {}).titulo || '']));
+const filasCuentas = () => [['Código', 'Nombre', 'Naturaleza', 'Tipo', 'Acepta movimientos']].concat(db.cuentas.slice().sort((a, b) => a.codigo.localeCompare(b.codigo)).map(c => [c.codigo, c.nombre, c.naturaleza === 'D' ? 'Débito' : 'Crédito', TIPO_CLASE[c.codigo[0]], esMovimiento(c.codigo) ? 'Sí' : 'No']));
+function vExportar() {
+  const e = ui.f.exportar = ui.f.exportar || {}; const nAs = db.asientos.length, nLin = sum(db.asientos, a => a.lineas.length);
+  const fila = (t, d, n, act) => `<tr><td><b>${t}</b><br><span class="muted small">${d}</span></td><td class="r">${n}</td><td class="r"><button class="btn sm pri" data-act="${act}">Descargar CSV</button></td></tr>`;
+  return cabecera('Exportar datos', 'Todos los CSV usan codificación UTF-8 con BOM y fechas DD/MM/AAAA: abren bien en Excel en español.') + `
+  <div class="card"><div class="filters" style="margin:0"><div class="f"><label>Separador de columnas</label><select data-filtro="delim"><option value=";" ${delimElegido() === ';' ? 'selected' : ''}>Punto y coma ( ; ) — Excel en español</option><option value="," ${delimElegido() === ',' ? 'selected' : ''}>Coma ( , )</option></select></div>
+  <div class="f"><label>Asientos desde</label><input type="text" class="fecha" data-filtro="desde" maxlength="10" placeholder="DD/MM/AAAA" style="width:130px" value="${esc(e.desde || '')}"></div><div class="f"><label>Asientos hasta</label><input type="text" class="fecha" data-filtro="hasta" maxlength="10" placeholder="DD/MM/AAAA" style="width:130px" value="${esc(e.hasta || '')}"></div></div></div>
+  <div class="tablewrap mt"><table class="t"><thead><tr><th>Archivo</th><th class="r">Registros</th><th></th></tr></thead><tbody>
+  ${fila('Asientos contables', 'Una fila por movimiento: fecha, número de comprobante, tipo, código de cuenta PUC, nombre de la cuenta, NIT y nombre del tercero, concepto, débito y crédito.', `${nAs} asientos · ${nLin} movimientos`, 'csv-asientos')}
+  ${fila('Maestro de terceros', 'NIT o cédula, DV, nombre, tipo de persona, ciudad, correo y más.', db.terceros.length, 'csv-terceros')}
+  ${fila('Oportunidades', 'Con etapa, valor, probabilidad, cierre estimado y servicio.', db.oportunidades.length, 'csv-opps')}
+  ${fila('Interacciones', 'Llamadas, correos y reuniones con fecha y nota.', db.interacciones.length, 'csv-ints')}
+  ${fila('Tareas de seguimiento', 'Con fecha de vencimiento y estado.', db.tareas.length, 'csv-tareas')}
+  ${fila('Catálogo de cuentas', 'Plan de cuentas con las cuentas auxiliares que usa.', db.cuentas.length, 'csv-cuentas')}</tbody></table></div>
+  <div class="card mt"><h3>Respaldo completo (JSON)</h3><p class="muted mt">Un único archivo con todos los datos, para respaldo o para cambiar de equipo.</p><p class="mt"><button class="btn navy" data-act="exportar-json">Descargar JSON completo</button> <button class="btn" data-act="importar-json">Importar JSON…</button></p></div>`;
+}
+const exFecha = k => parseFecha((ui.f.exportar || {})[k]);
+ACC['csv-asientos'] = () => { const d = exFecha('desde'), h = exFecha('hasta'); bajarCSV(`cgfinance-asientos-${hoy()}.csv`, filasAsientos(d, h)); };
+ACC['csv-terceros'] = () => bajarCSV(`cgfinance-terceros-${hoy()}.csv`, filasTerceros());
+ACC['csv-opps'] = () => bajarCSV(`cgfinance-oportunidades-${hoy()}.csv`, filasOpps());
+ACC['csv-ints'] = () => bajarCSV(`cgfinance-interacciones-${hoy()}.csv`, filasInts());
+ACC['csv-tareas'] = () => bajarCSV(`cgfinance-tareas-${hoy()}.csv`, filasTareas());
+ACC['csv-cuentas'] = () => bajarCSV(`cgfinance-cuentas-${hoy()}.csv`, filasCuentas());
+ACC['rep-csv'] = () => { const r = csvReporte(); bajarCSV(r.nombre, r.filas); };
+ACC['rep-print'] = () => window.print();
+
+/* =====================================================================
+   RESPALDO Y CONFIGURACIÓN
+   ===================================================================== */
+function panelRespaldo() {
+  const c = SinkCarpeta, o = SinkOneDrive;
+  const hora = d => d ? d.toLocaleString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+  let estado, botones;
+  if (c.estado === 'nosoporta') { estado = '<span class="tag warn">Navegador no compatible</span>'; botones = `<button class="btn pri" data-act="exportar-json">Descargar JSON manualmente</button>`; }
+  else if (c.estado === 'sin') { estado = '<span class="tag bad">No conectada</span>'; botones = `<button class="btn pri" data-act="conectar-carpeta">📁 Conectar carpeta de respaldo</button>`; }
+  else if (c.estado === 'permiso') { estado = '<span class="tag warn">Pausado: el navegador pide confirmar el permiso</span>'; botones = `<button class="btn pri" data-act="reconectar">Reconectar</button><button class="btn" data-act="conectar-carpeta">Cambiar carpeta</button>`; }
+  else if (c.estado === 'error') { estado = `<span class="tag bad">Error: ${esc(c.error)}</span>`; botones = `<button class="btn pri" data-act="reintentar-respaldo">Reintentar</button><button class="btn" data-act="conectar-carpeta">Cambiar carpeta</button>`; }
+  else { estado = '<span class="tag ok">Conectada</span>'; botones = `<button class="btn pri" data-act="respaldar-ahora">Respaldar ahora</button><button class="btn" data-act="conectar-carpeta">Cambiar carpeta</button><button class="btn" data-act="desconectar-carpeta">Desconectar</button>`; }
+  return `<h3>Respaldo automático en OneDrive (carpeta local)</h3>
+  <p class="muted mt">Elija una carpeta <b>dentro de su OneDrive</b> (p. ej. <i>OneDrive/CG Finance/Respaldos</i>). Cada vez que registre o modifique un asiento, tercero, oportunidad u otro dato, la aplicación guarda el archivo completo ahí y el cliente de OneDrive lo sube solo.</p>
+  <dl class="kv mt"><dt>Estado</dt><dd>${estado}</dd><dt>Carpeta</dt><dd>${c.handle ? '<b>' + esc(c.handle.name) + '</b>' : '—'}</dd><dt>Último guardado</dt><dd>${hora(c.ultimo)}</dd><dt>Archivos</dt><dd><code>cgfinance-actual.json</code> (siempre actualizado) y <code>cgfinance-respaldo-AAAA-MM-DD.json</code> (primer guardado de cada día; se conservan los últimos ${MAX_RESPALDOS_FECHA}).</dd></dl>
+  <div class="actions mt">${botones}${c.estado !== 'nosoporta' ? `<button class="btn" data-act="elegir-restaurar">⤓ Restaurar desde una carpeta…</button>` : ''}</div>
+  ${c.estado === 'nosoporta' ? `<div class="notice warn mt">Este navegador no soporta la API de acceso a carpetas. Use Microsoft Edge o Google Chrome para el respaldo automático; mientras tanto puede descargar el JSON manualmente y guardarlo en OneDrive.</div>` : ''}
+  <hr class="sep"><h3>Conexión directa con Microsoft OneDrive (Graph)</h3>
+  ${!o.activo ? `<p class="muted mt"><span class="tag">Desactivada</span> Está preparada pero apagada. Para activarla, pegue el identificador de cliente de Azure en la constante <code>ONEDRIVE_CLIENT_ID</code> al inicio del script de este archivo (bloque marcado “CONEXIÓN DIRECTA CON MICROSOFT ONEDRIVE”). Al hacerlo se activa sola: OAuth 2.0 con PKCE y Microsoft Graph, carpeta <code>${esc(ONEDRIVE_CARPETA)}</code>.</p>`
+    : !o.soportado() ? `<p class="mt"><span class="tag warn">Activada, pero requiere https</span> Abra la aplicación desde una dirección https registrada como URI de redirección en Azure (no desde un archivo local).</p>`
+      : o.listo() ? `<p class="mt"><span class="tag ok">Conectada</span> Último guardado: ${hora(o.ultimo)}</p><div class="actions mt"><button class="btn pri" data-act="respaldar-ahora">Respaldar ahora</button><button class="btn" data-act="elegir-restaurar-od">Restaurar desde OneDrive…</button><button class="btn" data-act="desconectar-onedrive">Desconectar</button></div>`
+        : `<p class="mt"><span class="tag warn">Activada, sin iniciar sesión</span></p><div class="actions mt"><button class="btn pri" data-act="conectar-onedrive">Conectar con Microsoft OneDrive</button></div>`}`;
+}
+function vConfig() {
+  const c = cfg(), A = c.cuentasAuto, mov = db.cuentas.filter(x => esMovimiento(x.codigo)).sort((a, b) => a.codigo.localeCompare(b.codigo));
+  const sel = (k, pref) => `<div class="f"><label>${pref}</label><select data-cfg-auto="${k}">${mov.map(x => `<option value="${x.codigo}" ${A[k] === x.codigo ? 'selected' : ''}>${esc(textoCuenta(x.codigo))}</option>`).join('')}</select></div>`;
+  return cabecera('Respaldo y configuración') + `
+  <div class="card" id="panel-respaldo">${panelRespaldo()}</div>
+  <div class="card"><h3>Tarifas y parámetros</h3><div class="fgrid mt">
+    <div class="f s2"><label>IVA (%)</label><input type="text" class="num" data-cfg="ivaTarifa" value="${c.ivaTarifa}"></div>
+    <div class="f s2"><label>Retención por honorarios (%)</label><input type="text" class="num" data-cfg="reteHonorarios" value="${c.reteHonorarios}"></div>
+    <div class="f s2"><label>Días sin movimiento (CRM)</label><input type="text" class="num" data-cfg="diasSinMovimiento" value="${c.diasSinMovimiento}"></div>
+    <div class="f s3"><label>Nombre de la empresa</label><input type="text" data-cfg="empresaNombre" value="${esc(c.empresa.nombre)}"></div><div class="f s3"><label>NIT de la empresa</label><input type="text" data-cfg="empresaNit" value="${esc(c.empresa.nit)}"></div></div>
+    <p class="muted small mt">IVA general 19 %. Retención en la fuente por honorarios: 11 % para personas jurídicas y naturales declarantes, 10 % en otros casos; ajuste la tarifa si cambia (también es editable en cada asiento). Estas tarifas prellenan el asistente de asientos.</p></div>
+  <div class="card"><h3>Cuentas que usa el asistente de IVA y retención</h3><div class="fgrid mt">${sel('clientes', 'Clientes (cuenta por cobrar)')}${sel('ingresos', 'Honorarios recibidos (ingreso)')}${sel('ivaGenerado', 'IVA generado')}${sel('ivaDescontable', 'IVA descontable')}${sel('reteNosPractican', 'Retención que nos practican (anticipo)')}${sel('reteHonorariosPagar', 'Retención en la fuente por pagar (honorarios)')}${sel('proveedores', 'Proveedores')}${sel('gastoHonorarios', 'Gasto por honorarios / servicios')}</div>
+    <p class="muted small mt">Las cuentas auxiliares del PUC son una propuesta; valídelas con su contador para que coincidan con el plan de cuentas de Xubio.</p></div>
+  <div class="card"><h3>Servicios ofrecidos (CRM)</h3><textarea data-cfg="servicios" rows="5" style="margin-top:8px">${esc(c.servicios.join('\n'))}</textarea><p class="muted small mt">Uno por línea. Aparecen como sugerencias al crear oportunidades.</p></div>
+  <div class="card"><h3>Zona de datos</h3><div class="actions mt">${db.ejemplo ? '<button class="btn pri" data-act="borrar-ejemplo">Borrar datos de ejemplo</button>' : ''}<button class="btn" data-act="cargar-ejemplo">Cargar datos de ejemplo</button><button class="btn bad" data-act="borrar-todo">Borrar todos los datos…</button></div>
+    <p class="muted small mt">“Cargar datos de ejemplo” reemplaza todo lo que haya. Antes de borrar o reemplazar, la aplicación le pedirá confirmación; recuerde exportar un JSON.</p></div>`;
+}
+ACC['conectar-carpeta'] = () => Respaldo.conectarCarpeta();
+ACC['reconectar'] = () => Respaldo.reconectar();
+ACC['desconectar-carpeta'] = () => Respaldo.desconectarCarpeta();
+ACC['respaldar-ahora'] = async () => { await Respaldo.ahora(); if (SinkCarpeta.error) toast('Error: ' + SinkCarpeta.error, 'error'); else toast('Respaldo guardado.', 'ok'); };
+ACC['reintentar-respaldo'] = async () => { if (SinkCarpeta.estado === 'error') SinkCarpeta.estado = 'ok'; await Respaldo.ahora(); };
+ACC['aviso-nosoporta'] = () => Respaldo.avisoNoSoportado();
+ACC['elegir-restaurar'] = () => Respaldo.elegirYRestaurar();
+ACC['elegir-restaurar-od'] = () => Respaldo.dialogoRestaurar({ nombre: 'OneDrive/' + ONEDRIVE_CARPETA, listar: () => SinkOneDrive.listar(), leer: n => SinkOneDrive.leer(n) }).catch(e => toast('OneDrive: ' + e.message, 'error'));
+ACC['restaurar-archivo'] = async el => {
+  const f = window._fuenteRestaurar; if (!f) return;
+  if (!(db.ejemplo || (!db.asientos.length && !db.terceros.length)) && !await confirmar('Se reemplazarán TODOS los datos actuales por los del archivo ' + el.dataset.n + '. ¿Continuar?', 'Restaurar')) return;
+  try { await importarTexto(await f.leer(el.dataset.n), true); } catch (e) { toast('No se pudo restaurar: ' + e.message, 'error'); }
+};
+ACC['conectar-onedrive'] = () => SinkOneDrive.conectar();
+ACC['desconectar-onedrive'] = () => { SinkOneDrive.desconectar(); Respaldo.pintar(); render(); };
+ACC['exportar-json'] = exportarJSON;
+ACC['importar-json'] = () => { const f = $('#file-json'); f.value = ''; f.click(); };
+ACC['cerrar'] = () => cerrarDialogo();
+ACC['calendario'] = el => { const w = el.closest('.fecha-wrap'), t = $('input.fecha', w), h = $('.calh', w); const v = parseFecha(t.value); if (v) h.value = v; try { h.showPicker(); } catch (e) { h.focus(); h.click(); } };
+ACC['borrar-ejemplo'] = async () => {
+  if (await confirmar('Se eliminarán todos los datos de ejemplo (terceros, asientos, oportunidades, interacciones, tareas y extracto). Lo que usted haya creado se conserva.', 'Borrar datos de ejemplo')) { borrarEjemplo(); render(); toast('Datos de ejemplo borrados. Ya puede empezar con sus datos.', 'ok'); }
+};
+ACC['cargar-ejemplo'] = async () => { if (await confirmar('Esto reemplaza TODOS los datos actuales por los de ejemplo. ¿Continuar?', 'Reemplazar')) { const cfgPrev = cfg(); crearDatosEjemplo(); guardar(); render(); } };
+ACC['borrar-todo'] = async () => {
+  if (!await confirmar('Se borrarán TODOS los terceros, asientos, oportunidades, interacciones, tareas y extractos. Se conserva el catálogo de cuentas y la configuración.', 'Continuar')) return;
+  if (!await confirmar('¿Está completamente seguro? Descargue antes un JSON si no tiene respaldo. Esta acción no se puede deshacer.', 'Sí, borrar todo')) return;
+  Object.assign(db, { terceros: [], asientos: [], oportunidades: [], interacciones: [], tareas: [], extractos: [], ejemplo: false }); cfg().consecutivos = {}; guardar(); render(); toast('Datos borrados.');
+};
+
+/* =====================================================================
+   EVENTOS GLOBALES
+   ===================================================================== */
+Object.assign(VISTAS, { tablero: vTablero, terceros: vTerceros, oportunidades: vOportunidades, interacciones: vInteracciones, tareas: vTareas, asientos: vAsientos, conciliacion: vConciliacion, reportes: vReportes, cuentas: vCuentas, exportar: vExportar, config: vConfig });
+Object.assign(LISTAS, { terceros: listaTerceros, interacciones: listaInteracciones, tareas: listaTareas, asientos: listaAsientos, cuentas: listaCuentas });
+const CHG = {
+  'mover-opp': el => cambiarEtapa(el.dataset.id, el.value),
+  'toggle-tarea': el => { const k = db.tareas.find(x => x.id === el.dataset.id); k.hecha = el.checked; guardar(); render(); },
+};
+document.addEventListener('click', e => {
+  const ir = e.target.closest('[data-ir]'); if (ir) { e.preventDefault(); irA(ir.dataset.ir); return; }
+  const tb = e.target.closest('[data-rep-tab]'); if (tb) { ui.rep.tab = tb.dataset.repTab; render(); return; }
+  const a = e.target.closest('[data-act]');
+  if (a && ACC[a.dataset.act]) { if (a.tagName === 'A') e.preventDefault(); ACC[a.dataset.act](a, e); }
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('form[data-form]'); if (!f) return; e.preventDefault();
+  try { FORMS[f.dataset.form](f, e); } catch (err) { console.error(err); toast('Error inesperado: ' + err.message, 'error'); }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.matches && t.matches('input.fecha') && e.inputType && e.inputType.startsWith('insert')) {
+    const m = t.value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) t.value = `${m[3]}/${m[2]}/${m[1]}`;
+    else { const d = t.value.replace(/\D/g, '').slice(0, 8); t.value = d.length > 4 ? d.slice(0, 2) + '/' + d.slice(2, 4) + '/' + d.slice(4) : d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; }
+  }
+  if (t.dataset.filtro !== undefined) {
+    const v = ui.vista; (ui.f[v] = ui.f[v] || {})[t.dataset.filtro] = t.value;
+    if (LISTAS[v]) { const l = $('#lista'); if (l) l.innerHTML = LISTAS[v](); }
+  }
+  if (t.dataset.rep !== undefined) {
+    const k = t.dataset.rep;
+    if (k === 'desde' || k === 'hasta') { const iso = parseFecha(t.value); if (!iso || t.value.length < 10) return; ui.rep[k] = iso; } else ui.rep[k] = t.value;
+    $('#rep-cuerpo').innerHTML = cuerpoReporte();
+  }
+  if (t.dataset.conc !== undefined) { const k = t.dataset.conc; ui.conc[k] = t.type === 'checkbox' ? t.checked : t.value; ui.conc.selExt = ui.conc.selLib = null; refrescarConc(); }
+  if (t.name === 'documento' && t.closest('form[data-form="tercero"]')) actualizarDV(t.closest('form'));
+  const f = t.closest && t.closest('form[data-form="asiento"]');
+  if (f) {
+    if (t.classList.contains('l-deb') && parseCOP(t.value) > 0) $('.l-cre', t.closest('tr')).value = '';
+    if (t.classList.contains('l-cre') && parseCOP(t.value) > 0) $('.l-deb', t.closest('tr')).value = '';
+    if (['w_base', 'w_ivap', 'w_retep'].includes(t.name)) wizardAplicar();
+    recalcAsiento();
+  }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.actChange && CHG[t.dataset.actChange]) return CHG[t.dataset.actChange](t);
+  if (t.classList.contains('calh')) { const w = t.closest('.fecha-wrap'), x = $('input.fecha', w); x.value = fmtFecha(t.value); x.dispatchEvent(new Event('input', { bubbles: true })); return; }
+  if (t.dataset.cfg !== undefined) {
+    const k = t.dataset.cfg, c = cfg();
+    if (k === 'servicios') c.servicios = t.value.split('\n').map(s => s.trim()).filter(Boolean);
+    else if (k === 'empresaNombre') c.empresa.nombre = t.value.trim();
+    else if (k === 'empresaNit') c.empresa.nit = t.value.trim();
+    else { const n = parseFloat(String(t.value).replace(',', '.')); if (isNaN(n) || n < 0) { toast('Valor no válido.', 'error'); t.value = c[k]; return; } c[k] = n; }
+    guardar(); toast('Configuración guardada.', 'ok'); return;
+  }
+  if (t.dataset.cfgAuto) { cfg().cuentasAuto[t.dataset.cfgAuto] = t.value; guardar(); toast('Configuración guardada.', 'ok'); return; }
+  if (t.dataset.filtro === 'delim' || t.closest('#dlg') === null && t.dataset.filtro !== undefined && ui.vista === 'exportar') { (ui.f.exportar = ui.f.exportar || {})[t.dataset.filtro] = t.value; }
+  if (t.name === 'tipoDoc' && t.closest('form[data-form="tercero"]')) actualizarDV(t.closest('form'));
+  const f = t.closest && t.closest('form[data-form="asiento"]');
+  if (f) {
+    if (t.name === 'w_modo') {
+      const modo = t.value; if (modo) { f.elements.w_cuenta.innerHTML = opcionesCuentaBase(modo, modo === 'venta' ? cfg().cuentasAuto.ingresos : cfg().cuentasAuto.gastoHonorarios); $('#w_rete_l').textContent = modo === 'compra' ? 'Retención que practicamos' : 'Retención que nos practican'; wizardAplicar(); }
+    } else if (['w_iva', 'w_rete', 'w_cuenta'].includes(t.name)) wizardAplicar();
+    else if (t.name === 'tipo' && !f.dataset.id && f.elements.numero.value === f.dataset.sugerido) { const n = siguienteNumero(t.value); f.elements.numero.value = n; f.dataset.sugerido = n; }
+  }
+});
+document.addEventListener('focusout', e => {
+  const t = e.target;
+  if (t.classList && (t.classList.contains('l-deb') || t.classList.contains('l-cre') || t.name === 'w_base' || t.name === 'valor')) { const v = parseCOP(t.value); t.value = v ? fmtNum(v) : ''; }
+});
+$('#file-json').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  const texto = await file.text();
+  let o; try { o = JSON.parse(texto.replace(/^﻿/, '')); normalizar(o); } catch (err) { toast(err.message.includes('respaldo') ? err.message : 'El archivo no es un JSON válido de CG Finance.', 'error'); return; }
+  const hayDatos = db.asientos.length || db.terceros.length;
+  if (hayDatos && !db.ejemplo && !await confirmar(`Se reemplazarán los datos actuales por los del archivo (${o.asientos ? o.asientos.length : 0} asientos, ${o.terceros ? o.terceros.length : 0} terceros). ¿Continuar?`, 'Importar')) return;
+  await importarTexto(texto, false);
+});
+$('#file-csv').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  abrirImportExtracto(file.name, decodificar(await file.arrayBuffer()));
+});
+window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (VISTAS[v] && v !== ui.vista) { ui.vista = v; render(); } });
+document.addEventListener('dialogclose', () => { }, true);
+
+/* ---------- Arranque ---------- */
+async function iniciar() {
+  try {
+    const g = await Almacen.leer();
+    if (g) db = normalizar(g); else { crearDatosEjemplo(); await Almacen.escribir(db); }
+  } catch (e) { console.error(e); db = dbVacia(); toast('No se pudieron leer los datos guardados: ' + e.message, 'error'); }
+  reindexar(); actualizarListas();
+  const v = location.hash.slice(1); ui.vista = VISTAS[v] ? v : 'tablero';
+  try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) { }
+  render();
+  await Respaldo.iniciar();
+}
+iniciar();
+
+</script>
+</body>
+</html>
