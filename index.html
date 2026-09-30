@@ -40,6 +40,9 @@
   .nav-links a.txt::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width .2s}
   .nav-links a.txt:hover{color:#fff}.nav-links a.txt:hover::after{width:100%}
   .nav-cta{padding:10px 22px;font-size:.9rem}
+  .nav-acceso{color:rgba(255,255,255,.9);font-size:.88rem;font-weight:600;border:1px solid rgba(214,162,62,.55);padding:9px 16px;border-radius:3px;transition:background .15s,color .15s;white-space:nowrap}
+  .nav-acceso:hover{background:rgba(214,162,62,.15);color:var(--gold)}
+  @media(max-width:600px){.nav-links{gap:8px}.nav-acceso{padding:8px 10px;font-size:.78rem}.nav-cta{padding:8px 11px;font-size:.78rem}.logo .lt{font-size:1.05rem}.wrap{padding:0 16px}}
   @media(max-width:900px){.nav-links a.txt{display:none}}
 
   /* HERO photo */
@@ -150,6 +153,7 @@
       <a class="txt" href="#personas">Personas</a>
       <a class="txt" href="#nosotros">Nosotros</a>
       <a class="txt" href="#faq">Preguntas</a>
+      <a class="nav-acceso" href="/login" rel="nofollow">Ingresar</a>
       <a class="btn btn-gold nav-cta" href="#contacto">Contáctanos</a>
     </div>
   </div>

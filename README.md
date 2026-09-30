@@ -1,15 +1,19 @@
 # CG Finance S.A.S.
 
-- `index.html` — sitio web institucional.
-- `app.html` — **Contabilidad y CRM** (aplicación autocontenida, sin servidor ni dependencias). Solución puente hasta migrar a Xubio.
+- `index.html` — sitio web institucional (con el botón **Ingresar** en la barra superior).
+- Contabilidad y CRM — aplicación autocontenida, protegida con usuario y contraseña. Se abre en `https://cgfinance.co/app` (o desde **Ingresar**).
 
-## Uso de `app.html`
+## Acceso restringido (Vercel)
 
-Ábrala en Microsoft Edge o Google Chrome (doble clic sobre el archivo, o publicada por https). Los datos se guardan en el navegador (IndexedDB).
+- `api/login.js`, `api/app.js`, `api/salir.js`, `api/_auth.js`: inicio de sesión y entrega de la app solo a quien tiene sesión válida (cookie firmada, 7 días).
+- `api/_app.js`: la aplicación empaquetada (ya no existe como archivo público). Para editarla: `node herramientas/empaquetar-app.js --extraer` (crea `app.html`), modificar y volver a empaquetar con `node herramientas/empaquetar-app.js app.html`.
+- `generar-usuario.html`: genera en el navegador la línea de `USUARIOS` (contraseñas cifradas con PBKDF2) y el `SESION_SECRETO`.
+- Variables de entorno en Vercel: `USUARIOS` y `SESION_SECRETO`. Si faltan, nadie puede entrar.
 
-- **Respaldo automático en OneDrive:** *Respaldo y configuración → Conectar carpeta de respaldo* y elegir una carpeta dentro de OneDrive. Se guarda `cgfinance-actual.json` en cada cambio y `cgfinance-respaldo-AAAA-MM-DD.json` en el primer guardado de cada día (se conservan 30).
-- **Equipo nuevo:** conectar la misma carpeta (o *Restaurar desde una carpeta…*) y elegir `cgfinance-actual.json`.
-- **OneDrive directo (Microsoft Graph, PKCE):** desactivado; se activa solo al pegar el identificador de cliente de Azure en `ONEDRIVE_CLIENT_ID` (inicio del `<script>`).
-- **Catálogo:** plan de cuentas de Xubio (446 cuentas, mismos códigos y nombres).
-- **Exportaciones:** *Exportar a CSV* (UTF-8 con BOM; asientos, terceros, oportunidades, interacciones, tareas, catálogo) y JSON completo.
-- La aplicación **no emite facturas electrónicas**: se emiten en el portal gratuito de la DIAN y aquí solo se registra el asiento.
+## Uso de la app
+
+- **Respaldo automático en OneDrive:** *Respaldo y configuración → Conectar carpeta de respaldo* (Edge o Chrome). Guarda `cgfinance-actual.json` en cada cambio y `cgfinance-respaldo-AAAA-MM-DD.json` en el primer guardado de cada día (se conservan 30).
+- **Equipo nuevo:** conectar la misma carpeta y restaurar `cgfinance-actual.json`.
+- **OneDrive directo (Microsoft Graph, PKCE):** desactivado; se activa al pegar el identificador de cliente de Azure en `ONEDRIVE_CLIENT_ID`.
+- **Catálogo:** plan de cuentas de Xubio (446 cuentas). **Exportaciones:** CSV UTF-8 con BOM y JSON completo.
+- La aplicación **no emite facturas electrónicas**: se emiten en el portal gratuito de la DIAN.
