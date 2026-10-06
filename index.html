@@ -332,6 +332,7 @@
       <h3>Solicite su consulta</h3>
       <label for="f-n">Nombre</label><input id="f-n" name="nombre" type="text" autocomplete="name" required maxlength="120">
       <label for="f-e">Empresa</label><input id="f-e" name="empresa" type="text" autocomplete="organization" required maxlength="160">
+      <label for="f-c">Correo electrónico</label><input id="f-c" name="correo" type="email" autocomplete="email" required maxlength="160">
       <label for="f-t">Teléfono</label><input id="f-t" name="telefono" type="tel" autocomplete="tel" required maxlength="40">
       <label for="f-m">Mensaje (opcional)</label><textarea id="f-m" name="mensaje" maxlength="2000"></textarea>
       <div class="hp" aria-hidden="true"><label for="f-s">No llenar</label><input id="f-s" name="sitio" type="text" tabindex="-1" autocomplete="off"></div>
@@ -383,8 +384,9 @@
     function aviso(t,c){msg.textContent=t;msg.className='msg '+c}
     f.addEventListener('submit',function(e){
       e.preventDefault();
-      var d={nombre:f.nombre.value.trim(),empresa:f.empresa.value.trim(),telefono:f.telefono.value.trim(),mensaje:f.mensaje.value.trim(),sitio:f.sitio.value,autoriza:f.autoriza.checked};
+      var d={nombre:f.nombre.value.trim(),empresa:f.empresa.value.trim(),correo:f.correo.value.trim(),telefono:f.telefono.value.trim(),mensaje:f.mensaje.value.trim(),sitio:f.sitio.value,autoriza:f.autoriza.checked};
       if(d.nombre.length<2||d.empresa.length<2){aviso('Escriba su nombre y el de su empresa.','err');return}
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.correo)){aviso('Escriba un correo electrónico válido.','err');return}
       if(d.telefono.replace(/\D/g,'').length<7){aviso('Escriba un teléfono de contacto válido.','err');return}
       if(!d.autoriza){aviso('Debe autorizar el tratamiento de sus datos para enviar la solicitud.','err');return}
       btn.disabled=true;aviso('Enviando…','ok');
