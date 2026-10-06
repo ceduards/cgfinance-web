@@ -10,6 +10,12 @@
 - `generar-usuario.html`: genera en el navegador la línea de `USUARIOS` (contraseñas cifradas con PBKDF2) y el `SESION_SECRETO`.
 - Variables de entorno en Vercel: `USUARIOS` y `SESION_SECRETO`. Si faltan, nadie puede entrar.
 
+## Formulario de contacto
+
+- `api/contacto.js` recibe el formulario del sitio y lo envía por correo con [Resend](https://resend.com) (sin dependencias).
+- Variables en Vercel: `RESEND_API_KEY` (obligatoria; sin ella el formulario avisa que use WhatsApp o correo), `CONTACTO_DESTINO` (por defecto `comercial@cgfinance.co`) y `CONTACTO_REMITENTE` (remitente verificado en Resend, p. ej. `CG Finance <contacto@cgfinance.co>`).
+- Imágenes del sitio en `img/` (`hero.jpg`, `carlos.jpg`, `og.jpg`).
+
 ## Uso de la app
 
 - **Respaldo automático en OneDrive:** *Respaldo y configuración → Conectar carpeta de respaldo* (Edge o Chrome). Guarda `cgfinance-actual.json` en cada cambio y `cgfinance-respaldo-AAAA-MM-DD.json` en el primer guardado de cada día (se conservan 30).

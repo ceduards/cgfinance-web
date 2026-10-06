@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /app
+Disallow: /login
+Disallow: /api/
+Disallow: /generar-usuario.html
+
+Sitemap: https://cgfinance.co/sitemap.xml
