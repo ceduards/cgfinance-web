@@ -14,6 +14,10 @@
 
 - `api/contacto.js` recibe el formulario del sitio y lo envía por correo con [Resend](https://resend.com) (sin dependencias).
 - Variables en Vercel: `RESEND_API_KEY` (obligatoria; sin ella el formulario avisa que use WhatsApp o correo), `CONTACTO_DESTINO` (por defecto `comercial@cgfinance.co`) y `CONTACTO_REMITENTE` (remitente verificado en Resend, p. ej. `CG Finance <contacto@cgfinance.co>`).
+- **Propuesta automática:** al enviar el formulario (con la autorización de datos marcada), `api/contacto.js` envía al cliente el portafolio que corresponde (`api/_portafolio_empresas.js` o `_personas.js`, PDF en base64) con el texto de `api/_propuesta.js`, con copia oculta y respuesta a `comercial@`. El aviso a `comercial@` indica si se envió. Para personas naturales no se envía nada hasta que `_propuesta.js` tenga el texto aprobado.
+  - `PROPUESTA_AUTOMATICA`: `prueba` (por defecto: solo a los correos de `PROPUESTA_PRUEBA`, separados por coma), `si` (a todos) o `no`.
+  - El remitente (`CONTACTO_REMITENTE`) debe ser una dirección de un dominio verificado en Resend.
+- **Bandeja para el CRM:** cada solicitud se guarda en Upstash Redis (integración de Vercel → Storage; variables `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` o `KV_REST_API_URL`/`KV_REST_API_TOKEN`). `api/leads.js` (solo con sesión) las entrega a la app, que las convierte en contacto, oportunidad e interacción al abrirse o con el botón *Traer solicitudes del formulario*, y luego las borra de la bandeja.
 - Imágenes del sitio en `img/` (`hero.jpg`, `carlos.jpg`, `og.jpg`).
 
 ## Uso de la app

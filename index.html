@@ -174,6 +174,7 @@
   .cform{background:#fff;color:var(--ink);border-radius:8px;padding:30px 28px;border-top:4px solid var(--gold);box-shadow:0 26px 54px -28px rgba(0,0,0,.6)}
   .cform h3{font-size:1.3rem;color:var(--navy);margin-bottom:14px}
   .cform label{display:block;font-size:.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 4px}
+  .cform select{width:100%;min-height:44px;padding:9px 12px;border:1px solid #c9d0de;border-radius:4px;font:inherit;color:var(--ink);background:#fff}
   .cform input[type=text],.cform input[type=email],.cform input[type=tel],.cform textarea{width:100%;min-height:44px;padding:9px 12px;border:1px solid #c9d0de;border-radius:4px;font:inherit;color:var(--ink)}
   .cform textarea{min-height:90px;resize:vertical}
   .cform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -334,8 +335,9 @@
     </div>
     <form class="cform" id="cform" novalidate>
       <h3>Solicite su consulta</h3>
+      <label for="f-p">Soy</label><select id="f-p" name="tipo"><option value="empresa">Una empresa</option><option value="persona">Persona natural</option></select>
       <label for="f-n">Nombre</label><input id="f-n" name="nombre" type="text" autocomplete="name" required maxlength="120">
-      <label for="f-e">Empresa</label><input id="f-e" name="empresa" type="text" autocomplete="organization" required maxlength="160">
+      <div id="f-eb"><label for="f-e">Empresa</label><input id="f-e" name="empresa" type="text" autocomplete="organization" required maxlength="160"></div>
       <label for="f-c">Correo electrónico</label><input id="f-c" name="correo" type="email" autocomplete="email" required maxlength="160">
       <label for="f-t">Teléfono</label><input id="f-t" name="telefono" type="tel" autocomplete="tel" required maxlength="40">
       <label for="f-m">Mensaje (opcional)</label><textarea id="f-m" name="mensaje" maxlength="2000"></textarea>
@@ -388,10 +390,14 @@
     var f=document.getElementById('cform'); if(!f) return;
     var msg=document.getElementById('f-msg'), btn=f.querySelector('button');
     function aviso(t,c){msg.textContent=t;msg.className='msg '+c}
+    var eb=document.getElementById('f-eb');
+    function ajusta(){var p=f.tipo.value==='persona';eb.style.display=p?'none':'';f.empresa.required=!p}
+    f.tipo.addEventListener('change',ajusta);ajusta();
     f.addEventListener('submit',function(e){
       e.preventDefault();
-      var d={nombre:f.nombre.value.trim(),empresa:f.empresa.value.trim(),correo:f.correo.value.trim(),telefono:f.telefono.value.trim(),mensaje:f.mensaje.value.trim(),sitio:f.sitio.value,autoriza:f.autoriza.checked};
-      if(d.nombre.length<2||d.empresa.length<2){aviso('Escriba su nombre y el de su empresa.','err');return}
+      var d={tipo:f.tipo.value,nombre:f.nombre.value.trim(),empresa:f.tipo.value==='persona'?'':f.empresa.value.trim(),correo:f.correo.value.trim(),telefono:f.telefono.value.trim(),mensaje:f.mensaje.value.trim(),sitio:f.sitio.value,autoriza:f.autoriza.checked};
+      if(d.nombre.length<2){aviso('Escriba su nombre.','err');return}
+      if(d.tipo==='empresa'&&d.empresa.length<2){aviso('Escriba el nombre de su empresa.','err');return}
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.correo)){aviso('Escriba un correo electrónico válido.','err');return}
       if(d.telefono.replace(/\D/g,'').length<7){aviso('Escriba un teléfono de contacto válido.','err');return}
       if(!d.autoriza){aviso('Debe autorizar el tratamiento de sus datos para enviar la solicitud.','err');return}
@@ -399,7 +405,7 @@
       fetch('/api/contacto',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
         .then(function(r){return r.json().catch(function(){return{ok:false}})})
         .then(function(j){
-          if(j.ok){f.reset();aviso('Gracias. Recibimos su solicitud y le escribiremos pronto.','ok')}
+          if(j.ok){f.reset();ajusta();aviso('Gracias. Recibimos su solicitud y le escribiremos pronto.','ok')}
           else{aviso(j.error||'No pudimos enviar su mensaje. Escríbanos por WhatsApp o correo.','err')}
         })
         .catch(function(){aviso('No pudimos enviar su mensaje. Escríbanos por WhatsApp o correo.','err')})
